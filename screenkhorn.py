@@ -92,11 +92,11 @@ class Screenkhorn:
         K_IcJ, K_IcJc = self._submatrix(K, Ic, J), self._submatrix(K, Ic, Jc)
     
         part_IJ = np.ones(card_I).T @ np.diag(np.exp(u_param_I)) \
-                  @ K_IJ @ np.diag(np.exp(v_param_J)) @ np.ones(card_J) - u_param_I.T @ a_I - v_param_J @ b_J
+                  @ K_IJ @ np.diag(np.exp(v_param_J)) @ np.ones(card_J) - u_param_I.T @ a_I - v_param_J.T @ b_J
         part_IJc = self.epsilon * np.ones(card_I).T @ np.diag(np.exp(u_param_I)) @ K_IJc @ np.ones(card_Jc)
         part_IcJ = self.epsilon * np.ones(card_Ic).T @ K_IcJ @ np.diag(np.exp(v_param_J)) @ np.ones(card_J)
-        part_IcJc = self.epsilon ** 2 * np.ones(card_Ic).T @ K_IcJc @ np.ones(card_Jc)\
-                    - u_param_Ic.T @ a_Ic - v_param_Jc @ b_Jc
+        part_IcJc = self.epsilon** 2 * np.ones(card_Ic).T @ K_IcJc @ np.ones(card_Jc)\
+                    - u_param_Ic.T @ a_Ic - v_param_Jc.T @ b_Jc
     
         psi_epsilon = part_IJ + part_IJc + part_IcJ + part_IcJc
         return psi_epsilon
@@ -125,7 +125,8 @@ class Screenkhorn:
 
         # gradient of Psi_epsilon w. r. t. u and v
         grad_u = np.exp(u_param_I) * (K_IJ @ np.exp(v_param_J)) + self.epsilon * (K_IJc @ np.ones(card_Jc)) - a_I
-        grad_v = np.exp(v_param_J) * (np.exp(u_param_I).T @ K_IJ) + self.epsilon * (np.ones(card_Ic).T @ K_IcJ) - b_J
+        # grad_v = np.exp(v_param_J) * (np.exp(u_param_I).T @ K_IJ) + self.epsilon * (np.ones(card_Ic).T @ K_IcJ) - b_J
+        grad_v = np.exp(v_param_J) * (K_IJ.T @ np.exp(u_param_I)) + self.epsilon * (K_IcJ.T @ np.ones(card_Ic)) - b_J
         return grad_u, grad_v
 
 
@@ -150,10 +151,8 @@ class Screenkhorn:
         lip_u = (K_IJ @ np.exp(v_param_J)) + self.epsilon * (K_IJc @ np.ones(card_Jc))
         lip_v = (np.exp(u_param_I).T @ K_IJ) + self.epsilon * (np.ones(card_Ic).T @ K_IcJ)
 
-        # lip_u = np.linalg.norm(lip_u)
-        # lip_v = np.linalg.norm(lip_v)
-        lip_u = np.max(lip_u)
-        lip_v = np.max(lip_v)
+        lip_u = np.linalg.norm(lip_u)
+        lip_v = np.linalg.norm(lip_v)
         return lip_u, lip_v
 
     def _projection_cvx(self, u):
@@ -177,9 +176,18 @@ class Screenkhorn:
         else:
             return np.array([np.log(self.epsilon)] * len(u))
 
+    # def _bachtrack(self, x_new, prox, grad, obj, rho=0.5, step, c):
+    #     while True:
+    #         if obj(prox(x_new)) <= obj
+    #             break
+    #
+    #         else:
+    #             step *= rho
+
+
     def projected_grad(self, I, J, max_iter=100, tol=1e-10, verbose=False):
         """
-        Projected gradient descent
+        Projected Gradient Descent
         Parameters
         ----------
         initial : `np.ndarray`, shape=(card(I),) shape(card(J),)
@@ -212,81 +220,70 @@ class Screenkhorn:
         (n, m) = self.M.shape
         Ic, Jc = self._complementary(I, n), self._complementary(J, m)
 
-
         history = self._init_history()
 
-        # PGD initializations
+        cp = 0
 
+        # PGD initializations
         u_sc = self._projection(np.zeros(n))
         v_sc = self._projection(np.zeros(m))
 
-        grad_u, grad_v = self.grad_objective(u_sc, v_sc, I, J)
+        u_sc[Ic] = np.array([np.log(self.epsilon)] * len(Ic))
+        v_sc[Jc] = np.array([np.log(self.epsilon)] * len(Jc))
 
-        step_u = 1. / 2 #(np.linalg.norm(grad_u))
-        step_v = 1. / 2 # (np.linalg.norm(grad_v))
+        objval = self.objective(u_sc, v_sc, I, J)
 
-        zu_sc = self._subvector(I, u_sc)
-        zv_sc = self._subvector(J, v_sc)
-
-        z_u = zu_sc - step_u * grad_u
-        z_v = zv_sc - step_v * grad_v
-
-        z_uc = np.array([np.log(self.epsilon)] * len(Ic))
-        z_vc = np.array([np.log(self.epsilon)] * len(Jc))
-
-        u_sc[Ic] = z_uc
-        v_sc[Jc] = z_vc
-
-        t_start = time.clock()
-        cp = 0
         for k in tqdm(range(max_iter)):
 
-            step_k = (k+1)/(k+3)
-
-            u_sc[I] = z_u
-            v_sc[J] = z_v
-
-            objval = self.objective(u_sc, v_sc, I, J)
+            step_k = 100.
 
             grad_u, grad_v = self.grad_objective(u_sc, v_sc, I, J)
 
-            # step_u = 1. / (np.linalg.norm(grad_u))
-            # step_v = 1. / (np.linalg.norm(grad_v))
+            u_sc_new = u_sc.copy()
+            v_sc_new = v_sc.copy()
 
-            ##################################
-            # z_u = z_u - step_u * grad_u
-            # z_v = z_v - step_v * grad_v
+            zu_sc = self._subvector(I, u_sc)
+            zv_sc = self._subvector(J, v_sc)
 
-            z_u = z_u - step_k * grad_u
-            z_v = z_v - step_k * grad_v
+            u_sc_new[I] = zu_sc - step_k * grad_u
+            v_sc_new[J] = zv_sc - step_k * grad_v
 
-            z_u_proj = self._projection(z_u)
-            z_v_proj = self._projection(z_v)
-            
-            u_sc[I] = z_u_proj
-            v_sc[J] = z_v_proj
+            u_sc_new[I] = self._projection(u_sc_new[I])
+            v_sc_new[J] = self._projection(v_sc_new[J])
 
-            objval_new = self.objective(u_sc, v_sc, I, J)
-            while True:
-                if objval_new <= objval - (step_k/2)*np.linalg.norm(np.hstack([grad_u, grad_v]))**2:
+            objval_new = self.objective(u_sc_new, v_sc_new, I, J)
+
+            for j in range(10):
+                if objval_new <= objval - (step_k/10)*np.linalg.norm(np.hstack([grad_u, grad_v]))**2:
+                    objval = objval_new
                     break
                 else:
                     cp = cp + 1
                     step_k *= 0.5
+                    u_sc_new[I] = zu_sc - step_k * grad_u
+                    v_sc_new[J] = zv_sc - step_k * grad_v
 
-            z_u = z_u_proj
-            z_v = z_v_proj
+                    u_sc_new[I] = self._projection(u_sc_new[I])
+                    v_sc_new[J] = self._projection(v_sc_new[J])
+
+                    objval_new = self.objective(u_sc_new, v_sc_new, I, J)
+
+
+            u_sc = u_sc_new
+            v_sc = v_sc_new
 
             dif = objval - objval_new
             if verbose:
                 print("iter: %d obj: % e, dif: %e" %(k, objval_new, dif))
-            if abs(objval - objval_new) < tol:
-                break
+
+            if np.linalg.norm(np.hstack([grad_u, grad_v])) < tol:
+               break
 
             history["objval"].append(objval_new)
 
-        total_time = (time.clock() - t_start)
-        print("Total time taken: ", total_time)
+        # total_time = (time.clock() - t_start)
+        # print("Total time taken: ", total_time)
+        print("counting cp: ", cp)
         
         return u_sc, v_sc, history
 
