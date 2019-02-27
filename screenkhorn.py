@@ -1,5 +1,4 @@
 import numpy as np
-import cvxpy as cvx
 import time
 from tqdm import tqdm
 
@@ -123,52 +122,11 @@ class Screenkhorn:
         K_IJc = self._submatrix(K, I, Jc)
         K_IcJ = self._submatrix(K, Ic, J)
 
-        # gradient of Psi_epsilon w. r. t. u and v
+        # gradients of Psi_epsilon w. r. t. u and v
         grad_u = np.exp(u_param_I) * (K_IJ @ np.exp(v_param_J)) + self.epsilon * (K_IJc @ np.ones(card_Jc)) - a_I
         # grad_v = np.exp(v_param_J) * (np.exp(u_param_I).T @ K_IJ) + self.epsilon * (np.ones(card_Ic).T @ K_IcJ) - b_J
         grad_v = np.exp(v_param_J) * (K_IJ.T @ np.exp(u_param_I)) + self.epsilon * (K_IcJ.T @ np.ones(card_Ic)) - b_J
         return grad_u, grad_v
-
-
-    def _lipschitz_constants(self, u_param, v_param, I, J):
-
-        K = np.exp(- self.M / self.reg)
-        (n, m) = self.M.shape
-
-        Ic, Jc = self._complementary(I, n), self._complementary(J, m)
-        card_Ic, card_Jc = len(Ic), len(Jc)
-
-        # subparameters u_I, v_J
-        u_param_I = self._subvector(I, u_param)
-        v_param_J = self._subvector(J, v_param)
-
-        # submatrices K_{IJ}, K_{IJ^c}, K_{I^cJ}
-        K_IJ = self._submatrix(K, I, J)
-        K_IJc = self._submatrix(K, I, Jc)
-        K_IcJ = self._submatrix(K, Ic, J)
-
-        # gradient of Psi_epsilon w. r. t. u and v
-        lip_u = (K_IJ @ np.exp(v_param_J)) + self.epsilon * (K_IJc @ np.ones(card_Jc))
-        lip_v = (np.exp(u_param_I).T @ K_IJ) + self.epsilon * (np.ones(card_Ic).T @ K_IcJ)
-
-        lip_u = np.linalg.norm(lip_u)
-        lip_v = np.linalg.norm(lip_v)
-        return lip_u, lip_v
-
-    def _projection_cvx(self, u):
-        '''
-        Returns the point in the convex set
-        C_epsilon = {u in R^n : exp(u) > epsilon}
-        that is closest to y (according to Euclidian distance)
-        '''
-        d = len(u)
-        # setup the objective and constraints and solve the problem
-        x = cvx.Variable(shape=d)
-        obj = cvx.Minimize(cvx.sum_squares(x - u))
-        constraints = [x >= cvx.log(self.epsilon)]
-        prob = cvx.Problem(obj, constraints)
-        prob.solve(solver=cvx.SCS, verbose=False)
-        return np.array(x.value).squeeze()
 
     def _projection(self, u):
         if u.all() >= self.epsilon:
@@ -223,7 +181,7 @@ class Screenkhorn:
         v_sc[Jc] = np.array([np.log(self.epsilon)] * len(Jc))
 
         objval = self.objective(u_sc, v_sc, I, J)
-
+        t_start = time.clock()
         for k in tqdm(range(max_iter)):
 
             step_k = 100.
@@ -259,7 +217,6 @@ class Screenkhorn:
 
                     objval_new = self.objective(u_sc_new, v_sc_new, I, J)
 
-
             u_sc = u_sc_new
             v_sc = v_sc_new
 
@@ -272,130 +229,8 @@ class Screenkhorn:
 
             history["objval"].append(objval_new)
 
-        # total_time = (time.clock() - t_start)
-        # print("Total time taken: ", total_time)
-        print("counting cp: ", cp)
-        
-        return u_sc, v_sc, history
-
-    def fista(self, I, J, max_iter=1000, tol=1e-9, verbose=False):
-        """
-        Accelearated projected gradient descent
-        Parameters
-        ----------
-        initial : `np.ndarray`, shape=(card(I),) shape(card(J),)
-                   initial point
-        step_size : `float`, default=None
-                    Initial step size used for learning.
-
-        max_iter: `int`, default=100
-                   Maximum number of iterations of the solver.
-
-        tol: `float`, default=1e-10
-              The tolerance of the solver (iterations stop when the stopping criterion is below it).
-              If not reached it does ``max_iter`` iterations
-
-        verbose: `bool`, default=True
-                  If `True`, we verbose things, otherwise the solver does not print anything (but records information
-                  in history anyway)
-
-        Returns
-        -------
-        output : u_sc :`numpy.ndarray`, shape=(n,)
-                       u_sc_Ic = log(epsilon) . mathbf{1}_{|I^c|}
-
-                 v_sc : `numpy.ndarray`, shape=(m,)
-                       v_sc_Jc = log(epsilon) .  mathbf{1}_{|J^c|}
-
-                 history : `dictionary`
-                        A dictionary of the history values
-        """
-        (n, m) = self.M.shape
-        Ic, Jc = self._complementary(I, n), self._complementary(J, m)
-
-
-        history = self._init_history()
-
-        # PGD initializations
-
-        u_sc = self._projection(np.zeros(n))
-        v_sc = self._projection(np.zeros(m))
-
-        # I^c and J^c
-        z_uc = np.array([np.log(self.epsilon)] * len(Ic))
-        z_vc = np.array([np.log(self.epsilon)] * len(Jc))
-        u_sc[Ic] = z_uc
-        v_sc[Jc] = z_vc
-
-        grad_u, grad_v = self.grad_objective(u_sc, v_sc, I, J)
-        step_u = 1. / np.linalg.norm(grad_u)
-        step_v = 1. / np.linalg.norm(grad_v)
-
-        zu_sc = self._subvector(I, u_sc)
-        zv_sc = self._subvector(J, v_sc)
-
-        z_u = zu_sc - step_u * grad_u
-        z_v = zv_sc - step_v * grad_v
-
-        z_u_proj = self._projection(z_u)
-        z_v_proj = self._projection(z_v)
-
-        t_1 = 1
-
-        # for k in tqdm(range(max_iter)):
-        t_start = time.clock()
-        for k in range(max_iter):
-
-            t_k = (1 + np.sqrt(1 +4*t_1**2)) / 2
-            step_k = (t_1 - 1) / t_k
-            t_1 = t_k
-
-            u_sc[I] = z_u_proj
-            v_sc[J] = z_v_proj
-
-            objval = self.objective(u_sc, v_sc, I, J)
-
-            grad_u, grad_v = self.grad_objective(u_sc, v_sc, I, J)
-
-            step_u = 1. / np.linalg.norm(grad_u)
-            step_v = 1. / np.linalg.norm(grad_v)
-            # print(step_u, step_v)
-            # print('\n')
-
-            z_u_k = z_u_proj - step_u * grad_u
-            z_v_k = z_v_proj - step_v * grad_v
-
-            z_u_proj_k = self._projection(z_u_k)
-            z_v_proj_k = self._projection(z_v_k)
-
-            z_u_proj_k = z_u_proj_k - step_k * (z_u_proj_k - z_u_k)
-            z_v_proj_k = z_v_proj_k - step_k * (z_v_proj_k - z_v_k)
-
-            u_sc[I] = z_u_proj_k
-            v_sc[J] = z_v_proj_k
-
-            objval_new = self.objective(u_sc, v_sc, I, J)
-
-            # z_u = z_u_proj
-            # z_v = z_v_proj
-
-            z_u_proj = z_u_proj_k
-            z_v_proj = z_v_proj_k
-
-            dif = objval - objval_new
-
-            print("iter: %d obj: % e, dif: %e" %(k, objval_new, dif))
-            if abs(objval - objval_new) < tol:
-                break
-
-         #   print("Warning: maxIterations reached before convergence")
-
-            history["objval"].append(objval_new)
-
-            # if not verbose:
-
-        # if not verbose:
         total_time = (time.clock() - t_start)
         print("Total time taken: ", total_time)
-
+        print("counting cp in the bachtrack loop: ", cp)
+        
         return u_sc, v_sc, history
