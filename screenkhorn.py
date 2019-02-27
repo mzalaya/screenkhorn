@@ -176,15 +176,6 @@ class Screenkhorn:
         else:
             return np.array([np.log(self.epsilon)] * len(u))
 
-    # def _bachtrack(self, x_new, prox, grad, obj, rho=0.5, step, c):
-    #     while True:
-    #         if obj(prox(x_new)) <= obj
-    #             break
-    #
-    #         else:
-    #             step *= rho
-
-
     def projected_grad(self, I, J, max_iter=100, tol=1e-10, verbose=False):
         """
         Projected Gradient Descent
