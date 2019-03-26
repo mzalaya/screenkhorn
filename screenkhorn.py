@@ -874,7 +874,7 @@ class Screenkhorn:
 
             if m_viol_I > m_viol_J:
                 old_usc = usc[i_1]
-                usc[i_1] = a_I[i_1] / (K_IJ[i_1, :].dot(vsc) + cst_v)
+                usc[i_1] = a_I[i_1] / (K_IJ[i_1, :].dot(vsc) + cst_u[i_1])
                 G_IJ[i_1, :] = usc[i_1] * K_IJ[i_1, :] * vsc
 
                 viol_I[i_1] = usc[i_1] * K_IJ[i_1, :].dot(vsc) - a_I[i_1]
@@ -882,8 +882,7 @@ class Screenkhorn:
 
             else:
                 old_vsc = vsc[i_2]
-                print(vsc[i_2].shape)
-                vsc[i_2] = b_J[i_2] / (K_IJ[:, i_2].T.dot(usc) + cst_u)
+                vsc[i_2] = b_J[i_2] / (K_IJ[:, i_2].T.dot(usc) + cst_v[i_2])
                 G_IJ[:, i_2] = usc * K_IJ[:, i_2] * vsc[i_2]
                 viol_I += (-old_vsc + vsc[i_2]) * K_IJ[:, i_2] * usc
                 viol_J[i_2] = vsc[i_2] * K_IJ[:, i_2].dot(usc) - b_J[i_2]
