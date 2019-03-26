@@ -824,6 +824,9 @@ class Screenkhorn:
                 np.einsum('i,ij,j->j', usc, K_IJ, vsc, out=tmp)
                 certificate = np.linalg.norm(tmp - b_J) ** 2  # violation of marginal
 
+        usc = np.exp(self._projection(np.log(usc)))
+        vsc = np.exp(self._projection(np.log(vsc)))
+
         usc_full = np.full(n, self.epsilon)
         vsc_full = np.full(m, self.epsilon)
         usc_full[I] = usc
@@ -853,9 +856,11 @@ class Screenkhorn:
         K_IJc = self._submatrix(K, I, Jc)
         K_IcJ = self._submatrix(K, Ic, J)
 
+        tic = time.time()
         cst_u = np.divide(self.epsilon * K_IJc.sum(axis=1), a_I)
         cst_v = self.epsilon * K_IcJ.sum(axis=0)
-
+        # toc = time.time() - tic
+        # print("Time to calculate the constant vectors c_u and c_v is %s" %toc)
         usc = usc0[I].copy()
         vsc = vsc0[J].copy()
 
@@ -897,7 +902,7 @@ class Screenkhorn:
         usc_full[I] = usc
         vsc_full[J] = vsc
 
-        G = usc_full[:, np.newaxis] * K * vsc_full[np.newaxis, :]
+        # G = usc_full[:, np.newaxis] * K * vsc_full[np.newaxis, :]
 
-        return optimize.OptimizeResult(usc=usc_full, vsc=vsc_full, Psc=G)
+        return optimize.OptimizeResult(usc=usc_full, vsc=vsc_full) #, Psc=G)
 
