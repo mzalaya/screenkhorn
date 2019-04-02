@@ -70,7 +70,7 @@ class Screenkhorn:
         u_proj[np.where(u_proj <= self.epsilon)] = self.epsilon
         return u_proj
 
-    def objective(self, u_param, v_param, I, J):
+    def objective(self, u_param, v_param, I, J, K):
         """
         Parameters
         ----------
@@ -86,9 +86,9 @@ class Screenkhorn:
         """
 
         (n, m) = self.M.shape
-        K = np.empty_like(self.M)
-        np.divide(self.M, - self.reg, out=K)
-        np.exp(K, out=K)
+        # K = np.empty_like(self.M)
+        # np.divide(self.M, - self.reg, out=K)
+        # np.exp(K, out=K)
 
         Ic = self._complementary(I, n)
         Jc = self._complementary(J, m)
@@ -113,13 +113,13 @@ class Screenkhorn:
         psi_epsilon = part_IJ + part_IJc + part_IcJ + part_IcJc
         return psi_epsilon
 
-    def grad_objective(self, u_param, v_param, I, J):
+    def grad_objective(self, u_param, v_param, I, J, K):
 
         (n, m) = self.M.shape
 
-        K = np.empty_like(self.M)
-        np.divide(self.M, - self.reg, out=K)
-        np.exp(K, out=K)
+        # K = np.empty_like(self.M)
+        # np.divide(self.M, - self.reg, out=K)
+        # np.exp(K, out=K)
 
         Ic = self._complementary(I, n)
         Jc = self._complementary(J, m)
@@ -614,13 +614,13 @@ class Screenkhorn:
                                        trace_usc=np.array(trace_usc), trace_vsc=np.array(trace_vsc),
                                        trace_obj=np.array(trace_obj), trace_time=trace_time)
 
-    def restricted_sinkhorn(self, usc0, vsc0, I, J, max_iter=1000, tol=1e-6) -> optimize.OptimizeResult:
+    def restricted_sinkhorn(self, usc, vsc, I, J, K, max_iter=1000, tol=1e-4) -> optimize.OptimizeResult:
 
         (n, m) = self.M.shape
 
-        K = np.empty_like(self.M)
-        np.divide(self.M, - self.reg, out=K)
-        np.exp(K, out=K)
+        # K = np.empty_like(self.M)
+        # np.divide(self.M, - self.reg, out=K)
+        # np.exp(K, out=K)
 
         Ic = self._complementary(I, n)
         Jc = self._complementary(J, m)
@@ -642,11 +642,10 @@ class Screenkhorn:
         certificate = np.inf
         cpt = 1
 
-        usc = usc0[I].copy()
-        vsc = vsc0[J].copy()
+        # usc = usc0[I].copy()
+        # vsc = vsc0[J].copy()
 
         while (certificate > tol and cpt < max_iter):
-        # for k in range(max_iter):
 
             K_IJ_transpose_u = K_IJ.T @ usc + cst_v
             vsc = np.divide(b_J, K_IJ_transpose_u)
@@ -744,8 +743,8 @@ class Screenkhorn:
         else:
             print('Warning: Algorithm did not converge')
 
-        # usc = self._projection(usc)
-        # vsc = self._projection(vsc)
+        usc = self._projection(usc)
+        vsc = self._projection(vsc)
         usc_full = np.full(n, self.epsilon)
         vsc_full = np.full(m, self.epsilon)
         usc_full[I] = usc
@@ -756,38 +755,43 @@ class Screenkhorn:
         return optimize.OptimizeResult(usc=usc_full, vsc=vsc_full, Psc=None)
 
 
-    def _bfgspsot(self, theta, I, J):
+    def _bfgspsot(self, theta, I, J, K):
         u = theta[:len(I)]
         v = theta[len(I):]
         # objective value
-        f = self.objective(u, v, I, J)
+        f = self.objective(u, v, I, J, K)
         # gradient
-        g_u, g_v = self.grad_objective(u, v, I, J)
+        g_u, g_v = self.grad_objective(u, v, I, J, K)
         g = np.hstack([g_u, g_v])
         return f, g
 
-    def lbfgsb(self, u0, v0, I, J):
+    def lbfgsb(self, u0_I, v0_J, I, J, K):
 
         (n, m) = self.M.shape
-        K = np.empty_like(self.M)
-        np.divide(self.M, - self.reg, out=K)
-        np.exp(K, out=K)
+        Ic = self._complementary(I, n)
+        Jc = self._complementary(J, m)
+        # K = np.empty_like(self.M)
+        # np.divide(self.M, - self.reg, out=K)
+        # np.exp(K, out=K)
 
         a_I = self._subvector(I, self.a)
         b_J = self._subvector(J, self.b)
-        M_IJ = self._submatrix(self.M, I, J)
+        # M_IJ = self._submatrix(self.M, I, J)
+
+        # u0_I = self._subvector(I, u0)
+        # v0_J = self._subvector(J, v0)
 
         # --------------------------------- initial point for L-BFGS-B
         # ---------------------------------
 
         time_start = time()
-        res_sink = self.restricted_sinkhorn(u0, v0, I, J, max_iter=1000, tol=1e-9)
+        res_sink = self.restricted_sinkhorn(u0_I, v0_J, I, J, K, max_iter=1000, tol=1e-05)
         u0 = res_sink['usc']
         v0 = res_sink['vsc']
-        theta0 = np.hstack([u0, v0])
         time_end = time() - time_start
         print("Time spending during the restricted Skinkhorn is %s" % time_end)
 
+        # The following initilaization takes much time than the restricted sinkhorn (20 x)
         # time_start = time()
         # P_sink = sinkhorn(a_I, b_J, M_IJ, reg=self.reg, log=True)
         # outputs_dict = P_sink[1]
@@ -797,21 +801,30 @@ class Screenkhorn:
         # time_end = time() - time_start
         # print("Time spending during restricted Skinkhorn is %s" % time_end)
 
-        # u_I = self._subvector(I, u)
-        # v_J = self._subvector(J, v)
-        # theta0 = np.hstack([u_I, v_J])
+        # The following initilaization takes much time than the restricted sinkhorn (35 x)
+        # u_I = self._subvector(I, u0)
+        # v_J = self._subvector(J, v0)
+        # theta0 = np.hstack([u0_I, v0_J])
 
         # params of bfgs
         theta0 = np.hstack([u0, v0])
-        maxiter = 500  # max number of iterations
-        maxfun = 500  # max  number of function evaluations
-        pgtol = 1e-05  # final objective function accuracy
+        maxiter = 1000  # max number of iterations
+        maxfun = 1000  # max  number of function evaluations
+        pgtol = 1e-09  # final objective function accuracy
         param_m = 2  # stored gradients
         factr = 1e5  # tolerance of constraints function
 
-        func = lambda theta: self._bfgspsot(theta, I, J)
-        bounds_u = [(self.epsilon, max(self.a / (self.epsilon * K.sum(axis=1))))] * len(I)
-        bounds_v = [(self.epsilon, max(self.b / (self.epsilon * K.T.sum(axis=1))))] * len(J)
+        func = lambda theta: self._bfgspsot(theta, I, J, K)
+
+
+        bounds_u = [(a_I.min() / (self.epsilon * len(Jc) + len(J) * (b_J.max() / (self.epsilon * n * K.min()))),\
+                     a_I.max() /(self.epsilon * m * K.min()))] * len(I)
+
+        bounds_v = [(b_J.min() / (self.epsilon * len(Ic) + len(I) * (a_I.max() / (self.epsilon * m * K.min()))), \
+                     b_J.max() / (self.epsilon * n * K.min()))] * len(J)
+
+        # bounds_u = [(self.epsilon, max(self.a / (self.epsilon * K.sum(axis=1))))] * len(I)
+        # bounds_v = [(self.epsilon, max(self.b / (self.epsilon * K.T.sum(axis=1))))] * len(J)
         bounds = bounds_u + bounds_v
 
         theta, obj, d = fmin_l_bfgs_b(func=func,
