@@ -853,54 +853,54 @@ class Screenkhorn:
         vsc_full[J] = vsc
 
         return usc_full, vsc_full, obj, d
-#
-#    a_sort = np.sort(a)[::-1]
-#    b_sort = np.sort(b)[::-1]
-#
-#    self.epsilonepsilon = (np.sqrt(a_sort[self.N - 1] / (self.n * np.exp(-self.C.max() / self.reg))) + \
-#                           np.sqrt(b_sort[self.M - 1] / (self.m * np.exp(-self.C.max() / self.reg)))).mean()
-#
-#    # self.epsilon = ab_sort[self.N + self.M - 1: self.N + self.M + 1].mean()
-#
-#    # ab_sort = np.sort(np.hstack([np.sqrt(self.a / self.K_sum_cols), \
-#    # np.sqrt(self.b / self.K_sum_rows)]))[::-1]  # O(n+m)
-#
-#    # self.epsilon = ab_sort[self.N + self.M - 1: self.N + self.M + 1].mean()
-#    print("EpsilonEpsilon is %s" % self.epsilonepsilon)
-#
-#    self.II = np.where(self.a >= self.epsilonepsilon ** 2 * self.K_sum_cols)[0].tolist()
-#    self.JJ = np.where(self.b >= self.epsilonepsilon ** 2 * self.K_sum_rows)[0].tolist()
-#
-#    # self.I = np.where(self.a >= self.epsilon ** 2 * self.K_sum_cols)[0].tolist()
-#    # self.J = np.where(self.b >= self.epsilon ** 2 * self.K_sum_rows)[0].tolist()
-#
-#    print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s' \
-#          % (len(self.II), len(self.JJ), len(self.II) + len(self.JJ)))
-#
-#
-#raise "Error"
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#self.epsilon_u = np.sqrt(a_sort / K_sum_cols_sort)[self.N - 1]
-#            self.epsilon_v = np.sqrt(b_sort / K_sum_rows_sort)[self.M - 1]
-#
-#            print("EpsilonUis %s" % self.epsilon_u)
-#            print("EpsilonVis %s" % self.epsilon_v)
-#
-#            self.III = np.where(self.a >= self.epsilon_u *self.epsilon_v * self.K_sum_cols)[0].tolist()
-#            self.JJJ = np.where(self.b >= self.epsilon_v *self.epsilon_v*  self.K_sum_rows)[0].tolist()
-#
-#            print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s' \
-#                  % (len(self.III), len(self.JJJ), len(self.III) + len(self.JJJ)))
-#
-#
-#            raise "Error"
+
+    a_sort = np.sort(a)[::-1]
+    b_sort = np.sort(b)[::-1]
+
+    self.epsilonepsilon = (np.sqrt(a_sort[self.N - 1] / (self.n * np.exp(-self.C.max() / self.reg))) + \
+                           np.sqrt(b_sort[self.M - 1] / (self.m * np.exp(-self.C.max() / self.reg)))).mean()
+
+    # self.epsilon = ab_sort[self.N + self.M - 1: self.N + self.M + 1].mean()
+
+    # ab_sort = np.sort(np.hstack([np.sqrt(self.a / self.K_sum_cols), \
+    # np.sqrt(self.b / self.K_sum_rows)]))[::-1]  # O(n+m)
+
+    # self.epsilon = ab_sort[self.N + self.M - 1: self.N + self.M + 1].mean()
+    print("EpsilonEpsilon is %s" % self.epsilonepsilon)
+
+    self.II = np.where(self.a >= self.epsilonepsilon ** 2 * self.K_sum_cols)[0].tolist()
+    self.JJ = np.where(self.b >= self.epsilonepsilon ** 2 * self.K_sum_rows)[0].tolist()
+
+    # self.I = np.where(self.a >= self.epsilon ** 2 * self.K_sum_cols)[0].tolist()
+    # self.J = np.where(self.b >= self.epsilon ** 2 * self.K_sum_rows)[0].tolist()
+
+    print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s' \
+          % (len(self.II), len(self.JJ), len(self.II) + len(self.JJ)))
+
+
+raise "Error"
+
+
+
+
+
+
+
+
+
+
+
+self.epsilon_u = np.sqrt(a_sort / K_sum_cols_sort)[self.N - 1]
+            self.epsilon_v = np.sqrt(b_sort / K_sum_rows_sort)[self.M - 1]
+
+            print("EpsilonUis %s" % self.epsilon_u)
+            print("EpsilonVis %s" % self.epsilon_v)
+
+            self.III = np.where(self.a >= self.epsilon_u *self.epsilon_v * self.K_sum_cols)[0].tolist()
+            self.JJJ = np.where(self.b >= self.epsilon_v *self.epsilon_v*  self.K_sum_rows)[0].tolist()
+
+            print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s' \
+                  % (len(self.III), len(self.JJJ), len(self.III) + len(self.JJJ)))
+
+
+            raise "Error"

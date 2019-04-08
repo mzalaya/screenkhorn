@@ -207,8 +207,8 @@ class Screenkhorn:
 
         # params of bfgs
         theta0 = np.hstack([u, v])
-        maxiter = 1000 # max number of iterations
-        maxfun = 1000 # max  number of function evaluations
+        maxiter = 10000 # max number of iterations
+        maxfun = 10000 # max  number of function evaluations
         pgtol = 1e-09 # final objective function accuracy
 
         obj = lambda theta: self._bfgspsot(theta)
