@@ -187,7 +187,7 @@ class Screenkhorn:
         u = np.full(len(self.I), (1. / len(self.I)) + self.epsilon / self.fact_scale)
         v= np.full(len(self.J), (1. / len(self.J)) + self.epsilon * self.fact_scale)
 
-        u, v = self.restricted_sinkhorn(u, v, max_iter=2)
+        u, v = self.restricted_sinkhorn(u, v, max_iter=3)
 
         # params of bfgs
         theta0 = np.hstack([u, v])
