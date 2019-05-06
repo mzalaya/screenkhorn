@@ -83,12 +83,16 @@ def balanced_mnist(n=100 , train = True):
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', action='store', dest='n', default = 200, type=int,
                         help='number of samples ')
-
+parser.add_argument('-d', action='store', dest='d', default = 1, type=int,
+                        help='dataset type ')
 arguments = parser.parse_args()
 n = arguments.n # number of samples per class
 
-
-data = 'toy'
+if arguments.d == 1:
+    data = 'toy'
+else:
+    data = 'mnist'
+    
 p = 2    # relevant dimensions
 nb_noise = 8
 reg = 1  # regularizer weight
