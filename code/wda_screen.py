@@ -103,6 +103,7 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=0, P0
             for j, xj in enumerate(xc[i:]):
                 xj = np.dot(xj, P)
                 M = dist(xi, xj)
+                M = M/M.max()
                 G = Sinkhorn(wc[i], wc[j + i], M, reg, k)
                 if j == 0:
                     loss_w += np.sum(G * M)
@@ -151,13 +152,13 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=1,
             for j, xj in enumerate(xc[i:]):
                 xj = np.dot(xj, P)
                 M = dist(xi, xj)
-
+                M = M/M.max()
                 # screenkhorn
                 p_n = kwargs.get('p_n', 2) # keep only 50% of points
                 p_m = kwargs.get('p_m', 2) # keep only 50% of points
                 n_budget = int(np.ceil(M.shape[0] / p_n))
                 m_budget = int(np.ceil(M.shape[1] / p_m))
-                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget)
+                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget, verbose=False)
                 G = screenkhornWDA.lbfgsb()[2]
                 if j == 0:
                     loss_w += np.sum(G * M)
