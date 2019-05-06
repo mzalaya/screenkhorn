@@ -81,7 +81,7 @@ def balanced_mnist(n=100 , train = True):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 200, type=int,
+parser.add_argument('-n', action='store', dest='n', default = 1000, type=int,
                         help='number of samples ')
 parser.add_argument('-d', action='store', dest='d', default = 1, type=int,
                         help='dataset type ')
@@ -106,6 +106,7 @@ pathres='./resultat/'
 
 
 filename = 'wda_{:}_n{:d}_p{:d}'.format(data,n,p)
+print(filename)
 n_pvec=  len(p_vec)
 time_wda = np.zeros((nb_iter))
 time_swda = np.zeros((nb_iter,n_pvec))
