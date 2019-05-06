@@ -88,7 +88,7 @@ arguments = parser.parse_args()
 n = arguments.n # number of samples per class
 
 
-data = 'mnist'
+data = 'toy'
 p = 2    # relevant dimensions
 nb_noise = 8
 reg = 1  # regularizer weight
