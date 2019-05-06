@@ -59,6 +59,7 @@ def multi_gauss(n,nb_noise=8,s_noise=0.1):
 
 def balanced_mnist(n=100 , train = True):
     data = loadmat('mnist.mat')
+    n = n // 10
     if train:
         x = data['xapp']
         y = np.array(data['yapp']).squeeze(axis=1)
@@ -76,7 +77,7 @@ def balanced_mnist(n=100 , train = True):
     
     else:
          x_r = data['xtest']
-         y_r = data['ytest']
+         y_r = np.array(data['ytest']).squeeze(axis=1)
     return x_r.astype(float), y_r.astype(float)
 
 #%%
@@ -95,8 +96,7 @@ if arguments.d == 1:
 else:
     data = 'mnist'
     
-p = 2    # relevant dimensions
-nb_noise = 8
+
 reg = 1  # regularizer weight
 k = 10  # nb of sinkhorn iteration
 maxiter = 100 # max iter in WDA
@@ -107,8 +107,6 @@ pathres='./resultat/'
 
 
 
-filename = 'wda_{:}_n{:d}_p{:d}'.format(data,n,p)
-print(filename)
 n_pvec=  len(p_vec)
 time_wda = np.zeros((nb_iter))
 time_swda = np.zeros((nb_iter,n_pvec))
@@ -116,19 +114,33 @@ bc_wda = np.zeros((nb_iter))
 bc_swda = np.zeros((nb_iter,n_pvec))
 for i in range(nb_iter):
     if data == 'toy':
+        p = 2    # relevant dimensions
+        nb_noise = 8
         xs, ys = multi_gauss(n,nb_noise = nb_noise)
         xt, yt = multi_gauss(n,nb_noise = nb_noise)
         dim = p + nb_noise
+        filename = 'wda_{:}_n{:d}_p{:d}'.format(data,n,p)
+        print(filename)
+
     else:
-        xs, ys = balanced_mnist(100)
+        xs, ys = balanced_mnist(n)
         xt, yt = balanced_mnist(train=False)
         scaler = StandardScaler()
         xs = scaler.fit_transform(xs)
         xt = scaler.transform(xt)
         dim = 784
         p = 20
+        filename = 'wda_{:}_n{:d}_p{:d}'.format(data,n,p)
+        print(filename)
+
     P_init = qr(np.random.randn(dim,p))[0]
     
+    #%%
+#    clf_wda = KNeighborsClassifier(n_neighbors = 3, metric='euclidean')
+#    clf_wda.fit(xs, ys)
+#    y_pred = clf_wda.predict(xt)
+#    print('knn : ',np.mean(y_pred==yt))
+    #%%
     tic = time()
     Pwda_sink, projwda_sink = wda_screen.wda_sinkhorn(xs, ys, p, reg, k, maxiter=maxiter,P0=P_init)
     time_wda[i] = time() -tic

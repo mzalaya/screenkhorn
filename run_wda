@@ -12,6 +12,10 @@ do
 	
 done
 
-
+for n in  200 500 1000 2000 4000   # dimension
+do 
+	nohup python -u wda_expe.py  -n $n -d 1 > out_wda_mnist_$n.log &
+	
+done
 
 
