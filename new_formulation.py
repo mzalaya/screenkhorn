@@ -10,7 +10,7 @@ from time import time
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, N, M):
+    def __init__(self, a, b, C, reg, N, M, verbose = True):
 
         tic_initial = time()
         self.a = np.asarray(a, dtype=np.float64)
@@ -21,6 +21,7 @@ class Screenkhorn:
         m = C.shape[1]
         self.N = N
         self.M = M
+        self.verbose = verbose
 
         # K
         # self.K = np.empty_like(self.C)
@@ -69,17 +70,19 @@ class Screenkhorn:
 
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
-
-            print("Epsilon = %s\n" % self.epsilon)
-            print("Scaling factor = %s\n" % self.fact_scale)
+            
+            if self.verbose:
+                print("Epsilon = %s\n" % self.epsilon)
+                print("Scaling factor = %s\n" % self.fact_scale)
 
             # I, J
 
             self.I = np.where(self.a >= self.epsilon**2 / self.fact_scale * K_sum_cols)[0].tolist()
             self.J = np.where(self.b >= self.epsilon**2 * self.fact_scale * K_sum_rows)[0].tolist()
-
-            print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
-              %(len(self.I), len(self.J), len(self.I) + len(self.J)))
+            
+            if self.verbose:
+                print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
+                      %(len(self.I), len(self.J), len(self.I) + len(self.J)))
 
 
             # LBFGS box
