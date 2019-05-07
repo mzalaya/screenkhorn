@@ -99,7 +99,7 @@ else:
 
 reg = 1  # regularizer weight
 k = 10  # nb of sinkhorn iteration
-maxiter = 100 # max iter in WDA
+maxiter = 1000 # max iter in WDA
 nb_iter = 50
 K = 1 # K in KNN
 p_vec = [2,10,20,30]
@@ -113,6 +113,7 @@ time_swda = np.zeros((nb_iter,n_pvec))
 bc_wda = np.zeros((nb_iter))
 bc_swda = np.zeros((nb_iter,n_pvec))
 for i in range(nb_iter):
+    print('iter:',i)
     if data == 'toy':
         p = 2    # relevant dimensions
         nb_noise = 8

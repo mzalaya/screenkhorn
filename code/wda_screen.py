@@ -119,12 +119,12 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=0, P
 
     # declare solver and solve
     if solver is None:
-        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose)
+        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),mingradnorm=1e-8, 
+                        minstepsize=1e-16)
     elif solver in ['tr', 'TrustRegions']:
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
-    Popt = solver.solve(problem, x=P0, maxtime=float('inf'),mingradnorm=1e-8, 
-                        minstepsize=1e-16, maxcostvals=10000)
+    Popt = solver.solve(problem, x=P0)
 
     def proj(X):
         return (X - mx.reshape((1, -1))).dot(Popt)
@@ -174,14 +174,14 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
     problem = Problem(manifold=manifold, cost=cost)
 
     # declare solver and solve
+    # declare solver and solve
     if solver is None:
-        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose)
+        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),mingradnorm=1e-8, 
+                        minstepsize=1e-16)
     elif solver in ['tr', 'TrustRegions']:
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
-
-    Popt = solver.solve(problem, x=P0, maxtime=float('inf'),mingradnorm=1e-8, 
-                        minstepsize=1e-16, maxcostvals=10000)
+    Popt = solver.solve(problem, x=P0)
     def proj(X):
         # print("HERE")
         # print(Popt)
