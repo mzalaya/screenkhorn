@@ -10,7 +10,7 @@ from time import time
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, N, M, verbose = True):
+    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True):
 
         tic_initial = time()
         self.a = np.asarray(a, dtype=np.float64)
@@ -22,6 +22,7 @@ class Screenkhorn:
         self.N = N
         self.M = M
         self.verbose = verbose
+        self.uniform = uniform
 
         # K
         # self.K = np.empty_like(self.C)
@@ -51,7 +52,8 @@ class Screenkhorn:
             self.bounds_v = [(0.0, np.inf)] * m
 
         else:
-
+            
+            print(time() - tic_initial)
             # sum of rows and columns of K
             K_sum_cols = self.K.sum(axis=1)
             K_sum_rows = self.K.T.sum(axis=1)
@@ -59,9 +61,10 @@ class Screenkhorn:
             # K_min
             K_min = self.K.min()
 
-            #
-            a_sort = np.sort(a)
-            b_sort = np.sort(b)
+            # 
+            if not self.uniform:
+                a_sort = np.sort(a)
+                b_sort = np.sort(b)
             aK_sort = np.sort(a / K_sum_cols)[::-1]
             bK_sort = np.sort(b / K_sum_rows)[::-1]
 
@@ -74,6 +77,8 @@ class Screenkhorn:
             if self.verbose:
                 print("Epsilon = %s\n" % self.epsilon)
                 print("Scaling factor = %s\n" % self.fact_scale)
+            
+            print(time() - tic_initial)
 
             # I, J
 
@@ -95,6 +100,8 @@ class Screenkhorn:
                                                     + len(self.I) * (
                                                                 a_sort[self.I][0] / (self.epsilon * m * K_min))), self.epsilon * self.fact_scale), \
                               b_sort[self.J][0] / (self.epsilon * n * K_min))] * len(self.J)
+            
+            print(time() - tic_initial)
 
         # Ic, Jc
         self.Ic = list(set(list(range(n))) - set(self.I))
@@ -118,6 +125,7 @@ class Screenkhorn:
             self.cst_u = self.fact_scale * self.epsilon * self.K_IJc.sum(axis=1)
             self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0) / self.fact_scale
 
+        print(time() - tic_initial)
 
         self.toc_initial = time() - tic_initial
 

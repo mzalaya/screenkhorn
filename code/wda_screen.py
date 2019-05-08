@@ -14,7 +14,7 @@ from pymanopt.manifolds import Stiefel
 from pymanopt import Problem
 from pymanopt.solvers import SteepestDescent, TrustRegions
 
-from new_formulation import Screenkhorn
+from wda_formulation_screekhorn import Screenkhorn
 
 def dist(x1, x2):
     """ Compute squared euclidean distance between samples (autograd)

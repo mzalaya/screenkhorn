@@ -12,7 +12,7 @@ from time import time
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, n_b, m_b,verbose=True):
+    def __init__(self, a, b, C, reg, n_b, m_b,verbose=True,uniform=True):
 
         tic_initial = time()
 
@@ -23,14 +23,18 @@ class Screenkhorn:
         self.a = np.asarray(a, dtype=np.float64)
         self.b = np.asarray(b, dtype=np.float64)
         self.C = np.asarray(C, dtype=np.float64)
+
+        
         self.reg = reg
         n = C.shape[0]
         m = C.shape[1]
         self.n_b = n_b
         self.m_b = m_b
         self.verbose = verbose
-
+        self.uniform = uniform
         # K
+        print(time() - tic_initial)
+
         self.K = np.empty_like(self.C)
         np.divide(self.C, - self.reg, out=self.K)
         np.exp(self.K, out=self.K)
@@ -64,8 +68,12 @@ class Screenkhorn:
             # K_min
             K_min = self.K.min()
 
-            a_sort = np.sort(a)
-            b_sort = np.sort(b)
+            if not self.uniform:
+                a_sort = np.sort(a)
+                b_sort = np.sort(b)
+            else:
+                a_sort,b_sort = a,b
+                
             aK_sort = np.sort(a / K_sum_cols)[::-1]
             bK_sort = np.sort(b / K_sum_rows)[::-1]
 
@@ -74,6 +82,7 @@ class Screenkhorn:
 
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
+            
 
             # print("Epsilon = %s" % self.epsilon)
             # print("Scaling factor = %s" % self.fact_scale)
@@ -88,6 +97,7 @@ class Screenkhorn:
                       %(len(self.I), len(self.J), len(self.I) + len(self.J)))
 
             # LBFGS box
+
             self.bounds_u = [(
                                 max(self.fact_scale * a_sort[self.I][-1] / (self.fact_scale  * self.epsilon * (m - len(self.J)) \
                                                     + max(self.fact_scale * self.epsilon, len(self.J) * (
