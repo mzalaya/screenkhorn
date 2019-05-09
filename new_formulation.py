@@ -7,6 +7,7 @@ __author__ = 'Mokhtar Z. Alaya'
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
 from time import time
+from numba import jit
 
 class Screenkhorn:
 
@@ -25,11 +26,14 @@ class Screenkhorn:
         self.uniform = uniform
 
         # K
-        # self.K = np.empty_like(self.C)
-        # np.divide(self.C, - self.reg, out=self.K)
-        # np.exp(self.K, out=self.K)
+        self.K = np.empty_like(self.C)
+        np.divide(self.C, - self.reg, out=self.K)
+        np.exp(self.K, out=self.K)
 
-        self.K = np.exp(-self.C / self.reg)
+        #self.K = np.exp(-self.C / self.reg)
+ 
+        
+        print('K',time() - tic_initial)
 
         # Test
         if self.N == n and self.M == m:
@@ -65,6 +69,8 @@ class Screenkhorn:
             if not self.uniform:
                 a_sort = np.sort(a)
                 b_sort = np.sort(b)
+            else:
+                a_sort,b_sort = a,b
             aK_sort = np.sort(a / K_sum_cols)[::-1]
             bK_sort = np.sort(b / K_sum_rows)[::-1]
 
@@ -187,7 +193,7 @@ class Screenkhorn:
         u0 = np.full(len(self.I), (1. / len(self.I)) + self.epsilon / self.fact_scale)
         v0 = np.full(len(self.J), (1. / len(self.J)) + self.epsilon * self.fact_scale)
 
-        u, v = self.restricted_sinkhorn(u0, v0, max_iter=5)
+        u, v = self.restricted_sinkhorn(u0, v0, max_iter=10)
 
         # params of bfgs
         theta0 = np.hstack([u, v])

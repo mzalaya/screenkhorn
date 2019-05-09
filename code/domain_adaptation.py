@@ -1286,7 +1286,7 @@ class ScreenkhornTransport(BaseTransport):
         m_budget = int(np.ceil(self.cost_.shape[1] / p_m))
 
         screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,
-                                  n_b=n_budget, m_b=m_budget)
+                                  N=n_budget, M=m_budget)
         returned_ = screenkhorn.lbfgsb()[2]
 
         # returned_ = sinkhorn(

@@ -33,7 +33,6 @@ class Screenkhorn:
         self.verbose = verbose
         self.uniform = uniform
         # K
-        print(time() - tic_initial)
 
         self.K = np.empty_like(self.C)
         np.divide(self.C, - self.reg, out=self.K)
