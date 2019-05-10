@@ -1,0 +1,203 @@
+\begin{thebibliography}{10}
+
+\bibitem{khalilabid2018}
+B.~K. Abid and R.~Gower.
+\newblock Stochastic algorithms for entropy-regularized optimal transport
+  problems.
+\newblock In Amos Storkey and Fernando Perez-Cruz, editors, {\em Proceedings of
+  the Twenty-First International Conference on Artificial Intelligence and
+  Statistics}, volume~84 of {\em Proceedings of Machine Learning Research},
+  pages 1505--1512, Playa Blanca, Lanzarote, Canary Islands, 2018. PMLR.
+
+\bibitem{altschuler2018Nystrom}
+J.~Altschuler, F.~Bach, A.~Rudi, and J.~Weed.
+\newblock Massively scalable sinkhorn distances via the nyström method, 2018.
+
+\bibitem{altschulernips17}
+J.~Altschuler, J.~Weed, and P.~Rigollet.
+\newblock Near-linear time approximation algorithms for optimal transport via
+  sinkhorn iteration.
+\newblock In I.~Guyon, U.~V. Luxburg, S.~Bengio, H.~Wallach, R.~Fergus,
+  S.~Vishwanathan, and R.~Garnett, editors, {\em Advances in Neural Information
+  Processing Systems 30}, pages 1964--1974. Curran Associates, Inc., 2017.
+
+\bibitem{pmlr-v70-arjovsky17a}
+M.~Arjovsky, S.~Chintala, and L.~Bottou.
+\newblock {W}asserstein generative adversarial networks.
+\newblock In Doina Precup and Yee~Whye Teh, editors, {\em Proceedings of the
+  34th International Conference on Machine Learning}, volume~70 of {\em
+  Proceedings of Machine Learning Research}, pages 214--223, International
+  Convention Centre, Sydney, Australia, 2017. PMLR.
+
+\bibitem{bigot2017}
+J.~Bigot, R.~Gouet, T.~Klein, and A.~López.
+\newblock Geodesic pca in the wasserstein space by convex pca.
+\newblock {\em Ann. Inst. H. Poincaré Probab. Statist.}, 53(1):1--26, 2017.
+
+\bibitem{blondel2018ICML}
+M.~Blondel, V.~Seguy, and A.~Rolet.
+\newblock Smooth and sparse optimal transport.
+\newblock In Amos Storkey and Fernando Perez-Cruz, editors, {\em Proceedings of
+  the Twenty-First International Conference on Artificial Intelligence and
+  Statistics}, volume~84 of {\em Proceedings of Machine Learning Research},
+  pages 880--889, Playa Blanca, Lanzarote, Canary Islands, 09--11 Apr 2018.
+  PMLR.
+
+\bibitem{bonnel2011}
+N.~Bonneel, M.~van~de Panne, S.~Paris, and W.~Heidrich.
+\newblock Displacement interpolation using lagrangian mass transport.
+\newblock {\em ACM Trans. Graph.}, 30(6):158:1--158:12, 2011.
+
+\bibitem{villani09optimal}
+Villani C.
+\newblock {\em Optimal Transport: Old and New}, volume 338 of {\em Grundlehren
+  der mathematischen Wissenschaften}.
+\newblock Springer Berlin Heidelberg, 2009.
+
+\bibitem{cuturinips13}
+M.~Cuturi.
+\newblock Sinkhorn distances: Lightspeed computation of optimal transport.
+\newblock In C.~J.~C. Burges, L.~Bottou, M.~Welling, Z.~Ghahramani, and K.~Q.
+  Weinberger, editors, {\em Advances in Neural Information Processing Systems
+  26}, pages 2292--2300. Curran Associates, Inc., 2013.
+
+\bibitem{cuturi2016SIAM}
+M.~Cuturi and G.~Peyré.
+\newblock A smoothed dual approach for variational wasserstein problems.
+\newblock {\em SIAM Journal on Imaging Sciences}, 9(1):320--343, 2016.
+
+\bibitem{dvurechensky18aICML}
+P.~Dvurechensky, A.~Gasnikov, and A.~Kroshnin.
+\newblock Computational optimal transport: Complexity by accelerated gradient
+  descent is better than by sinkhorn’s algorithm.
+\newblock In Jennifer Dy and Andreas Krause, editors, {\em Proceedings of the
+  35th International Conference on Machine Learning}, volume~80 of {\em
+  Proceedings of Machine Learning Research}, pages 1367--1376,
+  Stockholmsmässan, Stockholm Sweden, 10--15 Jul 2018. PMLR.
+
+\bibitem{ebert2017ConstructionON}
+J.~Ebert, V.~Spokoiny, and A.~Suvorikova.
+\newblock Construction of non-asymptotic confidence sets in 2-wasserstein
+  space, 2017.
+
+\bibitem{flamary2017pot}
+R.~Flamary and N.~Courty.
+\newblock Pot python optimal transport library, 2017.
+
+\bibitem{flamary2018WDA}
+R.~Flamary, M.~Cuturi, N.~Courty, and A.~Rakotomamonjy.
+\newblock Wasserstein discriminant analysis.
+\newblock {\em Machine Learning}, 107(12):1923--1945, 2018.
+
+\bibitem{frogner2015nips}
+C.~Frogner, C.~Zhang, H.~Mobahi, M.~Araya, and T.~A. Poggio.
+\newblock Learning with a wasserstein loss.
+\newblock In C.~Cortes, N.~D. Lawrence, D.~D. Lee, M.~Sugiyama, and R.~Garnett,
+  editors, {\em Advances in Neural Information Processing Systems 28}, pages
+  2053--2061. Curran Associates, Inc., 2015.
+
+\bibitem{genevay2016stochOT}
+A.~Genevay, M.~Cuturi, G.~Peyr\'{e}, and F.~Bach.
+\newblock Stochastic optimization for large-scale optimal transport.
+\newblock In D.~D. Lee, M.~Sugiyama, U.~V. Luxburg, I.~Guyon, and R.~Garnett,
+  editors, {\em Advances in Neural Information Processing Systems 29}, pages
+  3440--3448. Curran Associates, Inc., 2016.
+
+\bibitem{ho2017}
+N.~Ho, X.~L. Nguyen, M.~Yurochkin, H.~H. Bui, V.~Huynh, and D.~Phung.
+\newblock Multilevel clustering via wasserstein means.
+\newblock In {\em Proceedings of the 34th International Conference on Machine
+  Learning - Volume 70}, ICML'17, pages 1501--1509. JMLR.org, 2017.
+
+\bibitem{kalantari2008}
+B.~Kalantari, I.~Lari, F.~Ricca, and B.~Simeone.
+\newblock On the complexity of general matrix scaling and entropy minimization
+  via the ras algorithm.
+\newblock {\em Mathematical Programming}, 112(2):371--401, Apr 2008.
+
+\bibitem{kantorovich1942}
+L.~Kantorovich.
+\newblock On the transfer of masses (in russian).
+\newblock {\em Doklady Akademii Nauk}, 2:227--229, 1942.
+
+\bibitem{knight2008}
+P.~Knight.
+\newblock The sinkhorn–knopp algorithm: Convergence and applications.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  30(1):261--275, 2008.
+
+\bibitem{klouri17}
+S.~Kolouri, S.~R. Park, M.~Thorpe, D.~Slepcev, and G.~K. Rohde.
+\newblock Optimal mass transport: Signal processing and machine-learning
+  applications.
+\newblock {\em IEEE Signal Processing Magazine}, 34(4):43--59, July 2017.
+
+\bibitem{kusnerb2015}
+M.~Kusner, Y.~Sun, N.~Kolkin, and K.~Weinberger.
+\newblock From word embeddings to document distances.
+\newblock In Francis Bach and David Blei, editors, {\em Proceedings of the 32nd
+  International Conference on Machine Learning}, volume~37 of {\em Proceedings
+  of Machine Learning Research}, pages 957--966, Lille, France, 07--09 Jul
+  2015. PMLR.
+
+\bibitem{lin2019}
+T.~Lin, N.~Ho, and M.~I. Jordan.
+\newblock On efficient optimal transport: An analysis of greedy and accelerated
+  mirror descent algorithms.
+\newblock {\em CoRR}, abs/1901.06482, 2019.
+
+\bibitem{panaretos2016}
+V.~M. Panaretos and Y.~Zemel.
+\newblock Amplitude and phase variation of point processes.
+\newblock {\em Ann. Statist.}, 44(2):771--812, 04 2016.
+
+\bibitem{pele2009}
+O.~{Pele} and M.~{Werman}.
+\newblock Fast and robust earth mover's distances.
+\newblock In {\em 2009 IEEE 12th International Conference on Computer Vision},
+  pages 460--467, 2009.
+
+\bibitem{peyre2019COTnowpublisher}
+G.~Peyré and M.~Cuturi.
+\newblock Computational optimal transport.
+\newblock {\em Foundations and Trends® in Machine Learning}, 11(5-6):355--607,
+  2019.
+
+\bibitem{Rubner2000}
+Y.~Rubner, C.~Tomasi, and L.~J. Guibas.
+\newblock The earth mover's distance as a metric for image retrieval.
+\newblock {\em International Journal of Computer Vision}, 40(2):99--121, 2000.
+
+\bibitem{sinkhorn1967}
+R.~Sinkhorn.
+\newblock Diagonal equivalence to matrices with prescribed row and column sums.
+\newblock {\em The American Mathematical Monthly}, 74(4):402--405, 1967.
+
+\bibitem{solomon2015}
+J.~Solomon, F.~de~Goes, G.~Peyr{\'e}, M.~Cuturi, A.~Butscher, A.~Nguyen, T.~Du,
+  and L.~Guibas.
+\newblock Convolutional wasserstein distances: Efficient optimal transportation
+  on geometric domains.
+\newblock {\em ACM Trans. Graph.}, 34(4):66:1--66:11, 2015.
+
+\bibitem{pmlr-v32-solomon14}
+J.~Solomon, R.~Rustamov, L.~Guibas, and A.~Butscher.
+\newblock Wasserstein propagation for semi-supervised learning.
+\newblock In Eric~P. Xing and Tony Jebara, editors, {\em Proceedings of the
+  31st International Conference on Machine Learning}, volume~32 of {\em
+  Proceedings of Machine Learning Research}, pages 306--314, Bejing, China,
+  22--24 Jun 2014. PMLR.
+
+\bibitem{werman1985}
+M.~Werman, S.~Peleg, and A.~Rosenfeld.
+\newblock A distance metric for multidimensional histograms.
+\newblock {\em Computer Vision, Graphics, and Image Processing}, 32(3):328 --
+  336, 1985.
+
+\bibitem{zhu1997-LBFGS}
+C.~Zhu, R.~H. Byrd, P.~Lu, and J.~Nocedal.
+\newblock Algorithm 778: L-bfgs-b: Fortran subroutines for large-scale
+  bound-constrained optimization.
+\newblock {\em ACM Trans. Math. Softw.}, 23(4):550--560, 1997.
+
+\end{thebibliography}

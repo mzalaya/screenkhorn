@@ -1,0 +1,487 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2019
+
+% ready for submission
+% \usepackage{neurips_2019}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%\usepackage[preprint]{neurips_2019}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[preprint]{neurips_2019}
+\usepackage[]{neurips_2019}
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{neurips_2019}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+%--------------------------------------------------------------------------------------------------------------------------------% 
+
+\RequirePackage{mathrsfs, amsthm, amsmath, amsfonts, amssymb, mathtools}%
+\usepackage[titletoc,title]{appendix}%
+\usepackage{dsfont}%
+\usepackage{caption} % 
+\usepackage{subcaption}
+\usepackage{float}%
+\usepackage{graphicx, color}% 
+\usepackage{bm}%bold equations
+
+%% formatting appendices
+\usepackage{etoolbox}
+\patchcmd{\appendices}{\quad}{. }{}{}
+
+%% tables
+\usepackage{pgfplots}%
+\usepackage{booktabs,multirow,array,multicol}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+
+%% algorithms
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+%% sections
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{fact}{Fact}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}%[section]
+\newtheorem*{notation}{Notation}%[section]
+\newtheorem{discus}{Discussion}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{example}{Example}%[section]
+\newtheorem{exs}{Examples}%[section]
+\newtheorem{ca}{Cas}
+\newtheorem{remarks}{Remarks}%[section]
+\newtheorem{assumption}{Assumption}{\bf}{\rm}%
+
+% math macros
+
+\usepackage{relsize}
+\newcommand*{\defeq}{\stackrel{\mathsmaller{\mathsf{def.}}}{=}}
+
+\newcommand{\ba}{\mathbf{a}}%
+\newcommand{\bb}{\mathbf{b}}%
+
+\newcommand{\bC}{{\mathbf C}}%
+\newcommand{\bP}{{\mathbf P}}%
+\newcommand{\bU}{{\mathbf U}}%
+
+\newcommand{\cX}{\mathcal X}%
+\newcommand{\cY}{\mathcal Y}%
+\newcommand{\cM}{\mathcal M}%
+\newcommand{\cC}{\mathcal C}%
+
+\newcommand{\td}{\text d}%
+\newcommand*{\argminl}{\argmin\limits}%
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\sumin}{\sum_{i=1}^n}
+\newcommand{\sumip}{\sum_{j=1}^m}
+\newcommand{\intt}{\int_{0}^{t}}
+\newcommand{\inttau}{\int_{0}^{\gamma}}
+\newcommand{\I}{1\!\mbox{I}}
+\newcommand{\e}{{\mathrm e}}
+\newcommand{\diff}{\mathrm d}
+\newcommand{\noi}{\noindent}
+\newcommand{\eps}{\varepsilon}
+\usepackage{datenumber}
+\newcommand{\sptr}[2]{\langle #1 | #2 \rangle}
+\newcommand{\inr}[1]{\langle #1 \rangle}
+\newcommand{\inrbig}[1]{\bigg\langle #1 \bigg\rangle}
+\newcommand{\ind}[1]{{\mathds{1}}_{{#1}}}%
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\E}{\mathds{E}}
+\newcommand{\V}{\mathds{V}}
+\newcommand{\Lim}{\displaystyle \lim\limits}
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cT}{\mathcal T}
+\newcommand{\bA}{{\boldsymbol A}}%
+\newcommand{\bcA}{\boldsymbol{\mathcal{C}}}%
+\newcommand{\bB}{{\boldsymbol B}}%
+\newcommand{\bcB}{\boldsymbol{\mathcal{B}}}%
+\newcommand{\bD}{{\boldsymbol D}}%
+\newcommand{\bE}{{\boldsymbol E}}%
+\newcommand{\bF}{{\boldsymbol F}}%
+\newcommand{\bG}{{\boldsymbol G}}%
+\newcommand{\bH}{{\boldsymbol H}}%
+\newcommand{\bI}{{\boldsymbol I}}%
+\newcommand{\bJ}{{\boldsymbol J}}%
+\newcommand{\bK}{{\boldsymbol K}}%
+\newcommand{\bL}{{\boldsymbol L}}%
+\newcommand{\bM}{{\boldsymbol M}}%
+\newcommand{\bN}{{\boldsymbol N}}%
+\newcommand{\bO}{\boldsymbol 0}%
+\newcommand{\bQ}{\boldsymbol Q}%
+\newcommand{\bR}{\boldsymbol R}%
+\newcommand{\cS}{{\mathcal{S}}}%
+\newcommand{\bcQ}{\boldsymbol{\mathcal{Q}}}%
+\newcommand{\bV}{\boldsymbol V}%
+\newcommand{\bW}{\boldsymbol W}%
+\newcommand{\bX}{\boldsymbol  X}%
+\newcommand{\bT}{\boldsymbol  T}%
+\newcommand{\bcE}{\boldsymbol{\mathcal{E}}}%
+\newcommand{\bcH}{\boldsymbol{\mathcal{H}}}%
+\newcommand{\bcX}{\boldsymbol{\mathcal{X}}}%
+\newcommand{\bcJ}{\boldsymbol{\mathcal{J}}}%
+\newcommand{\bcY}{\boldsymbol{\mathcal{Y}}}%
+\newcommand{\bcW}{\boldsymbol{\mathcal{W}}}%
+\newcommand{\bcT}{\boldsymbol{\mathcal{T}}}%
+\newcommand{\bcM}{\boldsymbol{\mathcal{M}}}%
+\newcommand{\bcZ}{\boldsymbol{\mathcal{Z}}}%
+\newcommand{\bcO}{\boldsymbol{\mathcal{O}}}%
+\newcommand{\bcG}{\boldsymbol{\mathcal{G}}}%
+\newcommand{\bcU}{\boldsymbol{\mathcal{U}}}%
+\newcommand{\bcV}{\boldsymbol{\mathcal{V}}}%
+\newcommand{\bcR}{\boldsymbol{\mathcal{R}}}%
+\newcommand{\bcI}{\boldsymbol{\mathcal{I}}}%
+\newcommand{\by}{\boldsymbol y}%
+\newcommand{\bu}{\boldsymbol u}%
+\newcommand{\bv}{\boldsymbol  v}%
+\newcommand{\bz}{\boldsymbol z}%
+\newcommand{\bY}{\boldsymbol{Y}}%
+\newcommand{\bZ}{\boldsymbol Z}
+\newcommand{\bg}{\boldsymbol g}%
+\newcommand{\beps}{\boldsymbol \varepsilon}%
+\newcommand{\bSigma}{\boldsymbol \Sigma}%
+\newcommand{\blambda}{\boldsymbol  \lambda}
+\newcommand{\bbeta}{\boldsymbol  \beta}%
+\newcommand{\bLambda}{\boldsymbol  \Lambda}%
+\newcommand{\bTheta}{\boldsymbol  \Theta}
+\newcommand{\bDelta}{\boldsymbol{\Delta}}%
+\newcommand{\bXi}{\boldsymbol{\Xi}}%
+\newcommand{\ov}{\overrightarrow}%
+\newcommand{\cP}{\mathcal P}%
+\newcommand{\cQ}{\mathcal Q}%
+\renewcommand{\P}{\mathds{P}}
+\newcommand{\bctheta}{\boldsymbol{\mathcal{\Theta}}}%
+\newcommand{\btheta}{\boldsymbol  \Theta}%
+\newcommand{\bcdot}{\raisebox{-0.80ex}{\scalebox{1.8}{$\cdot$}}}
+\newcommand{\cst}{\raisebox{-0.15ex}{\scalebox{1.30}{$c$}}}
+\newcommand{\Cst}{\raisebox{-0.15ex}{\scalebox{1.10}{$C$}}}
+\newcommand{\varsig}{\raisebox{-0.15ex}{\scalebox{1.30}{$\varsigma$}}}
+\usepackage{accents}
+\newcommand*{\dt}[1]{\accentset{\mbox{\large\bfseries .}}{#1}}
+%{\accentset{\raisebox{0ex}{$.$}}{#1}}
+\newcommand*{\ddt}[1]{\accentset{\raisebox{0ex}{$\,\,\star$}}{#1}}
+
+\newcommand*{\fstderiv}[1]{\accentset{\mbox{\Large\bfseries .}}{#1}}
+\newcommand*{\scdderiv}[1]{\accentset{\mbox{\Large\bfseries .\hspace{-0.25ex}.}}{#1}}
+
+%% math operators
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% todo
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+%--------------------------------------------------------------------------------------------------------------------------------%
+
+\title{Screening Sinkhorn Algorithm via Dual Projections}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
+Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to define two appropriate active indices sets for the potential variables.
+These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
+We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
+\end{abstract}
+
+\section{Introduction}
+
+Computing OT distances between pairs of probability measures or histograms, such as the earth mover's distance~\cite{werman1985,Rubner2000} and Monge-Kantorovich or Wasserstein distance~\cite{villani09optimal}, are currently generating an increasing attraction in different machine learning tasks~\cite{pmlr-v32-solomon14,kusnerb2015,pmlr-v70-arjovsky17a,ho2017}, statistics~\cite{frogner2015nips,panaretos2016,ebert2017ConstructionON,bigot2017,flamary2018WDA}, and computer vision~\cite{bonnel2011,Rubner2000,solomon2015}, among other applications~\cite{klouri17,peyre2019COTnowpublisher}.
+In many of these problems, OT exploits the geometric features of the objects at hand in the underlying spaces to be leveraged in comparing probability measures.
+This effectively leads to improve performance of methods that are oblivious to the geometry, for example the chi-squared distances or the Kullback-Leibler divergence.
+Unfortunately, this advantage comes at the price of an enormous computational cost of solving the OT problem, that can be prohibitive in large scale applications.
+For instance, the OT between two histograms with supports of equal size $n$ can be formulated as a linear programming problem that requires generally $\bigO(n^3\log n)$~\cite{pele2009} arithmetic operations, which is problematic when $n$ is larger than $10^3.$
+
+A remedy to the heavy computation burden of OT lies in a prevalent approach referred to as regularized OT~\cite{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
+Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
+Furthermore,~\cite{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
+Therefore, the OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\cite{sinkhorn1967,knight2008,kalantari2008}. 
+
+% \paragraph{Related work.} 
+
+Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
+The main idea is to improve the matrix-vector operations that are the true computational bottleneck of Sinkhorn’s algorithm. 
+\cite{altschulernips17} proposed the Greenkhorn algorithm, a greedy version of Sinkhorn algorithm that selects columns and rows to be updated that most violate the constraints.
+\cite{altschuler2018Nystrom} provided the Nys-Sink algorithm which is based on low-rank approximation of the cost matrix using Nystrom method.
+Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
+
+% \paragraph{Our contribution.}
+
+We give a new algorithm to approximate the regularized OT distance between discrete measures. 
+Our algorithmic analysis is based on an approximate of the dual of Sinkhorn divergence by adding new constraints feasibility. 
+These constraints are defined through a convex set which depends on two parameters, acting like threshold and scaling factor.
+We prove that dual solution of this approximation guarantees the existence of two active indices sets for the potential variables.
+These active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+We then restrict the constraints feasibility with respect to the active sets to get a ``screened'' version of the dual of Sinkhorn divergence, and hence we develop the Screenkhorn algorithm.
+% The proposed algorithm consits of 
+
+% \paragraph{Outline of paper.} 
+
+The remainder of the paper is organized as follow. In Section~\ref{sec:optimal_transport} we briefly review the basic setup of regularized discrete OT. 
+Section~\ref{sec:screenkhorn} contains our main contribution, that is, the Screenkhorn algorithm. 
+Section~\ref{sec:error_analysis} devotes to theoretical guarantees for the marginal violations of Screenkhorn. 
+In Section~\ref{sec:numerical_experiments} we present numerical results for the proposed algorithm, compared with the state-of-art Sinkhorn algorithm as implemented in~\cite{flamary2017pot}. 
+The proofs of theoretical results are postponed to the supplementary material.
+
+
+\paragraph{Notation.}
+
+For any positive matrix $T \in \R^{n\times m}$, we define its negative entropy as $H(T) = -\sum_{i,j} T_{ij} \log(T_{ij}).$
+Let $r(T) = T\mathbf 1_m \in \R^n$ and $c(T) = T^\top\mathbf 1_n \in \R^m$ denote the rows and columns sums of $T$ respectively. The coordinates $r_i(T)$ and $c_j(T)$ denote the $i$-th row sum and the $j$-th column sum of $T$, respectively.
+The scalar product between two matrices denotes the usual inner product, that is $\inr{T, W} = \text{tr}(T^\top W) = \sum_{i,j}T_{ij}W_{ij},$ where $T^\top$ is the transpose of $T$. 
+We write $\mathbf{1}$ (resp. $\mathbf{0}$) the vector having all coordinates equal to one (resp. zero).
+$\Delta(w)$ denotes the diag operator, such that if $w \in \R^n$, then $\Delta(w) = \text{diag}(w_1, \ldots, w_n)\in \R^{n\times n}$.
+For a set of indices $L=\{i_1, \ldots, i_k\} \subseteq \{1, \ldots, n\}$ satisfying $i_1 < \cdots <i_k,$ we denote the complementary set of $L$ by $L^\complement = \{1, \ldots, n\} \backslash L$. We also denote $|L|$ the cardinality of $L$.
+Given a vector $w \in \R^n$, we denote $w_L= (w_{i_1}, \ldots, w_{i_k})^\top \in \R^k$ and its complementary $w_{L^\complement} \in \R^{n- k}$.  The notation is similar for matrices; given another subset of indices $S = \{j_1, \ldots, j_l\} \subseteq \{1, \ldots, m\}$ with $j_1 < \cdots <j_l,$ and a matrix $T\in \R^{n\times m}$, we use $T_{(L,S)}$, to denote the submatrix of $T$, namely the rows and columns of $T_{(L,S)}$ are indexed by $L$ and $S$ respectively.
+When applied to matrices and vectors,  $\odot$ and $\oslash$ (Hadamard product and division) and exponential notations refer to elementwise operators.
+Given two real numbers $a$ and $b$, we write $a\vee b = \max(a,b)$ and $a\wedge b = \min(a,b).$
+
+\section{Regularized discrete OT} 
+\label{sec:optimal_transport}
+
+ We briefly present in this section the setup of OT between two discrete measures. We then consider the case when those distributions are only available through a finite number of samples, that is $\mu = \sum_{i=1}^n \mu_i \delta_{x_i} \in \Sigma_n$ and $\nu = \sum_{j=1}^m \nu_i \delta_{y_j} \in \Sigma_m$, where $\Sigma_n$ is the probability simplex with $n$ bins, namely the set of probability vectors in $\R_+^n$, i.e., $\Sigma_n = \{w \in \R_+^n: \sum_{i=1}^n w_i = 1\}.$
+We denote their probabilistic couplings set as $\Pi(\mu, \nu) = \{P \in \R_+^{n\times m}, P\mathbf{1}_m = \mu, P^\top \mathbf{1}_n = \nu\}.$ 
+\paragraph{Sinkhorn divergence.}
+
+Approximating OT distance between the two discrete measures $\mu$ and $\nu$  amounts to solving a linear problem~\cite{kantorovich1942} given by
+\begin{equation}
+  \label{monge-kantorovich}
+  \mathcal{S}(\mu, \nu) =  \min_{P\in \Pi(\mu, \nu)} \inr{C, P},
+\end{equation}
+where $P= (P_{ij}) \in \R^{n\times m}$ is called the transportation plan, namely each entry $P_{ij}$ represents the fraction of mass moving from $x_i$ to $y_j$, and $C= (C_{ij}) \in \R^{n\times m}$ is a cost matrix comprised of nonnegative elements and related to the energy needed to move a probability mass from $x_i$ to $y_j$. 
+The entropic regularization of OT distances~\citep{cuturinips13} relies on the addition of a penalty term as follows:
+\begin{equation}
+\label{sinkhorn-primal}
+  \mathcal{S}_\eta(\mu, \nu) =  \min_{P\in \Pi(\mu, \nu)} \{\inr{C, P} - \eta H(P)\},
+\end{equation}
+where $\eta > 0$ is a regularization parameter. We refer to $\mathcal{S}_\eta(\mu, \nu) $ as the \emph{Sinkhorn divergence}~\citep{cuturinips13}.
+
+\paragraph{Dual of Sinkhorn divergence.}
+
+Below we provide the derivation of the dual problem for the regularized OT problem~\eqref{sinkhorn-primal}. Towards this end, we begin with writing its Lagrangian dual function :
+\begin{equation*}
+  \mathscr{L}(P,y, z) = \inr{C,P} + \eta \inr{\log P, P} + \inr{y, P\mathbf{1}_m - \mu} + \inr{z,P^\top \mathbf{1}_n - \nu}.
+\end{equation*}
+The dual of Sinkhorn divergence can be derived by solving $\min_{P \in \R_+^{n\times m}}\mathscr{L}(P,y, z)$. It is easy to check that objective function $P\mapsto \mathscr{L}(P,y, z)$ is strongly convex and differentiable. Hence, one can solve the latter minimum by setting $\nabla_P \mathscr{L}(P,y, z)$ to $\mathbf{0}_{n\times m}$. Therefore, we get 
+\begin{equation}
+  P^\star_{ij} = \exp\Big(- \frac{1}{\eta} (y_i + z_j + C_{ij}) - 1\Big), 
+\end{equation}
+for all $i=1, \ldots, n$ and $j=1, \ldots, m$. Plugging this solution,  and setting the change of variables $u = -y/\eta - 1/2$ and $v = - z/\eta - 1/2$, the dual problem is given by
+\begin{equation}
+\label{sinkhorn-dual}
+\min_{u \in \R^n, v\in\R^m}\big\{\Psi(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{u, \mu} - \inr{v, \nu} \big\},
+\end{equation}
+where $B(u,v) = \Delta(e^{u}) K \Delta(e^{v})$ and $K = e^{-C/\eta}$ stands for the Gibbs kernel associated to the cost matrix $C$. 
+We refer to problem~\eqref{sinkhorn-dual} to the \emph{dual of Sinkhorn divergence}.
+Therefore, the optimal solution of Sinkhorn divergence is given by $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$
+where the couple $(u^\star, v^\star)$ satisfies:
+\begin{align*}
+\label{sinkhorn-dual}
+  (u^\star, v^\star) &= \argmin_{u \in \R^{n}, v\in \R^m} \{\Psi(u,v)\}.
+\end{align*}
+Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}.
+
+\section{Screened dual of Sinkhorn divergence}
+\label{sec:screenkhorn}
+
+% In this section we describe the main algorithm studied in this paper. 
+For a fixed $\varepsilon > 0$ and $\kappa > 0$ we define an \emph{approximate dual of Sinkhorn divergence} as follows:
+\begin{equation} 
+\label{screen-sinkhorn}
+\min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
+\end{equation}
+where $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, is a convex set  given by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
+
+The objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, then the set of optima of problem~\eqref{screen-sinkhorn} is non empty. 
+The $\kappa$-parameter plays a role of scaling factor, namely it allows to get a closed order of the potential variables $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for $e^u$ and $e^v$.
+Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
+The screening procedure presented in this work is based on constructing two {active sets} $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} in the following way:
+
+\begin{lemma}
+\label{lemma_actives_sets}
+Let $(u^{*}, v^{*})$ be an optimal solution of the problem~\eqref{screen-sinkhorn}. 
+Define
+\begin{equation}
+\label{I_epsilon_kappa_J_epsilon_kappa}
+I_{\varepsilon,\kappa} = \big\{i=1, \ldots, n: \mu_i \geq \frac {\varepsilon^2} \kappa^{} r_i(K)\big\}, J_{\varepsilon,\kappa} = \big\{j=1, \ldots, m: \nu_j \geq \kappa{\varepsilon^2}{} c_j(K)\big\}
+\end{equation}
+Then one has $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ for all $i \in I^\complement_{\varepsilon,\kappa} $ and $j\in J^\complement_{\varepsilon,\kappa} .$
+\end{lemma}
+
+First order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$ 
+which correspond to the Sinkhorn marginal conditions up to the scaling factor $\kappa$. 
+
+\paragraph{Screening with a fixed number budget of points.}
+
+Recall that the approximate dual of Sinkhorn divergence is defined with respect to $\varepsilon$ and $\kappa$. 
+The explicit determination of its values depends on a priori \emph{fixed number budget of points} from the supports of $\mu$ and $\nu$. % in problem~\eqref{screen-sinkhorn}.  
+In the sequel of the paper, we denote by $n_b \in\{1, \ldots, n\}$ and the $m_b\in\{1, \ldots, m\}$ the number budget of points to be given for resolving problem~\eqref{screen-sinkhorn}. 
+
+Let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
+To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ and $\varepsilon$ satisfy ${\varepsilon^2}\kappa^{-1} = \xi_{n_b}$ and $\varepsilon^2\kappa = \zeta_{m_b}$. Hence 
+\begin{equation}
+\label{epsilon_kappa}
+ \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
+\end{equation}
+Note that $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$. 
+Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
+
+Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ in problem~\eqref{screen-sinkhorn} to the screened domain $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
+\begin{equation*}
+\mathcal{U}_{\text{sc}} = \{u \in \R^n: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
+\end{equation*}
+and 
+\begin{equation*}
+	\mathcal{V}_{\text{sc}} =\{v\in\R^m: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}, \text{ and } e^{v_{J^\complement_{\varepsilon,\kappa}}} = \varepsilon\kappa \mathbf 1_{m- m_b}\}.
+\end{equation*}
+where the vector comparison $\succeq$ has to be understood elementwise.
+Now, we are ready to define the \emph{screened dual of Sinkhorn divergence} as 
+\begin{align}
+\label{screen-sinkhorn_second_def}
+\min_{u \in \mathcal{U}_{\text{sc}}, v \in \mathcal{V}_{\text{sc}}}\{\Psi_{\varepsilon, \kappa}(u,v)\}
+\end{align}
+where 
+\begin{align*} 
+\Psi_{\varepsilon,\kappa}(u, v) &= (e^{u_{I_{\varepsilon,\kappa}}})^\top K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} e^{v_{J_{\varepsilon,\kappa}}} + 
+\varepsilon \kappa (e^{u_{I_{\varepsilon,\kappa}}})^\top K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}\mathbf 1_{m_b} + \varepsilon \kappa^{-1} \mathbf 1_{n_b}^\top K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}e^{v_{J_{\varepsilon,\kappa}}}\\
+&\qquad - \kappa \mu_{I_{\varepsilon,\kappa}}^\top u_{I_{\varepsilon,\kappa}} - \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}^\top v_{J_{\varepsilon,\kappa}} + \Xi
+\end{align*}
+with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
+
+The Screenkhorn algorithm, presented in Algorithm~\ref{screenkhorn}, consists of two steps: the first one is an initialization where we calculate the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+The second is a constrained L-BFGS solver~\cite{zhu1997-LBFGS} for the stacked vector $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}) \in \R^{n_b\times m_b}.$ 
+It is worth to note that the couple variables $(u,v)$ to be optimized in Screenkhorn belongs to $\R^{n_b\times m_b}$. Furthermore, it Screenkhorn uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ from the Gibbs matrix $K$, in contrast to Sinkhorn that performs alternating updates of all rows and columns of $K.$
+
+The following lemma expresses upper and lower bounds to be respected in Screenkhorn.
+\begin{lemma}
+\label{lemma_bounds_of_usc_and_vsc}
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}. Then,
+one has
+\begin{equation}
+\label{bound_on_u}
+\frac \varepsilon\kappa \vee \frac{\min_{i \in I_{\varepsilon,\kappa}}\mu_i}{\varepsilon (m- m_b) + \varepsilon \vee \frac{\max_{j\in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon\kappa\min_{i,j}K_{ij}} m_b} \leq e^{u^{\text{sc}}_i} \leq \frac \varepsilon\kappa\vee \frac{\max_{i \in I_{\varepsilon,\kappa}} \mu_i}{m\varepsilon\min_{i,j}K_{ij}},
+\end{equation}
+and
+\begin{equation}
+\label{bound_on_v}
+\varepsilon\kappa \vee \frac{\min_{j \in J_{\varepsilon,\kappa}}\nu_j}{\varepsilon(n- n_b) + \varepsilon \vee \frac{\kappa\max_{i\in I_{\varepsilon,\kappa}} \mu_i}{m\varepsilon\min_{i,j}K_{ij}} n_b} \leq e^{v^{\text{sc}}_j} \leq \varepsilon\kappa \vee \frac{\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon\min_{i,j}K_{ij}}
+\end{equation}
+for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
+\end{lemma}
+
+\LinesNotNumbered
+\begin{algorithm}[htbp]
+\SetNlSty{textbf}{}{.}
+\DontPrintSemicolon
+\caption{Screenkhorn}
+\label{screenkhorn}
+\textbf{input: }{$C$, $\eta$, $\mu \in \Sigma_n$, $\nu \in \Sigma_m$, $n_b$ and $m_b$;}\\
+
+\textbf{step 1:} \textcolor{black}{Initialization}\\
+
+% \nl   $K \gets \exp(-C/\eta);$\\
+\nl   $\xi \gets \mu \oslash r(K);$ \\
+\nl   $\zeta \gets \nu \oslash c(K);$\\
+\nl   $\xi \gets \texttt{sort}(\xi);$ //(decreasing order)\\
+\nl   $\zeta \gets \texttt{sort}(\zeta);$ //(decreasing order)\\
+\nl   $\varepsilon \gets (\xi_{n_b}\zeta_{m_b})^{1/4}, \text{  } \kappa \gets \sqrt{{\zeta_{m_b}}/{\xi_{n_b}}}$;\\
+\nl   $I_{\varepsilon,\kappa} \gets \{i=1, \ldots, n: \mu_i \geq {\varepsilon^2} \kappa^{-1} r_i(K)\};$\\
+\nl   $J_{\varepsilon,\kappa} \gets \{j=1, \ldots, m: \nu_j \geq \varepsilon^2\kappa c_j(K)\};$\\ 
+
+% \textbf{step 2:} \textcolor{black}{Bounds for L-BFGS}
+
+\nl   $K_{\min} \gets \min_{i \in I_{\varepsilon,\kappa}, j \in J_{\varepsilon,\kappa}}K_{ij};$ \\
+\nl   $\underline{\mu} \gets \min_{i \in I_{\varepsilon,\kappa}} \mu_i, \bar{\mu} \gets \max_{i \in I_{\varepsilon,\kappa}} \mu_i$; \\
+\nl   $\underline{\nu} \gets \min_{j \in J_{\varepsilon,\kappa}} \mu_i, \bar{\nu} \gets \max_{j \in J_{\varepsilon,\kappa}} \mu_i$; \\
+\nl   $\underline{u} \gets \log\big(\frac \varepsilon\kappa \vee \frac{\underline{\mu}}{\varepsilon (m-m_b) + \varepsilon \vee \frac{\bar{\nu}}{n\varepsilon\kappa K_{\min}} m_b}\big), \bar{u} \gets  \log\big(\frac \varepsilon\kappa\vee \frac{\bar{\mu}}{m\varepsilon K_{\min}}\big);$\\
+\nl   $\underline{v} \gets \log\big(\varepsilon\kappa \vee \frac{\underline{\nu}}{\varepsilon(n-n_b) + \varepsilon \vee \frac{\kappa\bar{\mu}}{m\varepsilon K_{\min}} n_b}\big), \bar{v} \gets \log\big(\varepsilon\kappa \vee \frac{\bar{\nu}}{n\varepsilon K_{\min}}\big);$\\
+\nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
+\nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\ %\in \R^{n_b\times m_b}
+
+\textbf{step 2:} \textcolor{black}{L-BFGS}\\
+
+\nl  $u^{(0)} \gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
+\nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
+\nl  $\theta^{(0)} \gets \text{stack}[u^{(0)}, v^{(0)}];$\\
+\nl   $\theta \gets \text{L-BFGS}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
+\nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
+
+% \textbf{step 4:} \textcolor{black}{Output}\\
+
+\nl   {$u^{sc}_i \gets (\theta_u)_i$ if $i \in I_{\varepsilon,\kappa}$ and $u_i \gets \log(\varepsilon\kappa^{-1})$ if $i \in I^\complement_{\varepsilon,\kappa};$}\\
+\nl   {$v^{sc}_j \gets (\theta_v)_j$ if $j \in J_{\varepsilon,\kappa}$ and $v_j \gets \log(\varepsilon\kappa)$ if $j \in J^\complement_{\varepsilon,\kappa};$}\\
+\nl   \Return{$B(u^{\text{sc}},v^{\text{sc}})$.}
+\end{algorithm}
+
+
+\section{Analysis of marginal violations}
+\label{sec:error_analysis}
+
+This section is devoted to study the marginal violations of Screenkhorn. Towards this end, let us define the screened marginals $\mu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}}) \mathbf 1_m$ and $\nu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}})^\top \mathbf 1_n.$ 
+Lemma~\ref{lemma_bounds_on_marginals} expresses an upper bound with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. % while Proposition~\ref{proposition_error_in_marginals} gives also an upper bound of the marginal errors.
+
+
+\begin{lemma}
+\label{lemma_bounds_on_marginals}
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
+Then one has 
+\begin{equation*}
+\norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa\min_{i,j}K_{ij}} + (m-m_b)\varepsilon^2 \Big)
+\end{equation*}
+and 
+\begin{equation*}
+\norm{\nu^{\text{sc}}}_1 \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\Big(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m\min_{i,j}K_{ij}} + (n-n_b)\varepsilon^2\Big).
+\end{equation*}
+\end{lemma}
+The following Proposition gives also an upper bound of the marginal errors.
+\begin{proposition}
+\label{proposition_error_in_marginals}
+One has 
+\begin{align*}
+\norm{{\mu} -{\mu}^{\text{sc}}}^2_1 \leq &7n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b\min_{i,j}K_{ij}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)% \bigg\}^{1/2}
+\end{align*}
+and 
+\begin{align*}
+\norm{{\nu} -{\nu}^{\text{sc}}}^2_1 \leq &7m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n\min_{i,j} K_{ij}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\
+&+ \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b\min_{i,j}K_{ij}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big)% \bigg\}^{1/2}
+\end{align*}
+
+\end{proposition}
+
+\section{Numerical experiments}
+\label{sec:numerical_experiments}
+
+% \subsubsection*{Acknowledgments}
+
+% Use unnumbered third level headings for the acknowledgments. All acknowledgments go at the end of the paper. Do not include acknowledgments in the anonymized submission, only in the final paper.
+
+
+\small
+\bibliography{biblio}
+\bibliographystyle{plain}
+
+\end{document}

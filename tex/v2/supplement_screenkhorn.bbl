@@ -1,0 +1,11 @@
+\begin{thebibliography}{1}
+
+\bibitem{altschulernips17}
+J.~Altschuler, J.~Weed, and P.~Rigollet.
+\newblock Near-linear time approximation algorithms for optimal transport via
+  sinkhorn iteration.
+\newblock In I.~Guyon, U.~V. Luxburg, S.~Bengio, H.~Wallach, R.~Fergus,
+  S.~Vishwanathan, and R.~Garnett, editors, {\em Advances in Neural Information
+  Processing Systems 30}, pages 1964--1974. Curran Associates, Inc., 2017.
+
+\end{thebibliography}
