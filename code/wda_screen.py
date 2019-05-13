@@ -14,7 +14,7 @@ from pymanopt.manifolds import Stiefel
 from pymanopt import Problem
 from pymanopt.solvers import SteepestDescent, TrustRegions
 
-from new_formulation import Screenkhorn
+from wda_formulation_screekhorn import Screenkhorn
 
 def dist(x1, x2):
     """ Compute squared euclidean distance between samples (autograd)
@@ -83,7 +83,7 @@ def fda(X, y, p=2, reg=1e-16):
     return Popt, proj
 
 
-def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=0, P0=None):
+def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=0, P0=None):
     mx = np.mean(X)
     X -= mx.reshape((1, -1))
 
@@ -103,6 +103,7 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=0, P0
             for j, xj in enumerate(xc[i:]):
                 xj = np.dot(xj, P)
                 M = dist(xi, xj)
+                M = M/M.max()
                 G = Sinkhorn(wc[i], wc[j + i], M, reg, k)
                 if j == 0:
                     loss_w += np.sum(G * M)
@@ -118,7 +119,8 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=0, P0
 
     # declare solver and solve
     if solver is None:
-        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose)
+        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),mingradnorm=1e-8, 
+                        minstepsize=1e-16)
     elif solver in ['tr', 'TrustRegions']:
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
@@ -130,7 +132,7 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=0, P0
     return Popt, proj
 
 
-def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=1, P0=None, **kwargs):
+def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1, P0=None, **kwargs):
     # noqa
     mx = np.mean(X)
     X -= mx.reshape((1, -1))
@@ -151,13 +153,13 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=1,
             for j, xj in enumerate(xc[i:]):
                 xj = np.dot(xj, P)
                 M = dist(xi, xj)
-
+                M = M/M.max()
                 # screenkhorn
                 p_n = kwargs.get('p_n', 2) # keep only 50% of points
                 p_m = kwargs.get('p_m', 2) # keep only 50% of points
                 n_budget = int(np.ceil(M.shape[0] / p_n))
                 m_budget = int(np.ceil(M.shape[1] / p_m))
-                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget)
+                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget, verbose=False)
                 G = screenkhornWDA.lbfgsb()[2]
                 if j == 0:
                     loss_w += np.sum(G * M)
@@ -172,13 +174,14 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=100, verbose=1,
     problem = Problem(manifold=manifold, cost=cost)
 
     # declare solver and solve
+    # declare solver and solve
     if solver is None:
-        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose)
+        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),mingradnorm=1e-8, 
+                        minstepsize=1e-16)
     elif solver in ['tr', 'TrustRegions']:
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
     Popt = solver.solve(problem, x=P0)
-
     def proj(X):
         # print("HERE")
         # print(Popt)

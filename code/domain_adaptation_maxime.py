@@ -19,7 +19,7 @@ from ot.utils import check_params, BaseEstimator
 from ot.optim import cg
 from ot.optim import gcg
 
-from new_formulation import Screenkhorn
+from new_formulation_maxime import Screenkhorn
 
 def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
                      numInnerItermax=200, stopInnerThr=1e-9, verbose=False,
@@ -117,19 +117,28 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
 
     W = np.zeros(M.shape)
 
-    for cpt in range(numItermax):
+    p_n = kwargs.get('p_n', 1)
+    p_m = kwargs.get('p_m', 1)
+
+    n_budget = int(np.ceil(M.shape[0] / p_n))
+    m_budget = int(np.ceil(M.shape[1] / p_m))
+    
+    Mreg = M + eta * W
+    screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False)
+    transp = screenkhorn.lbfgsb()[2]
+    
+    W = np.ones(M.shape)
+    for (i, c) in enumerate(classes):
+        majs = np.sum(transp[indices_labels[i]], axis=0)
+        majs = p * ((majs + epsilon)**(p - 1))
+        W[indices_labels[i]] = majs
+     
+    for cpt in range(numItermax-1):
+        
         Mreg = M + eta * W
-
         # screenkhorn
-
-        p_n = kwargs.get('p_n', 1)
-        p_m = kwargs.get('p_m', 1)
-
-        n_budget = int(np.ceil(Mreg.shape[0] / p_n))
-        m_budget = int(np.ceil(Mreg.shape[1] / p_m))
-        screenkhorn = Screenkhorn(a, b, Mreg, reg, n_budget, m_budget)
+        screenkhorn.update(Mreg)
         transp = screenkhorn.lbfgsb()[2]
-
         # transp = sinkhorn(a, b, Mreg, reg, numItermax=numInnerItermax, stopThr=stopInnerThr)
         # the transport has been computed. Check if classes are really
         # separated
@@ -1285,8 +1294,7 @@ class ScreenkhornTransport(BaseTransport):
         n_budget = int(np.ceil(self.cost_.shape[0] / p_n))
         m_budget = int(np.ceil(self.cost_.shape[1] / p_m))
 
-        screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,
-                                  N=n_budget, M=m_budget)
+        screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,N=n_budget, M=m_budget,verbose = False)
         returned_ = screenkhorn.lbfgsb()[2]
 
         # returned_ = sinkhorn(

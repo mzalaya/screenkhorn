@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 """
     screenkhorn: solver for screening Sinkhorn via dual projection
-
 """
 __author__ = 'Mokhtar Z. Alaya'
 
 import numpy as np
-#np.random.seed(3946)
-from scipy import optimize, linalg
 from scipy.optimize import fmin_l_bfgs_b
 from time import time
-from tqdm import tqdm
-import warnings
-import logging
-
+from numba import jit
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, N, M):
+    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True):
 
         tic_initial = time()
         self.a = np.asarray(a, dtype=np.float64)
@@ -28,17 +22,18 @@ class Screenkhorn:
         m = C.shape[1]
         self.N = N
         self.M = M
+        self.verbose = verbose
+        self.uniform = uniform
 
         # K
-        # self.K = np.empty_like(self.C)
-        # np.divide(self.C, - self.reg, out=self.K)
-        # np.exp(self.K, out=self.K)
+        self.K = np.empty_like(self.C)
+        np.divide(self.C, - self.reg, out=self.K)
+        np.exp(self.K, out=self.K)
 
-        # self.K = np.empty_like(self.C)
-        # np.divide(self.C, - self.reg, out=self.K)
-        # np.exp(self.K, out=self.K)
-
-        self.K = np.exp(-self.C / self.reg)
+        #self.K = np.exp(-self.C / self.reg)
+ 
+        
+        print('K',time() - tic_initial)
 
         # Test
         if self.N == n and self.M == m:
@@ -61,7 +56,8 @@ class Screenkhorn:
             self.bounds_v = [(0.0, np.inf)] * m
 
         else:
-
+            
+            print(time() - tic_initial)
             # sum of rows and columns of K
             K_sum_cols = self.K.sum(axis=1)
             K_sum_rows = self.K.T.sum(axis=1)
@@ -69,9 +65,12 @@ class Screenkhorn:
             # K_min
             K_min = self.K.min()
 
-            #
-            a_sort = np.sort(a)
-            b_sort = np.sort(b)
+            # 
+            if not self.uniform:
+                a_sort = np.sort(a)
+                b_sort = np.sort(b)
+            else:
+                a_sort,b_sort = a,b
             aK_sort = np.sort(a / K_sum_cols)[::-1]
             bK_sort = np.sort(b / K_sum_rows)[::-1]
 
@@ -80,18 +79,21 @@ class Screenkhorn:
 
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
-
-            print("Epsilon is %s\n" % self.epsilon)
-            print("C scale factor  is %s\n" % self.fact_scale)
+            
+            if self.verbose:
+                print("Epsilon = %s\n" % self.epsilon)
+                print("Scaling factor = %s\n" % self.fact_scale)
+            
+            print(time() - tic_initial)
 
             # I, J
 
             self.I = np.where(self.a >= self.epsilon**2 / self.fact_scale * K_sum_cols)[0].tolist()
             self.J = np.where(self.b >= self.epsilon**2 * self.fact_scale * K_sum_rows)[0].tolist()
-
-            self.fact_scale = 1.0
-            print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
-              %(len(self.I), len(self.J), len(self.I) + len(self.J)))
+            
+            if self.verbose:
+                print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
+                      %(len(self.I), len(self.J), len(self.I) + len(self.J)))
 
 
             # LBFGS box
@@ -104,6 +106,8 @@ class Screenkhorn:
                                                     + len(self.I) * (
                                                                 a_sort[self.I][0] / (self.epsilon * m * K_min))), self.epsilon * self.fact_scale), \
                               b_sort[self.J][0] / (self.epsilon * n * K_min))] * len(self.J)
+            
+            print(time() - tic_initial)
 
         # Ic, Jc
         self.Ic = list(set(list(range(n))) - set(self.I))
@@ -119,26 +123,15 @@ class Screenkhorn:
         self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
         self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
 
-        # self.K_IcJc = self.K[np.ix_(self.Ic, self.Jc)]
-        # self.part_IcJc = self.epsilon_u * self.epsilon_v * self.K_IcJc.sum() \
-                        # - np.log(self.epsilon_u) * self.a_Ic.sum() - np.log(self.epsilon_v) * self.b_Jc.sum()
-
         self.vec_eps_IJc = self.epsilon * self.fact_scale * (self.K_IJc * np.ones(len(self.Jc)).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) * (np.ones(len(self.Ic)).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
-        # self.vec_eps_IJc = self.epsilon_v * self.K_IJc @ np.ones(len(self.Jc))
-        # self.vec_eps_IcJ = self.epsilon_u * np.ones(len(self.Ic)) @ self.K_IcJ
-
         # restricted Sinkhron
         if self.N != n or self.M != m:
-
-            # self.K_IJ_p = (1 / self.a[self.I]).reshape(-1, 1) * self.K_IJ
-            # self.cst_u = np.divide(self.epsilon * self.K_IJc.sum(axis=1), self.a_I)
-            # self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0)
-
             self.cst_u = self.fact_scale * self.epsilon * self.K_IJc.sum(axis=1)
             self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0) / self.fact_scale
 
+        print(time() - tic_initial)
 
         self.toc_initial = time() - tic_initial
 
@@ -164,16 +157,17 @@ class Screenkhorn:
         grad_v = self.K_IJ.T @ u_param + self.vec_eps_IcJ - (1. / self.fact_scale) * self.b_J / v_param
         return grad_u, grad_v
 
-    def restricted_sinkhorn(self, usc, vsc, max_iter=100):
+    def restricted_sinkhorn(self, usc, vsc, max_iter=10):
         cpt = 1
 
         while (cpt < max_iter):
 
-            K_IJ_transpose_u = self.fact_scale * (self.K_IJ.T @ usc + self.cst_v)
-            vsc = self.b_J / K_IJ_transpose_u
+            K_IJ_v = self.K_IJ.T @ usc + self.cst_v
+            vsc = self.b_J / (self.fact_scale * K_IJ_v)
 
-            KIJ_v = self.K_IJ @ vsc + self.cst_u
-            usc = np.divide(self.fact_scale * self.a_I, KIJ_v)
+            KIJ_u = self.K_IJ @ vsc + self.cst_u
+            usc = (self.fact_scale * self.a_I) / KIJ_u
+            # usc = np.divide(self.fact_scale * self.a_I, KIJ_u)
 
             cpt += 1
 
@@ -199,12 +193,12 @@ class Screenkhorn:
         u0 = np.full(len(self.I), (1. / len(self.I)) + self.epsilon / self.fact_scale)
         v0 = np.full(len(self.J), (1. / len(self.J)) + self.epsilon * self.fact_scale)
 
-        u, v = self.restricted_sinkhorn(u0, v0, max_iter=3)
+        u, v = self.restricted_sinkhorn(u0, v0, max_iter=10)
 
         # params of bfgs
         theta0 = np.hstack([u, v])
-        maxiter = 10000 # max number of iterations
-        maxfun = 10000 # max  number of function evaluations
+        maxiter = 1000 # max number of iterations
+        maxfun = 1000 # max  number of function evaluations
         pgtol = 1e-09 # final objective function accuracy
 
         obj = lambda theta: self._bfgspost(theta)
@@ -213,8 +207,6 @@ class Screenkhorn:
         theta, _, d = fmin_l_bfgs_b(func=obj,
                                       x0=theta0,
                                       bounds=bounds,
-                                      m=2,
-                                      factr=1e5,
                                       maxfun=maxfun,
                                       pgtol=pgtol,
                                       maxiter=maxiter)

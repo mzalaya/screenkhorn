@@ -18,7 +18,7 @@ from scipy import optimize, linalg
 from scipy.optimize import fmin_l_bfgs_b
 
 from ot import sinkhorn
-import cvxpy as cvx
+#import cvxpy as cvx
 from numba import jit
 from time import time
 from datetime import datetime
