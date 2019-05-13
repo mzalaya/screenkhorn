@@ -10,8 +10,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from time import process_time as time
 import argparse
-import sys
-import wda_screen as wda_screen
+import wda_screenkhorn as wda_screen
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import make_blobs
 from scipy.io import loadmat
