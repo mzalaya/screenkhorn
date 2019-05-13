@@ -29,6 +29,12 @@ M.~Arjovsky, S.~Chintala, and L.~Bottou.
   Proceedings of Machine Learning Research}, pages 214--223, International
   Convention Centre, Sydney, Australia, 2017. PMLR.
 
+\bibitem{benamou2015IterativeBP}
+J.~D. Benamou, G.~Carlier, M.~Cuturi, L.~Nenna, and G.~Peyr{\'e}.
+\newblock Iterative bregman projections for regularized transportation
+  problems.
+\newblock {\em SIAM J. Scientific Computing}, 37, 2015.
+
 \bibitem{bigot2017}
 J.~Bigot, R.~Gouet, T.~Klein, and A.~López.
 \newblock Geodesic pca in the wasserstein space by convex pca.

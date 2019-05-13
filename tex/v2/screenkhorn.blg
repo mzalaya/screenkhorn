@@ -3,50 +3,50 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: screenkhorn.aux
 The style file: plain.bst
 Database file #1: biblio.bib
-Repeated entry---line 388 of file biblio.bib
+Repeated entry---line 396 of file biblio.bib
  : @inproceedings{pmlr-v32-solomon14
  :                                  ,
 I'm skipping whatever remains of this entry
 Warning--can't use both volume and number fields in pmlr-v32-solomon14
-You've used 32 entries,
+You've used 33 entries,
             2118 wiz_defined-function locations,
-            724 strings with 10309 characters,
-and the built_in function-call counts, 13911 in all, are:
-= -- 1366
-> -- 718
+            729 strings with 10522 characters,
+and the built_in function-call counts, 14248 in all, are:
+= -- 1396
+> -- 746
 < -- 19
-+ -- 272
-- -- 236
-* -- 1081
-:= -- 2208
-add.period$ -- 104
-call.type$ -- 32
-change.case$ -- 196
++ -- 283
+- -- 246
+* -- 1107
+:= -- 2272
+add.period$ -- 107
+call.type$ -- 33
+change.case$ -- 204
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 509
-empty$ -- 1034
-format.name$ -- 236
-if$ -- 2970
+cite$ -- 34
+duplicate$ -- 519
+empty$ -- 1051
+format.name$ -- 246
+if$ -- 3034
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 30
-newline$ -- 160
-num.names$ -- 84
-pop$ -- 203
+int.to.str$ -- 33
+missing$ -- 31
+newline$ -- 165
+num.names$ -- 86
+pop$ -- 209
 preamble$ -- 1
-purify$ -- 165
+purify$ -- 172
 quote$ -- 0
-skip$ -- 395
+skip$ -- 403
 stack$ -- 0
-substring$ -- 973
-swap$ -- 171
+substring$ -- 978
+swap$ -- 172
 text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 126
+type$ -- 130
 warning$ -- 1
-while$ -- 134
-width$ -- 34
-write$ -- 369
+while$ -- 136
+width$ -- 35
+write$ -- 380
 (There was 1 error message)

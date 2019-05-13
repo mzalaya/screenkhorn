@@ -227,7 +227,7 @@ $\hfill\square$
 
 \section{Proof of Lemma~\ref{lemma_bounds_of_usc_and_vsc}}
 
-We prove only the first statement~\eqref{bound_on_u} and symmetrically we can prove the second statement~\eqref{bound_on_v}.
+We prove only the first statement~\eqref{bound_on_u} and similarly we can prove the second statement~\eqref{bound_on_v}.
 For all $i\in I_{\varepsilon,\kappa}$, we have $e^{u^{\text{sc}}_i} > \frac \varepsilon\kappa$ or $e^{u^{\text{sc}}_i} = \frac \varepsilon\kappa$. In one hand, if $e^{u^{\text{sc}}_i} > \frac \varepsilon\kappa$ then according to the optimality conditions $\lambda^{\text{sc}}_i = 0.$ Then $e^{u^{\text{sc}}_i} \sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} = \kappa\mu_i$.
 In another hand, we have 
 \begin{align*}
@@ -331,9 +331,12 @@ Therefore
 \end{align*}
 Finally, by Lemma 6 in~\cite{altschulernips17} we get 
 \begin{align*}
-\norm{{\mu}^\star -{\mu}^{\text{sc}}}_1 \leq &\bigg\{7n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
-&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b\min_{i,j}K_{ij}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)\bigg\}^{1/2}
+\norm{{\mu}^\star -{\mu}^{\text{sc}}}^2_1 \leq & n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b\min_{i,j}K_{ij}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big).%\bigg\}^{1/2}
 \end{align*}
+Proof of the upper bound for $\norm{\nu - {\nu}^{\text{sc}}}^2_1$ follows the same lines as above.
+
+$\hfill\square$
 
 
 \small

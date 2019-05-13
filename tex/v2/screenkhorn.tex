@@ -201,7 +201,7 @@
 \begin{abstract}
 
 This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
-Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to define two appropriate active indices sets for the potential variables.
+Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to formulate two appropriate active indices sets for the potential variables.
 These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
 This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
 We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
@@ -213,7 +213,7 @@ Computing OT distances between pairs of probability measures or histograms, such
 In many of these problems, OT exploits the geometric features of the objects at hand in the underlying spaces to be leveraged in comparing probability measures.
 This effectively leads to improve performance of methods that are oblivious to the geometry, for example the chi-squared distances or the Kullback-Leibler divergence.
 Unfortunately, this advantage comes at the price of an enormous computational cost of solving the OT problem, that can be prohibitive in large scale applications.
-For instance, the OT between two histograms with supports of equal size $n$ can be formulated as a linear programming problem that requires generally $\bigO(n^3\log n)$~\cite{pele2009} arithmetic operations, which is problematic when $n$ is larger than $10^3.$
+For instance, the OT between two histograms with supports of equal size $n$ can be formulated as a linear programming problem that requires generally super $\bigO(n^3)$~\cite{pele2009} arithmetic operations, which is problematic when $n$ is larger than $10^3.$
 
 A remedy to the heavy computation burden of OT lies in a prevalent approach referred to as regularized OT~\cite{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
 Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
@@ -235,8 +235,9 @@ Our algorithmic analysis is based on an approximate of the dual of Sinkhorn dive
 These constraints are defined through a convex set which depends on two parameters, acting like threshold and scaling factor.
 We prove that dual solution of this approximation guarantees the existence of two active indices sets for the potential variables.
 These active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
-We then restrict the constraints feasibility with respect to the active sets to get a ``screened'' version of the dual of Sinkhorn divergence, and hence we develop the Screenkhorn algorithm.
-% The proposed algorithm consits of 
+We then restrict the constraints feasibility with respect to the active sets to get a ``screened'' version of the dual of Sinkhorn divergence. 
+The Screenkhorn algorithm developed in this paper relies on two steps; the first one consists of an initialization step devoted to determine the active sets while the second is a constrained L-BFGS solver~\cite{zhu1997-LBFGS,cuturi2016SIAM,blondel2018ICML}. 
+
 
 % \paragraph{Outline of paper.} 
 
@@ -296,13 +297,13 @@ for all $i=1, \ldots, n$ and $j=1, \ldots, m$. Plugging this solution,  and sett
 \end{equation}
 where $B(u,v) = \Delta(e^{u}) K \Delta(e^{v})$ and $K = e^{-C/\eta}$ stands for the Gibbs kernel associated to the cost matrix $C$. 
 We refer to problem~\eqref{sinkhorn-dual} to the \emph{dual of Sinkhorn divergence}.
-Therefore, the optimal solution of Sinkhorn divergence is given by $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$
+Therefore, the optimal solution $P^\star$ of Sinkhorn divergence takes the form $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$
 where the couple $(u^\star, v^\star)$ satisfies:
 \begin{align*}
 \label{sinkhorn-dual}
   (u^\star, v^\star) &= \argmin_{u \in \R^{n}, v\in \R^m} \{\Psi(u,v)\}.
 \end{align*}
-Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}.
+Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}. Furthermore, $P^\star$ can be solved efficiently by iterative Bregman projections~\cite{benamou2015IterativeBP} referred as Sinkhorn iterations, and the method is referred as Sinkhorn algorithm which, recently, is proven to achieve a near-$\bigO(n^2)$ complexity.
 
 \section{Screened dual of Sinkhorn divergence}
 \label{sec:screenkhorn}
@@ -371,9 +372,11 @@ where
 \end{align*}
 with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
-The Screenkhorn algorithm, presented in Algorithm~\ref{screenkhorn}, consists of two steps: the first one is an initialization where we calculate the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
-The second is a constrained L-BFGS solver~\cite{zhu1997-LBFGS} for the stacked vector $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}) \in \R^{n_b\times m_b}.$ 
-It is worth to note that the couple variables $(u,v)$ to be optimized in Screenkhorn belongs to $\R^{n_b\times m_b}$. Furthermore, it Screenkhorn uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ from the Gibbs matrix $K$, in contrast to Sinkhorn that performs alternating updates of all rows and columns of $K.$
+Pseudocode of our proposed algorithm is given in Algorithm~\ref{screenkhorn}.
+Screenkhorn consists of two steps: the first one is an initialization where we calculate the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+The second is a constrained L-BFGS solver~\cite{zhu1997-LBFGS} for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
+% It is worth to note that the couple variables $(u,v)$ to be optimized in Screenkhorn belongs to $\R^{n_b\times m_b}$. 
+It is worth to note that Screenkhorn uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
 
 The following lemma expresses upper and lower bounds to be respected in Screenkhorn.
 \begin{lemma}
@@ -396,9 +399,9 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \begin{algorithm}[htbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
-\caption{Screenkhorn}
+\caption{Screenkhorn$(C,\eta,\mu,\nu,n_b,m_b)$}
 \label{screenkhorn}
-\textbf{input: }{$C$, $\eta$, $\mu \in \Sigma_n$, $\nu \in \Sigma_m$, $n_b$ and $m_b$;}\\
+% \textbf{input: }{$C$, $\eta$, $\mu \in \Sigma_n$, $\nu \in \Sigma_m$, $n_b$ and $m_b$;}\\
 
 \textbf{step 1:} \textcolor{black}{Initialization}\\
 
@@ -460,15 +463,16 @@ The following Proposition gives also an upper bound of the marginal errors.
 \begin{proposition}
 \label{proposition_error_in_marginals}
 One has 
-\begin{align*}
-\norm{{\mu} -{\mu}^{\text{sc}}}^2_1 \leq &7n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+\begin{align*} %{\norm{{\mu}^{\text{sc}}}_1} 
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1}&\leq 7n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7 (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
 &+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b\min_{i,j}K_{ij}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)% \bigg\}^{1/2}
 \end{align*}
 and 
-\begin{align*}
-\norm{{\nu} -{\nu}^{\text{sc}}}^2_1 \leq &7m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n\min_{i,j} K_{ij}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\
-&+ \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b\min_{i,j}K_{ij}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big)% \bigg\}^{1/2}
+\begin{align*} %{\norm{{\nu}^{\text{sc}}}_1}
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} &\leq 7m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n\min_{i,j} K_{ij}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\
+&+ \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b\min_{i,j}K_{ij}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big).% \bigg\}^{1/2}
 \end{align*}
+
 
 \end{proposition}
 
