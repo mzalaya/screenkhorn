@@ -6,7 +6,7 @@
 
 
 from time import process_time as time
-import matplotlib.pylab as pl
+import matplotlib.pylab as plt
 import ot
 import ot.plot
 
@@ -19,19 +19,23 @@ n_samples_source = 2000
 n_samples_target = 2000
 
 nb_iter = 10
+pathres='./resultat/'
+p_vec = [2,10,20,30]
+n_pvec=  len(p_vec)
 
 bc_sink = np.zeros(nb_iter)
-bc_screen = np.zeros(nb_iter)
+bc_screen = np.zeros((nb_iter,n_pvec))
 time_sink = np.zeros(nb_iter)
-time_screen = np.zeros(nb_iter)
+time_screen = np.zeros((nb_iter,n_pvec))
 for i in range(nb_iter):
 
-    
-    Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=1,random_state=None)
-    Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=1, random_state=None)
+    print('iter:',i)
+
+    Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=0.5,random_state=i)
+    Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=0.5, random_state=i)
     M = ot.dist(Xs, Xt, metric='sqeuclidean')
     
-    
+    filename = 'da'
     #%% 
     # Sinkhorn Transport
     tic = time()
@@ -48,20 +52,25 @@ for i in range(nb_iter):
     
     #%%
     
-    
-    # Screenkhorn Transport
-    tic = time()
-    ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=10)
-    ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=10, m_b=10)
-    time_screen[i] = time() - tic
-    # transport source samples onto target samples
-    transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)
-    
-    clf_screened = KNeighborsClassifier(K)
-    clf_screened.fit(transp_Xs_screenkhorn, ys)
-    y_pred = clf_screened.predict(Xt)
-    bc_screen[i] = np.mean(y_pred==yt)
+    for j,p_n in enumerate(p_vec):
+        # Screenkhorn Transport
+        tic = time()
+        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=10)
+        ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=p_n, m_b=p_n)
+        time_screen[i,j] = time() - tic
+        # transport source samples onto target samples
+        transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)
+        clf_screened = KNeighborsClassifier(K)
+        clf_screened.fit(transp_Xs_screenkhorn, ys)
+        y_pred = clf_screened.predict(Xt)
+        bc_screen[i,j] = np.mean(y_pred==yt)
     
 #%%
-print('gain : {:2.2f}'.format(time_sink.mean()/time_screen.mean()))
+    
+    np.savez(pathres + filename, 
+             bc_sink= bc_sink,  bc_screen= bc_screen,
+             time_sink = time_sink,  time_screen = time_screen)
+    
+    
+print('gain : {:2.2f}'.format(time_sink.mean()/time_screen.mean(axis=0)))
 print('perf sink : {:2.2f}, perf screen {:2.2f}'.format(bc_sink.mean(),bc_screen.mean()))
