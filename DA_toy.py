@@ -28,10 +28,7 @@ import matplotlib.pylab as pl
 import ot
 import ot.plot
 
-import sys
-path_files = './code/'
-sys.path.insert(0, path_files) 
-import domain_adaptation as da_screenkhorn
+import domain_adaptation_maxime as da_screenkhorn
 from sklearn.neighbors import KNeighborsClassifier
 
 
@@ -51,8 +48,8 @@ import seaborn as sns
 # -------------
 
 
-n_samples_source = 5000
-n_samples_target = 5000
+n_samples_source = 2000
+n_samples_target = 2000
 
 Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=1,random_state=None)
 Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=1, random_state=None)
@@ -62,8 +59,8 @@ M = ot.dist(Xs, Xt, metric='sqeuclidean')
 #%% 
 # Sinkhorn Transport
 tic = time()
-ot_sinkhorn = ot.da.SinkhornTransport(reg_e=1e0)
-ot_sinkhorn.fit(Xs=Xs, Xt=Xt)
+ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1e0,reg_cl=10)
+ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
 time_sink = time() - tic
 transp_Xs = ot_sinkhorn.transform(Xs=Xs)
 

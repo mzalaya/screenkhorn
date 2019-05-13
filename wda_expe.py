@@ -1,6 +1,3 @@
-
-
-
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 import numpy as np
@@ -14,8 +11,6 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 from time import process_time as time
 import argparse
 import sys
-path_files = './code/'
-sys.path.insert(0, path_files) 
 import wda_screen as wda_screen
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import make_blobs

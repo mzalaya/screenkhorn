@@ -13,6 +13,10 @@ class Screenkhorn:
     def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True):
 
         tic_initial = time()
+        # In wda_screen.py autograd package is used, we then have to change some arrays from "ArrayBox" type to "np.array".
+        if isinstance(C,np.ndarray) == False:
+            C = C._value
+        
         self.a = np.asarray(a, dtype=np.float64)
         self.b = np.asarray(b, dtype=np.float64)
         

@@ -33,9 +33,9 @@ import time
 
 # PATH 
 import sys
-path_files = '/home/berar/github/Mokhtar/screenkhorn/code'
-sys.path.insert(0, path_files) 
-import domain_adaptation as da_screenkhorn
+#path_files = '/home/berar/github/Mokhtar/screenkhorn/code'
+#sys.path.insert(0, path_files) 
+import domain_adaptation_maxime as da_screenkhorn
 
 
 # In[3]:
@@ -72,8 +72,8 @@ sns.set_style("ticks")
 # In[4]:
 
 
-n_samples_source = 120
-n_samples_target = 120
+n_samples_source = 1000
+n_samples_target = 1000
 
 Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source)
 Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target)
