@@ -193,7 +193,7 @@
 %--------------------------------------------------------------------------------------------------------------------------------%
 
 
-\title{Screening Sinkhorn Algorithm via Dual Projections TOTO}
+\title{Screening Sinkhorn Algorithm via Dual Projection}
 
 \begin{document}
 
@@ -216,7 +216,7 @@ This effectively leads to improve performance of methods that are oblivious to t
 Unfortunately, this advantage comes at the price of an enormous computational cost of solving the OT problem, that can be prohibitive in large scale applications.
 For instance, the OT between two histograms with supports of equal size $n$ can be formulated as a linear programming problem that requires generally super $\bigO(n^3)$~\cite{pele2009} arithmetic operations, which is problematic when $n$ is larger than $10^3.$
 
-A remedy to the heavy computation burden of OT lies in a prevalent approach referred to as regularized OT~\cite{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
+A remedy to the heavy computation burden of OT lies in a prevalent approach referred as regularized OT~\cite{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
 Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
 Furthermore,~\cite{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
 Therefore, the OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\cite{sinkhorn1967,knight2008,kalantari2008}. 
