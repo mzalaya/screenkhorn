@@ -52,7 +52,7 @@ for i in range(nb_iter):
     # Screenkhorn Transport
     tic = time()
     ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=10)
-    ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=5, m_b=5)
+    ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=10, m_b=10)
     time_screen[i] = time() - tic
     # transport source samples onto target samples
     transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)
@@ -62,5 +62,6 @@ for i in range(nb_iter):
     y_pred = clf_screened.predict(Xt)
     bc_screen[i] = np.mean(y_pred==yt)
     
-
-
+#%%
+print('gain : {:2.2f}'.format(time_sink.mean()/time_screen.mean()))
+print('perf sink : {:2.2f}, perf screen {:2.2f}'.format(bc_sink.mean(),bc_screen.mean()))
