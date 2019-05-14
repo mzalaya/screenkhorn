@@ -18,7 +18,7 @@ import numpy as np
 n_samples_source = 2000
 n_samples_target = 2000
 
-nb_iter = 10
+nb_iter = 50
 pathres='./resultat/'
 p_vec = [2,10,20,30]
 n_pvec=  len(p_vec)
