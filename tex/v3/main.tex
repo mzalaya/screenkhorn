@@ -1,0 +1,115 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2019
+
+% ready for submission
+% \usepackage{neurips_2019}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%\usepackage[preprint]{neurips_2019}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[]{neurips_2019}
+
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{neurips_2019}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+%--------------------------------------------------------------------------------------------------------------------------------% 
+
+\RequirePackage{mathrsfs, amsthm, amsmath, amsfonts, amssymb, mathtools}%
+\usepackage[titletoc,title]{appendix}%
+\usepackage{dsfont}%
+\usepackage{caption} % 
+\usepackage{subcaption}
+\usepackage{float}%
+\usepackage{graphicx, color}% 
+\usepackage{bm}%bold equations
+
+%% formatting appendices
+\usepackage{etoolbox}
+\patchcmd{\appendices}{\quad}{. }{}{}
+
+%% tables
+\usepackage{pgfplots}%
+\usepackage{booktabs,multirow,array,multicol}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+
+%% algorithms
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+\usepackage{accents}
+\usepackage{datenumber}
+%% sections
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{fact}{Fact}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}%[section]
+\newtheorem*{notation}{Notation}%[section]
+\newtheorem{discus}{Discussion}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{example}{Example}%[section]
+\newtheorem{exs}{Examples}%[section]
+\newtheorem{ca}{Cas}
+\newtheorem{remarks}{Remarks}%[section]
+\newtheorem{assumption}{Assumption}{\bf}{\rm}%
+
+% math macros
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\inr}[1]{\langle #1 \rangle}
+\newcommand{\ind}[1]{{\mathds{1}}_{{#1}}}%
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\E}{\mathds{E}}
+\newcommand{\bcdot}{\raisebox{-0.80ex}{\scalebox{1.8}{$\cdot$}}}
+\newcommand{\varsig}{\raisebox{-0.15ex}{\scalebox{1.30}{$\varsigma$}}}
+\newcommand*{\dt}[1]{\accentset{\mbox{\large\bfseries .}}{#1}}
+
+%% math operators
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+%--------------------------------------------------------------------------------------------------------------------------------%
+
+\title{Screening Sinkhorn Algorithm for regularized Optimal Transport}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
+Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to formulate two appropriate active indices sets for the potential variables.
+These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
+We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
+\end{abstract}
+
+\input{section_1_introduction}
+\input{section_2_setup_OT}
+\input{section_3_algorithm}
+\input{section_4_marginal_viols}
+\input{section_5_numeric_expes}
+
+% \subsubsection*{Acknowledgments}
+
+% Use unnumbered third level headings for the acknowledgments. All acknowledgments go at the end of the paper. Do not include acknowledgments in the anonymized submission, only in the final paper.
+
+\small
+\bibliography{biblio}
+\bibliographystyle{plain} %{abbrvnat} %{plainnat}
+
+\end{document}

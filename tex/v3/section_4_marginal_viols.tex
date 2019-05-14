@@ -1,0 +1,36 @@
+\section{Analysis of marginal violations} % (fold)
+\label{sec:analysis_of_marginal_violations}
+
+This section is devoted to study the marginal violations of Screenkhorn. Towards this end, let us define the screened marginals $\mu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}}) \mathbf 1_m$ and $\nu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}})^\top \mathbf 1_n.$ 
+Lemma~\ref{lemma_bounds_on_marginals} expresses an upper bound with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. % while Proposition~\ref{proposition_error_in_marginals} gives also an upper bound of the marginal errors.
+
+
+\begin{lemma}
+\label{lemma_bounds_on_marginals}
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
+Then one has 
+\begin{equation*}
+\norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa\min_{i,j}K_{ij}} + (m-m_b)\varepsilon^2 \Big)
+\end{equation*}
+and 
+\begin{equation*}
+\norm{\nu^{\text{sc}}}_1 \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\Big(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m\min_{i,j}K_{ij}} + (n-n_b)\varepsilon^2\Big).
+\end{equation*}
+\end{lemma}
+The following Proposition gives also an upper bound of the marginal errors.
+\begin{proposition}
+\label{proposition_error_in_marginals}
+One has 
+\begin{align*} %{\norm{{\mu}^{\text{sc}}}_1} 
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1}&\leq 7n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7 (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b\min_{i,j}K_{ij}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)% \bigg\}^{1/2}
+\end{align*}
+and 
+\begin{align*} %{\norm{{\nu}^{\text{sc}}}_1}
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} &\leq 7m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n\min_{i,j} K_{ij}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\
+&+ \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b\min_{i,j}K_{ij}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2(\min_{i,j}K_{ij})^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big).% \bigg\}^{1/2}
+\end{align*}
+
+\end{proposition}
+
+% section analysis_of_marginal_violations (end)
