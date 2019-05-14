@@ -16,7 +16,7 @@ Therefore, the OT can be solved efficiently with celebrated matrix scaling algor
 
 Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
 The main idea is to improve the matrix-vector operations that are the true computational bottleneck of Sinkhorn’s algorithm. 
-\citet{altschulernips17} proposed the Greenkhorn algorithm, a greedy version of Sinkhorn algorithm that selects columns and rows to be updated that most violate the constraints.
+\cite{altschulernips17} proposed the Greenkhorn algorithm, a greedy version of Sinkhorn algorithm that selects columns and rows to be updated that most violate the constraints.
 \cite{altschuler2018Nystrom} provided the Nys-Sink algorithm which is based on low-rank approximation of the cost matrix using Nystrom method.
 Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
 
