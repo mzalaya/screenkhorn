@@ -14,26 +14,20 @@ Such a regularization guarantees a unique solution, since the objective function
 Furthermore,~\cite{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
 Therefore, the OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\cite{sinkhorn1967,knight2008,kalantari2008}. 
 
-% \paragraph{Related work.} 
-
 Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
 The main idea is to improve the matrix-vector operations that are the true computational bottleneck of Sinkhorn’s algorithm. 
 A greedy version of Sinkhorn, called Greenkhorn algorithm, proposed in~\cite{altschulernips17} allowing to select columns and rows to be updated that most violate the constraints.                   
 Another approach based on low-rank approximation of the cost matrix using Nystrom method induces the Nys-Sink algorithm~\cite{altschuler2018Nystrom}. 
 Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
 
-% \paragraph{Our contribution.}
-
-Our focus in this paper is a new analysis of Sinkhorn algorithm for approximating regularized OT distance between discrete measures. 
+Our focus in this paper is a new analysis of Sinkhorn algorithm for approximating regularized OT distance between discrete measures.
 The proposed approach relies on reformulating the dual of Sinkhorn divergence by adding new constraints feasibility.
-The constraints are defined through a convex set which depends on two parameters acting like threshold and scaling factor.
+The constraints are defined through a convex set that depends on two parameters acting like threshold and scaling factor.
 We prove that dual solution of this reformulation guarantees the existence of two active indices sets for the potential variables.
-These active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
-We then restrict the constraints feasibility with respect to the active sets to get a ``screened'' version of the dual of Sinkhorn divergence. 
+Furthermore, these active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+We then restrict the constraints feasibility by taking into account the properties providing by the active sets to get a ``screened'' version of the dual of Sinkhorn divergence. 
 Screenkhorn algorithm developed in this paper consists of two steps; the first one is an initialization step devoted to determine the active sets while the second is a constrained L-BFGS-B solver, a limited-memory quasi-Newton algorithm~\cite{nocedal1980,nocedal2006numerical}. 
 The L-BFGS-B algorithm was adapted to the the dual of Sinkhorn divergence in ~\cite{cuturi2016SIAM,blondel2018ICML}.
-
-% \paragraph{Outline of paper.} 
 
 The remainder of the paper is organized as follow. In Section~\ref{sec:regularized_discrete_ot} we briefly review the basic setup of regularized discrete OT. 
 Section~\ref{sec:screened_dual_of_sinkhorn_divergence} contains our main contribution, that is, the Screenkhorn algorithm. 
@@ -41,9 +35,7 @@ Section~\ref{sec:analysis_of_marginal_violations} devotes to theoretical guarant
 In Section~\ref{sec:numerical_experiments} we present numerical results for the proposed algorithm, compared with the state-of-art Sinkhorn algorithm as implemented in~\cite{flamary2017pot}. 
 The proofs of theoretical results are postponed to the supplementary material.
 
-\paragraph{Notation.}
-
-For any positive matrix $T \in \R^{n\times m}$, we define its negative entropy as $H(T) = -\sum_{i,j} T_{ij} \log(T_{ij}).$
+\emph{Notation.} For any positive matrix $T \in \R^{n\times m}$, we define its negative entropy as $H(T) = -\sum_{i,j} T_{ij} \log(T_{ij}).$
 Let $r(T) = T\mathbf 1_m \in \R^n$ and $c(T) = T^\top\mathbf 1_n \in \R^m$ denote the rows and columns sums of $T$ respectively. The coordinates $r_i(T)$ and $c_j(T)$ denote the $i$-th row sum and the $j$-th column sum of $T$, respectively.
 The scalar product between two matrices denotes the usual inner product, that is $\inr{T, W} = \text{tr}(T^\top W) = \sum_{i,j}T_{ij}W_{ij},$ where $T^\top$ is the transpose of $T$. 
 We write $\mathbf{1}$ (resp. $\mathbf{0}$) the vector having all coordinates equal to one (resp. zero).
