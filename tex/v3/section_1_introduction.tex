@@ -21,13 +21,13 @@ Another approach based on low-rank approximation of the cost matrix using Nystro
 Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{xie2018proxpointOT,dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
 
 Our focus in this paper is a new analysis of Sinkhorn algorithm for approximating regularized OT distance between discrete measures.
-The proposed approach relies on reformulating the dual of Sinkhorn divergence by adding new constraints feasibility.
-The constraints are defined through a convex set that depends on two parameters acting like threshold and scaling factor.
+The proposed approach is based on reformulating the dual of Sinkhorn divergence by adding new constraints feasibility.
+These constraints are defined through a convex set which depends on two parameters acting like threshold and scaling factor.
 We prove that dual solution of this reformulation guarantees the existence of two active indices sets for the potential variables.
-Furthermore, these active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+Furthermore, the active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
 We then restrict the constraints feasibility by taking into account the properties providing by the active sets to get a ``screened'' version of the dual of Sinkhorn divergence. 
-Screenkhorn algorithm developed in this paper consists of two steps; the first one is an initialization step devoted to determine the active sets while the second is a constrained L-BFGS-B solver, a limited-memory quasi-Newton algorithm~\cite{nocedal1980,nocedal2006numerical}. 
-The L-BFGS-B algorithm was adapted to the the dual of Sinkhorn divergence in ~\cite{cuturi2016SIAM,blondel2018ICML}.
+Screenkhorn algorithm developed in this paper consists of two steps; the first one is an initialization step devoted to determine the active sets while the second is a constrained L-BFGS-B solver, a limited-memory quasi-Newton algorithm~\cite{nocedal1980,nocedal2006numerical} that relies on an estimation of the inverse of the Hessian based on gradients differences. 
+L-BFGS-B algorithm was adapted to the the dual of Sinkhorn divergence in ~\cite{cuturi2016SIAM,blondel2018ICML}.
 
 The remainder of the paper is organized as follow. In Section~\ref{sec:regularized_discrete_ot} we briefly review the basic setup of regularized discrete OT. 
 Section~\ref{sec:screened_dual_of_sinkhorn_divergence} contains our main contribution, that is, the Screenkhorn algorithm. 
