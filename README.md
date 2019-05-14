@@ -1,2 +1,2 @@
-##  `screenkhorn`:  Screening Sinkhorn Rules via Dual Projection
+##  `screenkhorn`:  Screening Sinkhorn Algorithm for Regularized Optimal Transport
 
