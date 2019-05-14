@@ -119,12 +119,12 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
 \nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\ %\in \R^{n_b\times m_b}
 
-\textbf{step 2:} \textcolor{black}{L-BFGS}\\
+\noindent \textbf{step 2:} \textcolor{black}{L-BFGS-B}\\
 
 \nl  $u^{(0)} \gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
 \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
 \nl  $\theta^{(0)} \gets \text{stack}[u^{(0)}, v^{(0)}];$\\
-\nl   $\theta \gets \text{L-BFGS}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
+\nl   $\theta \gets \text{L-BFGS-B}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
 \nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
 
 % \textbf{step 4:} \textcolor{black}{Output}\\
