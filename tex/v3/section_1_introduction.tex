@@ -18,7 +18,7 @@ Sinkhorn scaling for computing OT distances is a well studied problem in many re
 The main idea is to improve the matrix-vector operations that are the true computational bottleneck of Sinkhorn’s algorithm. 
 A greedy version of Sinkhorn, called Greenkhorn algorithm, proposed in~\cite{altschulernips17} allowing to select columns and rows to be updated that most violate the constraints.                   
 Another approach based on low-rank approximation of the cost matrix using Nystrom method induces the Nys-Sink algorithm~\cite{altschuler2018Nystrom}. 
-Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
+Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\cite{xie2018proxpointOT,dvurechensky18aICML,lin2019}, quasi Newton methods~\cite{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\cite{genevay2016stochOT,khalilabid2018}. 
 
 Our focus in this paper is a new analysis of Sinkhorn algorithm for approximating regularized OT distance between discrete measures.
 The proposed approach relies on reformulating the dual of Sinkhorn divergence by adding new constraints feasibility.
