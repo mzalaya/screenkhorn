@@ -6,10 +6,10 @@
 # and run it in the background.
 
 
-#for n in  200 500 1000 2000 5000 10000  # number of samples
-#do 
-#	nohup python -u da_expe.py  -n $n -d 1 > out_dom_toy_$n.log &
-#done
+for n in  200 500 1000 2000 5000 10000  # number of samples
+do 
+	nohup python -u da_expe.py  -n $n -d 1 > out_dom_toy_$n.log &
+done
 
 for n in  200 500 1000 2000 3000 4000   # number of samples
 do 
