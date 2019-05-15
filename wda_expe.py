@@ -94,9 +94,9 @@ else:
 reg = 1  # regularizer weight
 k = 10  # nb of sinkhorn iteration
 maxiter = 1000 # max iter in WDA
-nb_iter = 50
+nb_iter = 30
 K = 5 # K in KNN
-p_vec = [2,10,20,30]
+p_vec = [1.5,2,5,10,20,50,100]
 pathres='./resultat/'
 
 
