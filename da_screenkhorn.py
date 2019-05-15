@@ -122,12 +122,6 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
     n_budget = int(np.ceil(M.shape[0] / p_n))
     m_budget = int(np.ceil(M.shape[1] / p_m))
     
-<<<<<<< HEAD
-    #Mreg = M #+ eta * W
-=======
-    print(n_budget,m_budget)
-    Mreg = M + eta * W
->>>>>>> 09c79757c659476e0f19801fe1e403fc06a9a380
     screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False)
     transp = screenkhorn.lbfgsb()[2]
     

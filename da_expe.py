@@ -104,14 +104,9 @@ for i in range(nb_iter):
         print(p_n)
         # Screenkhorn Transport
         tic = time()
-<<<<<<< HEAD
-        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=10)
+        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=reg_cl)
         ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, p_n=p_n, p_m=p_n)
-=======
-        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
-        ot_screenkhorn.verbose=1
-        ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=p_n, m_b=p_n)
->>>>>>> 09c79757c659476e0f19801fe1e403fc06a9a380
+       
         time_screen[i,j] = time() - tic
         # transport source samples onto target samples
         transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)
