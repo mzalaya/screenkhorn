@@ -4,7 +4,8 @@
 
 # In[1]:
 
-
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time
 import ot
 import ot.plot
