@@ -35,14 +35,13 @@ for all $i=1, \ldots, n$ and $j=1, \ldots, m$. Plugging this solution,  and sett
 \label{sinkhorn-dual}
 \min_{u \in \R^n, v\in\R^m}\big\{\Psi(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{u, \mu} - \inr{v, \nu} \big\},
 \end{equation}
-where $B(u,v) = \Delta(e^{u}) K \Delta(e^{v})$ and $K = e^{-C/\eta}$ stands for the Gibbs kernel associated to the cost matrix $C$. 
-We refer to problem~\eqref{sinkhorn-dual} to the \emph{dual of Sinkhorn divergence}.
-Therefore, the optimal solution $P^\star$ of Sinkhorn divergence takes the form $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$
+where $B(u,v) := \Delta(e^{u}) K \Delta(e^{v})$ and $K := e^{-C/\eta}$ stands for the Gibbs kernel associated to the cost matrix $C$. 
+We refer to problem~\eqref{sinkhorn-dual} as the \emph{dual of Sinkhorn divergence}, and its optimal solution $P^\star$ takes the form $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$
 where the couple $(u^\star, v^\star)$ satisfies:
 \begin{align*}
 \label{sinkhorn-dual}
   (u^\star, v^\star) &= \argmin_{u \in \R^{n}, v\in \R^m} \{\Psi(u,v)\}.
 \end{align*}
-Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}. Furthermore, $P^\star$ can be solved efficiently by iterative Bregman projections~\cite{benamou2015IterativeBP} referred as Sinkhorn iterations, and the method is referred as Sinkhorn algorithm which, recently, is proven to achieve a near-$\bigO(n^2)$ complexity.
+Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}. Moreover, $P^\star$ can be solved efficiently by iterative Bregman projections~\cite{benamou2015IterativeBP} referred as Sinkhorn iterations, and the method is referred as Sinkhorn algorithm which, recently, is proven to achieve a near-$\bigO(n^2)$ complexity~\cite{altschulernips17}.
 
 % section regularized_discrete_ot (end)

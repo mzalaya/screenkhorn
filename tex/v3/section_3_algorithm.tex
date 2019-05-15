@@ -3,18 +3,36 @@
 \section{Screened dual of Sinkhorn divergence} % (fold)
 \label{sec:screened_dual_of_sinkhorn_divergence}
 
-% In this section we describe the main algorithm studied in this paper. 
-For a fixed $\varepsilon > 0$ and $\kappa > 0$ we define an \emph{approximate dual of Sinkhorn divergence} as follows:
+\begin{wrapfigure}{o}{0.44\textwidth}
+\vspace{-15pt}
+\centering
+\includegraphics[width=0.45\textwidth]{./figs/fig0.pdf}%, height=0.2\textwidth
+\caption{Plotting of $e^{u^\star}, e^{v^\star}$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual}.}
+\label{fig:fig0}
+\vspace{-15pt}
+\end{wrapfigure}
+
+The key idea of our approach comes from the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning which is a method able to quickly identify inactive features, i.e., features that have $0$ components in the solution vector. 
+Then, these inactive features can be removed from the optimization problem to reduce its scale.
+Before diving into detailed algorithmic analysis, let's us present a brief illustration of how we adapt the screening test to the Sinkhorn algorithm.
+Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
+In Figure~\ref{fig:fig0}, we plot $e^{u^\star}, e^{v^\star}$ potential solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual} in the particular case of: $n=m=500, \eta=0.1, \mu = \frac 1n \mathbf 1_n, \nu = \frac 1m \mathbf 1_m$, and the cost matrix $C$ correspond the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$.
+We also plot two lines correspond to $e^{u^\star} = \alpha_u$ and $e^{v^\star}= \alpha_v$ for some $\alpha_u, \alpha_v \in \R_+^*.$
+The core of static screening test developed in this paper aims at locating a subset of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i}\geq \alpha_u, \text{ and } e^{v_j}\geq \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
+$e^{u_{i'}} = \alpha_u, \text{ and } e^{v_{j'}} = \alpha_v, \text{ for all } (i',j') \in I^\complement \times J^\complement$, namely $(u,v) \in \mathcal{C}^n_{\alpha_u}\times \mathcal{C}^m_{\alpha_v}$.
+Therefore, we can work on a "screened" dual of Sinkhorn divergence to reduce the computational cost by considering variables that belong only to $\R^{|I|} \times \R^{|J|}.$
+
+In the following, the parameters $\alpha_u$ and $\alpha_v$ are expressed via a fixed $\varepsilon > 0$ and $\kappa > 0$. 
+We then define a new formulation of problem~\eqref{sinkhorn-dual} called \emph{approximate dual of Sinkhorn divergence} as follows:
 \begin{equation} 
 \label{screen-sinkhorn}
 \min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
 \end{equation}
-where $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, is a convex set  given by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
 
-The objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, then the set of optima of problem~\eqref{screen-sinkhorn} is non empty. 
+Since the objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, the set of optima of problem~\eqref{screen-sinkhorn} is non empty. 
 The $\kappa$-parameter plays a role of scaling factor, namely it allows to get a closed order of the potential variables $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for $e^u$ and $e^v$.
 Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
-The screening procedure presented in this work is based on constructing two {active sets} $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} in the following way:
+As explained above, the static screening test presented in this work is based on constructing two {active sets} $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} in the following way:
 
 \begin{lemma}
 \label{lemma_actives_sets}
@@ -27,7 +45,7 @@ I_{\varepsilon,\kappa} = \big\{i=1, \ldots, n: \mu_i \geq \frac {\varepsilon^2} 
 Then one has $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ for all $i \in I^\complement_{\varepsilon,\kappa} $ and $j\in J^\complement_{\varepsilon,\kappa} .$
 \end{lemma}
 
-First order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$ 
+Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplementary material. It is worth to note that first order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$ 
 which correspond to the Sinkhorn marginal conditions up to the scaling factor $\kappa$. 
 
 \paragraph{Screening with a fixed number budget of points.}
@@ -36,15 +54,15 @@ Recall that the approximate dual of Sinkhorn divergence is defined with respect 
 The explicit determination of its values depends on a priori \emph{fixed number budget of points} from the supports of $\mu$ and $\nu$. % in problem~\eqref{screen-sinkhorn}.  
 In the sequel of the paper, we denote by $n_b \in\{1, \ldots, n\}$ and the $m_b\in\{1, \ldots, m\}$ the number budget of points to be given for resolving problem~\eqref{screen-sinkhorn}. 
 
-Let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
+Now let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
 To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ and $\varepsilon$ satisfy ${\varepsilon^2}\kappa^{-1} = \xi_{n_b}$ and $\varepsilon^2\kappa = \zeta_{m_b}$. Hence 
 \begin{equation}
 \label{epsilon_kappa}
  \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
 \end{equation}
-Note that $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$. 
-Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
+Note that by construction we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$. 
 
+Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
 Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ in problem~\eqref{screen-sinkhorn} to the screened domain $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
 \begin{equation*}
 \mathcal{U}_{\text{sc}} = \{u \in \R^n: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
@@ -70,7 +88,6 @@ with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in 
 Pseudocode of our proposed algorithm is given in Algorithm~\ref{screenkhorn}.
 Screenkhorn consists of two steps: the first one is an initialization where we calculate the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
 The second is a constrained L-BFGS solver~\cite{zhu1997-LBFGS} for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
-% It is worth to note that the couple variables $(u,v)$ to be optimized in Screenkhorn belongs to $\R^{n_b\times m_b}$. 
 It is worth to note that Screenkhorn uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
 
 The following lemma expresses upper and lower bounds to be respected in Screenkhorn.
@@ -119,12 +136,12 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
 \nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\ %\in \R^{n_b\times m_b}
 
-\textbf{step 2:} \textcolor{black}{L-BFGS}\\
+\noindent \textbf{step 2:} \textcolor{black}{L-BFGS-B}\\
 
 \nl  $u^{(0)} \gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
 \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
 \nl  $\theta^{(0)} \gets \text{stack}[u^{(0)}, v^{(0)}];$\\
-\nl   $\theta \gets \text{L-BFGS}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
+\nl   $\theta \gets \text{L-BFGS-B}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
 \nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
 
 % \textbf{step 4:} \textcolor{black}{Output}\\

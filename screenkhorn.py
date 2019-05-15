@@ -34,11 +34,11 @@ class Screenkhorn:
         self.uniform = uniform
 
         # K
-        # self.K = np.empty_like(self.C)
-        # np.divide(self.C, - self.reg, out=self.K)
-        # np.exp(self.K, out=self.K)
+        self.K = np.empty_like(self.C)
+        np.divide(self.C, - self.reg, out=self.K)
+        np.exp(self.K, out=self.K)
 
-        self.K = np.exp(-self.C / self.reg)
+        #self.K = np.exp(-self.C / self.reg)
 
         # Test
         if self.N == n and self.M == m:
@@ -72,6 +72,7 @@ class Screenkhorn:
                 print(time() - tic_initial)
             # sum of rows and columns of K
             K_sum_cols = self.K.sum(axis=1)
+<<<<<<< HEAD
             K_sum_rows = self.K.sum(axis=0)
 
             if self.uniform:
@@ -88,17 +89,38 @@ class Screenkhorn:
                 else:
                     aK_sort = bottleneck.partition(K_sum_rows, M-1)[M-1]
                     epsilon_v_square =b[0]/aK_sort
+=======
+            K_sum_rows = self.K.T.sum(axis=1)
+
+            # K_min
+            K_min = self.K.min()
+
+            # 
+            #if not self.uniform:
+            #    self.a_sort = np.sort(a)
+            #    self.b_sort = np.sort(b)
+            self.a_sort = np.sort(a)
+            self.b_sort = np.sort(b)
+>>>>>>> 09c79757c659476e0f19801fe1e403fc06a9a380
                 
             else:
                 aK = a/K_sum_cols
                 bK = b/K_sum_rows
                 
+<<<<<<< HEAD
                 aK_sort = np.sort(aK)[::-1]
                 epsilon_u_square = aK_sort[self.N - 1]
                 bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.M - 1]
                           
             
+=======
+            aK_sort = np.sort(a / K_sum_cols)[::-1]
+            bK_sort = np.sort(b / K_sum_rows)[::-1]
+            epsilon_u_square = aK_sort[self.N - 1: self.N].mean()
+            epsilon_v_square = bK_sort[self.M - 1: self.M].mean()
+
+>>>>>>> 09c79757c659476e0f19801fe1e403fc06a9a380
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
             
@@ -115,6 +137,7 @@ class Screenkhorn:
             if self.verbose:
                 print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
                       %(len(self.I), len(self.J), len(self.I) + len(self.J)))
+<<<<<<< HEAD
             
             # Ic, Jc
             self.Ic = list(set(list(range(n))) - set(self.I))
@@ -147,6 +170,9 @@ class Screenkhorn:
             if len(self.J) != M:
                 print("test error",len(self.J))
     
+=======
+
+>>>>>>> 09c79757c659476e0f19801fe1e403fc06a9a380
             # LBFGS box
             self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (m - self.M) \
                                                     + self.M*(self.b_J_max / (self.epsilon * n * K_min))), self.epsilon / self.fact_scale), \
