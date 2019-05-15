@@ -32,11 +32,11 @@ class Screenkhorn:
         self.uniform = uniform
 
         # K
-        # self.K = np.empty_like(self.C)
-        # np.divide(self.C, - self.reg, out=self.K)
-        # np.exp(self.K, out=self.K)
+        self.K = np.empty_like(self.C)
+        np.divide(self.C, - self.reg, out=self.K)
+        np.exp(self.K, out=self.K)
 
-        self.K = np.exp(-self.C / self.reg)
+        #self.K = np.exp(-self.C / self.reg)
 
         # Test
         if self.N == n and self.M == m:
@@ -70,15 +70,15 @@ class Screenkhorn:
             K_min = self.K.min()
 
             # 
-            if not self.uniform:
-                self.a_sort = np.sort(a)
-                self.b_sort = np.sort(b)
-          
+            #if not self.uniform:
+            #    self.a_sort = np.sort(a)
+            #    self.b_sort = np.sort(b)
+            self.a_sort = np.sort(a)
+            self.b_sort = np.sort(b)
                 
                 
             aK_sort = np.sort(a / K_sum_cols)[::-1]
             bK_sort = np.sort(b / K_sum_rows)[::-1]
-
             epsilon_u_square = aK_sort[self.N - 1: self.N].mean()
             epsilon_v_square = bK_sort[self.M - 1: self.M].mean()
 
@@ -99,7 +99,6 @@ class Screenkhorn:
             if self.verbose:
                 print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
                       %(len(self.I), len(self.J), len(self.I) + len(self.J)))
-
 
             # LBFGS box
             self.bounds_u = [(max(self.fact_scale * self.a_sort[self.I][-1] / (self.epsilon * (m - len(self.J)) \

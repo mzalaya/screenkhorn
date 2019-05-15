@@ -122,6 +122,7 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
     n_budget = int(np.ceil(M.shape[0] / p_n))
     m_budget = int(np.ceil(M.shape[1] / p_m))
     
+    print(n_budget,m_budget)
     Mreg = M + eta * W
     screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False)
     transp = screenkhorn.lbfgsb()[2]
@@ -829,6 +830,7 @@ class BaseTransport(BaseEstimator):
 
             # pairwise distance
             self.cost_ = dist(Xs, Xt, metric=self.metric)
+            #self.cost_ = self.cost_/self.cost_.max()
             self.cost_ = cost_normalization(self.cost_, self.norm)
 
             if (ys is not None) and (yt is not None):
@@ -1415,7 +1417,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
 
             p_n = kwargs.get('p_n', 2)# keep only 50% of points
             p_m = kwargs.get('p_m', 2)# keep only 50% of points
-
+            print(self.cost_)
             returned_ = screenkhorn_lpl1_mm(
                 a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_,
                 reg=self.reg_e, eta=self.reg_cl, numItermax=self.max_iter,
