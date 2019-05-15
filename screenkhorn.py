@@ -6,7 +6,6 @@ __author__ = 'Mokhtar Z. Alaya'
 
 import numpy as np
 import bottleneck
-import heapq
 from scipy.optimize import fmin_l_bfgs_b
 from time import time
 
@@ -78,6 +77,7 @@ class Screenkhorn:
                 if n/self.N < 4 :
                     aK_sort = np.sort(K_sum_cols)
                     epsilon_u_square = a[0]/aK_sort[self.N - 1]
+                    print(epsilon_u_square)
                 else :
                     aK_sort = bottleneck.partition(K_sum_cols, N-1)[N-1]
                     epsilon_u_square =a[0]/aK_sort
@@ -86,8 +86,8 @@ class Screenkhorn:
                     bK_sort = np.sort(K_sum_rows)
                     epsilon_v_square = b[0]/bK_sort[self.M - 1]
                 else:
-                    aK_sort = bottleneck.partition(K_sum_rows, M-1)[M-1]
-                    epsilon_v_square =b[0]/aK_sort
+                    bK_sort = bottleneck.partition(K_sum_rows, M-1)[M-1]
+                    epsilon_v_square =b[0]/bK_sort
                 
             else:
                 aK = a/K_sum_cols
@@ -95,9 +95,30 @@ class Screenkhorn:
                 
                 aK_sort = np.sort(aK)[::-1]
                 epsilon_u_square = aK_sort[self.N - 1]
+            
                 bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.M - 1]
-                                     
+            # I, J
+            self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
+            self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist()   
+             
+            if len(self.I) != self.N:
+                print("test error", len(self.I),self.N)
+                if self.uniform:
+                    aK = a/K_sum_cols
+                aK_sort = np.sort(aK)[::-1]
+                epsilon_u_square = aK_sort[self.N - 1:self.N+1].mean()
+                self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
+            
+            if len(self.J) != self.M:
+                print("test error", len(self.J),self.M)
+                if self.uniform:
+                    bK = b/K_sum_rows
+                bK_sort = np.sort(bK)[::-1]
+                epsilon_v_square = bK_sort[self.M - 1:self.M+1].mean()
+                self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist() 
+                
+            
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
             
@@ -106,11 +127,7 @@ class Screenkhorn:
                 print("Scaling factor = %s\n" % self.fact_scale)
                 
                 print(time() - tic_initial)
-
-            # I, J
-            self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
-            self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist()
-                
+            
             if self.verbose:
                 print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
                       %(len(self.I), len(self.J), len(self.I) + len(self.J)))
@@ -119,8 +136,7 @@ class Screenkhorn:
             # Ic, Jc
             self.Ic = list(set(list(range(n))) - set(self.I))
             self.Jc = list(set(list(range(m))) - set(self.J))
-            
-            #
+           #
             self.K_IJ = self.K[np.ix_(self.I, self.J)]
             self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
             self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
@@ -141,11 +157,7 @@ class Screenkhorn:
                 self.b_J_max = self.b_J [0]
                 self.b_J_min = self.b_J[0]
             
-            if len(self.I) != N:
-                print("test error", len(self.I))
-        
-            if len(self.J) != M:
-                print("test error",len(self.J))
+          
     
             # LBFGS box
             self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (m - self.M) \
@@ -160,9 +172,15 @@ class Screenkhorn:
         if self.verbose:
                 print(time() - tic_initial)
 
+        
+
 
         self.vec_eps_IJc = self.epsilon * self.fact_scale * (self.K_IJc * np.ones(m-self.M).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) * (np.ones(n-self.N).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
+
+
+        
+       
 
         # restricted Sinkhron
         if self.N != n or self.M != m:
@@ -203,8 +221,8 @@ class Screenkhorn:
                 bK_sort = np.sort(K_sum_rows)
                 epsilon_v_square = self.b[0]/bK_sort[self.M - 1]
             else:
-                aK_sort = bottleneck.partition(K_sum_rows, self.M-1)[self.M-1]
-                epsilon_v_square =self.b[0]/aK_sort
+                bK_sort = bottleneck.partition(K_sum_rows, self.M-1)[self.M-1]
+                epsilon_v_square =self.b[0]/bK_sort
                 
         else:
             aK = self.a/K_sum_cols
@@ -215,6 +233,24 @@ class Screenkhorn:
             bK_sort = np.sort(bK)[::-1]
             epsilon_v_square = bK_sort[self.M - 1]
         
+        
+        # I, J
+        self.I = np.where(self.a >= epsilon_u_square * K_sum_cols)[0].tolist()
+        self.J = np.where(self.b >= epsilon_v_square * K_sum_rows)[0].tolist()
+                      
+        if len(self.I) != self.N:
+            if self.uniform:
+                aK = self.a/K_sum_cols
+            aK_sort = np.sort(aK)[::-1]
+            epsilon_u_square = aK_sort[self.N - 1:self.N+1].mean()
+            self.I = np.where(self.a >= epsilon_u_square * K_sum_cols)[0].tolist()
+            
+        if len(self.J) != self.M:
+            if self.uniform:
+                bK = self.b/K_sum_rows
+            bK_sort = np.sort(bK)[::-1]
+            epsilon_v_square = bK_sort[self.M - 1:self.M+1].mean()
+            self.J = np.where(self.b >= epsilon_v_square * K_sum_rows)[0].tolist()
         
 #        aK_sort = np.sort(self.a / K_sum_cols)[::-1]
 #        bK_sort = np.sort(self.b / K_sum_rows)[::-1]
@@ -229,9 +265,7 @@ class Screenkhorn:
             print("Epsilon = %s\n" % self.epsilon)
             print("Scaling factor = %s\n" % self.fact_scale)
             
-        # I, J
-        self.I = np.where(self.a >= epsilon_u_square * K_sum_cols)[0].tolist()
-        self.J = np.where(self.b >= epsilon_v_square * K_sum_rows)[0].tolist()
+        
          # Ic, Jc
         self.Ic = list(set(list(range(n))) - set(self.I))
         self.Jc = list(set(list(range(m))) - set(self.J))
