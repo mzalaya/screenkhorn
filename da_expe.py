@@ -4,7 +4,8 @@
 
 # In[1]:
 
-
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time
 import ot
 import ot.plot
@@ -32,7 +33,7 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 3000, type=int,
+parser.add_argument('-n', action='store', dest='n', default = 2000, type=int,
                         help='number of samples ')
 parser.add_argument('-d', action='store', dest='d', default = 2, type=int,
                         help='dataset type ')
@@ -49,7 +50,7 @@ else:
 n_samples_source = n
 n_samples_target = n
 
-nb_iter = 20
+nb_iter = 30
 reg_cl = 10
 K = 1 # K of KNN
 
