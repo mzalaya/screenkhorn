@@ -34,7 +34,7 @@ n_samples_target = n
 
 nb_iter = 50
 pathres='./resultat/'
-p_vec = [1.5,2,5,10]
+p_vec = [1.5,2,5,10,20,50,100]
 n_pvec=  len(p_vec)
 
 bc_sink = np.zeros(nb_iter)
@@ -67,10 +67,11 @@ for i in range(nb_iter):
     #%%
     
     for j,p_n in enumerate(p_vec):
+        print(p_n)
         # Screenkhorn Transport
         tic = time()
         ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=10)
-        ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, n_b=p_n, m_b=p_n)
+        ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, p_n=p_n, p_m=p_n)
         time_screen[i,j] = time() - tic
         # transport source samples onto target samples
         transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)

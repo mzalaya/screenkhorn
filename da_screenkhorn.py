@@ -114,7 +114,7 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
         idxc, = np.where(labels_a == c)
         indices_labels.append(idxc)
 
-    W = np.zeros(M.shape)
+    #W = np.zeros(M.shape)
 
     p_n = kwargs.get('p_n', 1)
     p_m = kwargs.get('p_m', 1)
@@ -122,7 +122,7 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
     n_budget = int(np.ceil(M.shape[0] / p_n))
     m_budget = int(np.ceil(M.shape[1] / p_m))
     
-    Mreg = M + eta * W
+    #Mreg = M #+ eta * W
     screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False)
     transp = screenkhorn.lbfgsb()[2]
     
