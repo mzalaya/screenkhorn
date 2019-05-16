@@ -6,17 +6,19 @@
 \begin{wrapfigure}{o}{0.44\textwidth}
 \vspace{-15pt}
 \centering
-\includegraphics[width=0.4\textwidth]{./figs/motivations.pdf}%, height=0.2\textwidth
-\caption{Plotting of $e^{u^\star}, e^{v^\star}$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual}.}
+\includegraphics[width=0.45\textwidth]{./figs/motivations.pdf}
+\caption{Plots of $(e^{u^\star}, e^{v^\star})$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual}.}
 \label{fig:motivations}
-\vspace{-15pt}
+\vspace{-11pt}
 \end{wrapfigure}
 
-\paragraph{Motivation.} The key idea of our approach comes from the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning, a method is able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
+\paragraph{Motivation.} 
+
+The key idea of our approach is motivated by the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning, that is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
 Then, these inactive features can be removed from the optimization problem to reduce its scale.
 Before diving into detailed algorithmic analysis, let's us present a brief illustration of how we adapt static screening test to the dual of Sinkhorn divergence.
 Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
-In Figure~\ref{fig:motivations}, we plot $(e^{u^\star}, e^{v^\star})$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual} in the particular case of: $n=m=500, \eta=0.1, \mu = \nu = \frac 1n \mathbf 1_n$ and the cost matrix $C$ correspond the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$. % \nu = \frac 1m \mathbf 1_m
+In Figure~\ref{fig:motivations}, we plot $(e^{u^\star}, e^{v^\star})$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual} in the particular case of: $n=m=500, \eta=0.1, \mu = \nu = \frac 1n \mathbf 1_n$ and the cost matrix $C$ correspond the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$. 
 We also plot two lines correspond to $e^{u^\star} \equiv \alpha_u$ and $e^{v^\star} \equiv \alpha_v$ for some $\alpha_u>0$ and $\alpha_v >0$, playing the role of thresholds to select indices to be discard from the optimization procedure.
 
 \paragraph{Static screening test.} The core of the static screening test developed in this work aims at locating two subsets of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i}\geq \alpha_u, \text{ and } e^{v_j}\geq \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
@@ -27,18 +29,13 @@ Consequently, we can work on a "screened" dual of Sinkhorn divergence by conside
 In the following, the parameters $\alpha_u = \varepsilon \kappa^{-1}$ and $\alpha_v = \varepsilon \kappa$ where $\varepsilon > 0$ and $\kappa > 0$ are fixed numeric constants to be given later. 
 Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, given by:
 
-% To construct our appropriate static screening test, the parameters $\alpha_u$ and $\alpha_v$ are expressed via a fixed numeric constants $\varepsilon > 0$ and $\kappa > 0$ to be given later. 
-% In spirit of To construct the screening test, we define a new form
-
 \begin{equation} 
 \label{screen-sinkhorn}
 \min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
 \end{equation}
-
-% Since the objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, the set of optima of problem~\eqref{screen-sinkhorn} is non empty. 
 The $\kappa$-parameter plays a role of scaling factor, allowing to get a closed order of the potential variables $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for these variables.
 Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
-As explained above, our static screening test is based on constructing two {active sets} denoted $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} as follows: %depended on $\varepsilon, \kappa$ and
+As explained above, our static screening test is based on constructing two {active sets} denoted $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} as follows: 
 
 \begin{lemma}
 \label{lemma_actives_sets}
@@ -56,13 +53,13 @@ Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplem
 \paragraph{Screening with a fixed number budget of points.}
 
 Recall that the approximate dual of Sinkhorn divergence is defined with respect to $\varepsilon$ and $\kappa$, where its values depend on a priori \emph{fixed number budget of points} from the supports of $\mu$ and $\nu$.
-In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number budget of points to be given for resolving problem~\eqref{screen-sinkhorn}. More precisely, we change the domain of the objective function $\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$. %\textbf{dom}\Psi_\kappa = 
+In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number budget of points to be given for resolving problem~\eqref{screen-sinkhorn}. More precisely, we change the domain of the objective function $\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
 
 \begin{wrapfigure}{o}{0.44\textwidth}
-\vspace{-15pt}
+\vspace{-18pt}
 \centering
-\includegraphics[width=0.4\textwidth]{./figs/kappa_epsilon.pdf}%, height=0.2\textwidth
-\caption{Convergence of $(\varepsilon, \kappa)$ to $(0,1)$ as $(n_b,m_b)$ tends to $(n,m)$ for the same setting as in Figure~\eqref{fig:motivations}.}
+\includegraphics[width=0.46\textwidth]{./figs/kappa_epsilon.pdf}
+\caption{Plots of $\varepsilon$ and $\kappa$ as a functions of budgets for a screening test with $n_b=m_b$ and the parameters $\mu, \nu, \eta, C$ as in Figure~\eqref{fig:motivations}. As can be seen, $(\varepsilon, \kappa)$ tends to $(0,1)$ as $(n_b,m_b)$ tends to $(n,m)$.}
 \label{fig:kappa_epsilon}
 \vspace{-15pt}
 \end{wrapfigure}
@@ -73,7 +70,8 @@ To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ an
 \label{epsilon_kappa}
  \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
 \end{equation}
-Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. On the other hand, $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, and the couple parameters $(\varepsilon, \kappa)$ tends to $(0,1)$ (see Figure~\ref{fig:kappa_epsilon}), which corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
+Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. On the other hand, when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
+In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence in this case corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
 Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
 Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
