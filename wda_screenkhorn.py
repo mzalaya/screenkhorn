@@ -6,6 +6,7 @@ Dimension reduction with optimal transport
 # Author: Remi Flamary <remi.flamary@unice.fr>
 #
 # License: MIT License
+from time import process_time as time
 
 from scipy import linalg
 # import numpy as np
@@ -105,7 +106,10 @@ def wda_sinkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=0, P
                 xj = np.dot(xj, P)
                 M = dist(xi, xj)
                 M = M/M.max()
+                tic=time()
                 G = Sinkhorn(wc[i], wc[j + i], M, reg, k)
+                timing = time() - tic
+                print(timing)
                 if j == 0:
                     loss_w += np.sum(G * M)
                 else:
@@ -160,8 +164,11 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
                 p_m = kwargs.get('p_m', 2) # keep only 50% of points
                 n_budget = int(np.ceil(M.shape[0] / p_n))
                 m_budget = int(np.ceil(M.shape[1] / p_m))
+                tic=time()
                 screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget, verbose=False)
                 G = screenkhornWDA.lbfgsb()[2]
+                timing = time() - tic
+                print(timing)
                 if j == 0:
                     loss_w += np.sum(G * M)
                 else:
