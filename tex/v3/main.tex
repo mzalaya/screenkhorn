@@ -85,19 +85,24 @@
 \DeclareMathOperator*{\argmax}{\arg\!\max}
 %--------------------------------------------------------------------------------------------------------------------------------%
 
-\title{Screening Sinkhorn Algorithm for regularized Optimal Transport}
+\title{Screening Sinkhorn Algorithm for Regularized Optimal Transport}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
+We introduce in this paper a novel strategy for efficiently approximate the Sinkhorn distance between two discrete measures. After identifying neglectible components
+of the dual solution of the regularized Sinkhorn problem, we propose to screen those components by directly setting them at that value before entering the Sinkhorn problem. This allows us to solve a smaller Sinkhorn problem while ensuring approximation with provable guarantees.
+More formally, the approach is based on a reformulation of  \emph{dual of Sinkhorn divergence problem} and on the KKT optimality conditions of this problem, which enable identification of dual components to be screened.
+This new analysis leads to the \emph{Screenkhorn} algorithm.
+We illustrate the efficiency of Screenkhorn on complex tasks such as dimensionality reduction or domain adaptation involving regularized optimal transport.
 
-This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
-Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to formulate two appropriate active indices sets for the potential variables.
-These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
-This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
-We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
+%This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
+%Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to formulate two appropriate active indices sets for the potential variables.
+%These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+%This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
+%We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
 \end{abstract}
 
 \input{section_1_introduction}
@@ -113,5 +118,7 @@ We illustrate the favorable performance of Screenkhorn in practice with numerica
 \small
 \bibliography{biblio}
 \bibliographystyle{plain}
+
+%\input{supplementary_material}
 
 \end{document}
