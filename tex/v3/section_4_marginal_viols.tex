@@ -26,13 +26,13 @@ and
 \label{proposition_error_in_marginals}
 One has %\norm{\mu^{\text{sc}}}_1
 \begin{align*}
-{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1}&\leq 7 n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7 (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa K_{\min}} + (m- m_b) \varepsilon^2\\
-&\qquad - \min_{i}\mu_i + \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b K_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)\bigg)
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1}&\leq 7 n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7 (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa K_{\min}} + (m- m_b) \varepsilon^2 - \min_{i}\\
+&\qquad \mu_i + \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_b K_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{\kappa^2\max_{i} \mu_i}{mm_b\varepsilon^2K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)\bigg)
 \end{align*}
 and 
 \begin{align*}
-{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} &\leq 7 m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n K_{\min}} + (n- n_b) \varepsilon^2\\ 
-&\qquad - \min_{j}\nu_j + \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b K_{\min}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2K_{\min}^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big)\bigg).
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} &\leq 7 m_b(\kappa-\log(\kappa)-1)\max_{j} \nu_j + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{n K_{\min}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\ 
+&\qquad + \max_{j} \nu_j\log\Big(\frac{\kappa(m-m_b+ 1)\max_{j} \nu_j}{n_b K_{\min}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{\kappa^2\max_{j} \nu_j}{nn_b\varepsilon^2K_{\min}^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big)\bigg).
 \end{align*}
 \end{proposition}
 Proofs of Lemma~\ref{lemma_bounds_on_marginals} and Proposition~\ref{proposition_error_in_marginals} are presented in supplementary material. 

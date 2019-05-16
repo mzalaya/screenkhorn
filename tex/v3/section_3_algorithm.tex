@@ -101,10 +101,10 @@ It is worth to note that Screenkhorn algorithm uses only the restricted parts $K
 Furthermore, it consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
 The second is a constrained L-BFGS-B for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 The L-BFGS-B solver handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
-The following lemma (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
+The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
 
-\begin{lemma}
-\label{lemma_bounds_of_usc_and_vsc}
+\begin{proposition}
+\label{prop:bounds_of_usc_and_vsc}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}, and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
 one has
 \begin{equation}
@@ -117,7 +117,7 @@ and
 \varepsilon\kappa \vee \frac{\min_{j \in J_{\varepsilon,\kappa}}\nu_j}{\varepsilon(n- n_b) + \varepsilon \vee \frac{\kappa\max_{i\in I_{\varepsilon,\kappa}} \mu_i}{m\varepsilon K_{\min} } n_b} \leq e^{v^{\text{sc}}_j} \leq \varepsilon\kappa \vee \frac{\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon K_{\min} }
 \end{equation}
 for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
-\end{lemma}
+\end{proposition}
 
 \LinesNotNumbered
 \begin{algorithm}[htbp]
