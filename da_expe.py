@@ -10,7 +10,6 @@ from time import process_time as time
 import ot
 import ot.plot
 import  da_screenkhorn
-import  da_sinkhorn
 
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
