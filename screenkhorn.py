@@ -106,7 +106,7 @@ class Screenkhorn:
                 print("test error", len(self.I),self.N)
                 if self.uniform:
                     aK = a/K_sum_cols
-                aK_sort = np.sort(aK)[::-1]
+                    aK_sort = np.sort(aK)[::-1]
                 epsilon_u_square = aK_sort[self.N - 1:self.N+1].mean()
                 self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
             
@@ -114,7 +114,7 @@ class Screenkhorn:
                 print("test error", len(self.J),self.M)
                 if self.uniform:
                     bK = b/K_sum_rows
-                bK_sort = np.sort(bK)[::-1]
+                    bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.M - 1:self.M+1].mean()
                 self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist() 
                 
