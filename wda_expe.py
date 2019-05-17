@@ -42,7 +42,7 @@ def circle_data(n,nz = 0.2,nbnoise = 8):
 #%%
 def multi_gauss(n,nb_noise=8,s_noise=0.1):
     centers = [(1, 0), (-1, 0), (0.4, 0.8), (-0.4, -0.8),(-0.4, 0.8), (0.4, -0.8)]
-    x, y = make_blobs(n_samples=n, n_features=2, cluster_std= s_noise,
+    x, y = make_blobs(n_samples=n, n_features=200, cluster_std= s_noise,
                   centers=centers, shuffle=False)
     y[y==0] = 1
     y[y==3] = 2

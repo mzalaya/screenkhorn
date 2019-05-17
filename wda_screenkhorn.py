@@ -164,11 +164,13 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
                 p_m = kwargs.get('p_m', 2) # keep only 50% of points
                 n_budget = int(np.ceil(M.shape[0] / p_n))
                 m_budget = int(np.ceil(M.shape[1] / p_m))
-                tic=time()
+                #tic=time()
                 screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget, verbose=False)
+                #timing = time() - tic
+                #print('----',timing)
                 G = screenkhornWDA.lbfgsb()[2]
-                timing = time() - tic
-                print(timing)
+                #timing = time() - tic
+                #print(timing)
                 if j == 0:
                     loss_w += np.sum(G * M)
                 else:
