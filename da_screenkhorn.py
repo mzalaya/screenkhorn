@@ -1420,7 +1420,6 @@ class ScreenkhornLpl1Transport(BaseTransport):
 
             p_n = kwargs.get('p_n', 2)# keep only 50% of points
             p_m = kwargs.get('p_m', 2)# keep only 50% of points
-            print(self.cost_)
             returned_ = screenkhorn_lpl1_mm(
                 a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_,
                 reg=self.reg_e, eta=self.reg_cl, numItermax=self.max_iter,

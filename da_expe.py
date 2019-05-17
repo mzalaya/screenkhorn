@@ -91,8 +91,8 @@ for i in range(nb_iter):
     #%% 
     # Sinkhorn Transport
     tic = time()
-    #ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
-    ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
+    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
+    #ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
     ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
     time_sink[i] = time() - tic
     transp_Xs = ot_sinkhorn.transform(Xs=Xs)
