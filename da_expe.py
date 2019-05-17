@@ -10,6 +10,8 @@ from time import process_time as time
 import ot
 import ot.plot
 import  da_screenkhorn
+import  da_sinkhorn
+
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import argparse
@@ -50,8 +52,8 @@ else:
 n_samples_source = n
 n_samples_target = n
 
-nb_iter = 1
-reg_cl = 10
+nb_iter = 30
+reg_cl = 1
 K = 1 # K of KNN
 
 pathres='./resultat/'
@@ -89,7 +91,8 @@ for i in range(nb_iter):
     #%% 
     # Sinkhorn Transport
     tic = time()
-    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
+    #ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
+    ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
     ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
     time_sink[i] = time() - tic
     transp_Xs = ot_sinkhorn.transform(Xs=Xs)
@@ -119,7 +122,7 @@ for i in range(nb_iter):
     
 #%%
     
-    np.savez(pathres + filename, 
+    np.savez(pathres + filename, bc_none = bc_none,
              bc_sink= bc_sink,  bc_screen= bc_screen,
              time_sink = time_sink,  time_screen = time_screen)
     
