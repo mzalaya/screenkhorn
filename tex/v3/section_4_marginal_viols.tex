@@ -15,7 +15,8 @@ Then one has
 \begin{align*}
  \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1  + (n -n_b) &\bigg(\frac{mm_b\varepsilon^2 K_{\min}^2 \min_{j\in J_{\varepsilon, \kappa}} \nu_j}{ (n-n_b)m\kappa \varepsilon^2 K_{\min} + n_b\kappa^2 \max_{i\in I_{\varepsilon,\kappa}}\mu_i } + (m-m_b)\varepsilon^2K_{\min}\bigg)\\
  & \leq \norm{\mu^{\text{sc}}}_1\\
- & \qquad \qquad \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \bigg)
+ & \qquad \qquad \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon
+ ^2 \bigg)
 \end{align*}
 and 
 \begin{align*}
@@ -43,19 +44,19 @@ where $c_z = z-\log(z)-1.$
 Proofs of Lemma~\ref{lemma_bounds_on_marginals} and Proposition~\ref{proposition_error_in_marginals} are presented in supplementary material and they are based on the first order optimality conditions for problem~\eqref{screen-sinkhorn_second_def}. 
 Furthermore, in proof of Proposition~\ref{proposition_error_in_marginals} we use a generalization of Pinsker inequality (see Lemma 1 in supplementary). 
 Note that $c_\kappa$ and $c_{\kappa^{-1}}$ tend to zeros as $\kappa$ goes to one, which is the case when the number budget of points $(n_b,m_b)$ tends to the full one $(n,m)$.
-%Using the facts that $\varepsilon \leq (mnK_{\min}^2)^{-1/4}$ and $\kappa \leq \sqrt{m/(nK_{\min})}$, 
-% We can get a closed forms of~\eqref{maginal_mu} and~\eqref{maginal_nu} depending on $n,m,K_{\min}$, the budgets $n_b,m_b,$ and $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ with $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i, \underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$ as follows:
-% \begin{align*}
-% {\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Bigg(n_bc_\kappa + (n- n_b) \bigg[\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}{K_{\min}}}
-%  + \log\bigg(\frac{(n-n_b+1)\sqrt{m}}{m_b \sqrt{n}K_{\min}^{3/2}\underline{\nu}} 
-% \bigg)\bigg]\Bigg)
-% \end{align*}
-% + \frac{m^{1/4}}{n^{3/4}m_bK_{\min}^{5/2}\underline{\nu}}
-% and 
-% \begin{align*}
-% {\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Bigg(n_bc_{\kappa^{-1}} + (n- n_b) \bigg[\frac{m_b}{\sqrt{nm}K_{\min}^{3/2}} &+ \frac{m-m_b}{(nm)^{1/4}\sqrt{K_{\min}}}
-%  + \log\bigg(\frac{(n-n_b+1)\sqrt{m}}{m_b \sqrt{n}K_{\min}^{3/2}\underline{\nu}} 
-% \bigg)\bigg]\Bigg).
-% \end{align*}
+Let $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ where $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i$ and $\underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$.
+%Using the facts that $\varepsilon \leq (mnK_{\min}^2)^{-1/4}$ and $\kappa \leq \sqrt{m/(nc_{\mu\nu}K_{\min})}$, 
+Then, we can get a closed forms of~\eqref{maginal_mu} and~\eqref{maginal_nu} depending on $n,m,K_{\min}$, the budgets $n_b,m_b,$ and $c_{\mu\nu}$ as follows:
+\begin{align*}
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Bigg(n_bc_\kappa + (n- n_b) \bigg[\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nmK_{\min}}}
+ + \log\bigg(\frac{(n-n_b+1)\sqrt{m}}{m_b \sqrt{nc_{\mu\nu}}K_{\min}^{3/2}} 
+\bigg)\bigg]\Bigg)
+\end{align*}
+and 
+\begin{align*}
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} = \bigO\Bigg(m_bc_{\kappa^{-1}} + (m- m_b) \bigg[\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{n-n_b}{\sqrt{nmK_{\min}}}
+ + \log\bigg(\frac{(m-m_b+1)\sqrt{n}}{n_b \sqrt{mc_{\mu\nu}}K_{\min}^{3/2}} 
+\bigg)\bigg]\Bigg)
+\end{align*}
 
 % section analysis_of_marginal_violations (end)
