@@ -174,7 +174,7 @@ class Screenkhorn:
 
         
 
-@
+
         self.vec_eps_IJc = self.epsilon * self.fact_scale * (self.K_IJc * np.ones(m-self.M).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) * (np.ones(n-self.N).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
