@@ -43,12 +43,13 @@ where $c_z = z-\log(z)-1.$
 Proofs of Lemma~\ref{lemma_bounds_on_marginals} and Proposition~\ref{proposition_error_in_marginals} are presented in supplementary material and they are based on the first order optimality conditions for problem~\eqref{screen-sinkhorn_second_def}. 
 Furthermore, in proof of Proposition~\ref{proposition_error_in_marginals} we use a generalization of Pinsker inequality (see Lemma 1 in supplementary). 
 Note that $c_\kappa$ and $c_{\kappa^{-1}}$ tend to zeros as $\kappa$ goes to one, which is the case when the number budget of points $(n_b,m_b)$ tends to the full one $(n,m)$.
-Using the facts that $\varepsilon \leq (mnK_{\min}^2)^{-1/4}$ and $\kappa \leq \sqrt{m/(nK_{\min})}$, we can get a closed forms of~\eqref{maginal_mu} and~\eqref{maginal_nu} depending on $n,m,K_{\min}$, the budgets $n_b,m_b,$ and $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ with $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i, \underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$ as follows:
-\begin{align*}
-{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Bigg(n_bc_\kappa + (n- n_b) \bigg[\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}{K_{\min}}}
- + \log\bigg(\frac{(n-n_b+1)\sqrt{m}}{m_b \sqrt{n}K_{\min}^{3/2}\underline{\nu}} 
-\bigg)\bigg]\Bigg)
-\end{align*}
+%Using the facts that $\varepsilon \leq (mnK_{\min}^2)^{-1/4}$ and $\kappa \leq \sqrt{m/(nK_{\min})}$, 
+% We can get a closed forms of~\eqref{maginal_mu} and~\eqref{maginal_nu} depending on $n,m,K_{\min}$, the budgets $n_b,m_b,$ and $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ with $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i, \underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$ as follows:
+% \begin{align*}
+% {\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Bigg(n_bc_\kappa + (n- n_b) \bigg[\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}{K_{\min}}}
+%  + \log\bigg(\frac{(n-n_b+1)\sqrt{m}}{m_b \sqrt{n}K_{\min}^{3/2}\underline{\nu}} 
+% \bigg)\bigg]\Bigg)
+% \end{align*}
 % + \frac{m^{1/4}}{n^{3/4}m_bK_{\min}^{5/2}\underline{\nu}}
 % and 
 % \begin{align*}
