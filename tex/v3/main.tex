@@ -5,14 +5,14 @@
 % before loading neurips_2019
 
 % ready for submission
-% \usepackage{neurips_2019}
+\usepackage{neurips_2019}
 
 % to compile a preprint version, e.g., for submission to arXiv, add add the
 % [preprint] option:
 %\usepackage[preprint]{neurips_2019}
 
 % to compile a camera-ready version, add the [final] option, e.g.:
-\usepackage[]{neurips_2019}
+% \usepackage[]{neurips_2019}
 
 % to avoid loading the natbib package, add option nonatbib:
 % \usepackage[nonatbib]{neurips_2019}
@@ -89,6 +89,29 @@
 
 \begin{document}
 
+\author{%
+Mokhtar Z. Alaya \\
+LITIS EA4108\\
+University of Rouen\\
+\texttt{mokhtarzahdi.alaya@gmail.com} 
+\And
+Maxime Bérar\\
+LITIS EA4108\\
+University of Rouen\\
+\texttt{maxime.berar@univ-rouen.fr} \\
+\And
+Gilles Gasso \\
+LITIS EA4108\\
+INSA, University of Rouen\\
+\texttt{gilles.gasso@insa-rouen.fr} 
+\And
+Alain Rakotomamonjy\\
+LITIS EA4108 \\
+University of Rouen\\
+and Criteo AI Labs, Criteo Paris \\
+\texttt{alain.rakoto@insa-rouen.fr} \\
+}
+
 \maketitle
 
 \begin{abstract}
@@ -97,13 +120,6 @@ of the dual solution of the regularized Sinkhorn problem, we propose to screen t
 More formally, the approach is based on a reformulation of \emph{dual of Sinkhorn divergence problem} and on the KKT optimality conditions of this problem, which enable identification of dual components to be screened.
 This new analysis leads to the \emph{Screenkhorn} algorithm.
 We illustrate the efficiency of Screenkhorn on complex tasks such as dimensionality reduction or domain adaptation involving regularized optimal transport.
-
-% This paper deals with the problem of approximating optimal transport (OT) distance between two discrete measures.
-% Our proposed approach involves a convex projection of the \emph{dual of Sinkhorn divergence}, allowing to formulate two appropriate active indices sets for the potential variables.
-% These indices sets depend on two parameters acting like a threshold and a scaling factor and they are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
-% This new analysis induces a screened version of the dual of Sinkhorn divergence and suggests the \emph{Screenkhorn} algorithm.
-% We illustrate the favorable performance of Screenkhorn in practice with numerical experiments on synthetic and real datasets.
-
 \end{abstract}
 
 \input{section_1_introduction}

@@ -14,7 +14,7 @@
 
 \paragraph{Motivation.} 
 
-The key idea of our approach is motivated by the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning, that is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
+The key idea of our approach is motivated by the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning, which is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
 Then, these inactive features can be removed from the optimization problem to reduce its scale.
 Before diving into detailed algorithmic analysis, let's us present a brief illustration of how we adapt static screening test to the dual of Sinkhorn divergence.
 Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
@@ -23,17 +23,17 @@ We also plot two lines correspond to $e^{u^\star} \equiv \alpha_u$ and $e^{v^\st
 
 \paragraph{Static screening test.} The core of the static screening test developed in this work aims at locating two subsets of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i}\geq \alpha_u, \text{ and } e^{v_j}\geq \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
 $e^{u_{i'}} = \alpha_u, \text{ and } e^{v_{j'}} = \alpha_v, \text{ for all } (i',j') \in I^\complement \times J^\complement$, namely $(u,v) \in \mathcal{C}^n_{\alpha_u}\times \mathcal{C}^m_{\alpha_v}$.
-The sets $I$ and $J$ will be called active sets, we further emphasize that they are determined in an initialization step in the proposed algorithm before running the L-BFGS-B solver.
+The sets $I$ and $J$ are called active sets, we further emphasize that they are determined in an initialization step in the proposed algorithm before running the L-BFGS-B solver.
 Consequently, we can work on a "screened" dual of Sinkhorn divergence by considering variables that belong only to $\R^{|I|} \times \R^{|J|}$ in order to reduce the computational cost.
 
 In the following, the parameters $\alpha_u = \varepsilon \kappa^{-1}$ and $\alpha_v = \varepsilon \kappa$ where $\varepsilon > 0$ and $\kappa > 0$ are fixed numeric constants to be given later. 
-Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, given by:
+Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, defined by:
 
 \begin{equation} 
 \label{screen-sinkhorn}
 \min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
 \end{equation}
-The $\kappa$-parameter plays a role of scaling factor, allowing to get a closed order of the potential variables $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for these variables.
+The $\kappa$-parameter plays a role of scaling factor, allowing to get a closed order of the potential components $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for these components.
 Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
 As explained above, our static screening test is based on constructing two {active sets} denoted $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} as follows: 
 
@@ -101,11 +101,11 @@ It is worth to note that Screenkhorn algorithm uses only the restricted parts $K
 Furthermore, it consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
 The second is a constrained L-BFGS-B for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 The L-BFGS-B solver handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
-The following lemma (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
+The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
 
-\begin{lemma}
-\label{lemma_bounds_of_usc_and_vsc}
-Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}, and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
+\begin{proposition}
+\label{prop:bounds_of_usc_and_vsc}
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def} and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
 one has
 \begin{equation}
 \label{bound_on_u}
@@ -117,7 +117,7 @@ and
 \varepsilon\kappa \vee \frac{\min_{j \in J_{\varepsilon,\kappa}}\nu_j}{\varepsilon(n- n_b) + \varepsilon \vee \frac{\kappa\max_{i\in I_{\varepsilon,\kappa}} \mu_i}{m\varepsilon K_{\min} } n_b} \leq e^{v^{\text{sc}}_j} \leq \varepsilon\kappa \vee \frac{\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon K_{\min} }
 \end{equation}
 for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
-\end{lemma}
+\end{proposition}
 
 \LinesNotNumbered
 \begin{algorithm}[htbp]
