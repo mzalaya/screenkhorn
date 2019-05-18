@@ -47,7 +47,8 @@ are a dimensionality reduction technique, denoted as Wasserstein Discriminant An
 through Sinkhorn divergence \cite{flamary2018WDA} and a domain-adaptation using optimal transport mapping \cite{courty2017optimal}, named OTDA. For both applications, we have based our code
 on the ones of POT \cite{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
 largest component of the projected gradient is smaller than $10^{-9}$, when the
-number of iterations of number of objective function evaluations reach $10^{6}$.
+number of iterations of number of objective function evaluations reach $10^{6}$. For all
+applications, we have set $\eta=1$.
 
 
 WDA aims at finding a linear projection which minimize the ratio of distance between intra-class samples and distance inter-class samples, where the distance is understood
@@ -74,8 +75,8 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 \begin{figure*}[t]
 	\centering
 
-	\includegraphics[width=6.cm]{../../figure/da_gain_toy_regcl1.pdf}
 	\includegraphics[width=6.cm]{../../figure/da_gain_mnist_regcl1.pdf}
+	\includegraphics[width=6.cm]{../../figure/da_gain_mnist_regcl10.pdf}
 	\caption{OT Domain adaptation : running time gain for a toy dataset and for mnist as a function of the number of examples and the data decimation factor in \emph{Screenkhorn}}.
 	\label{fig:otda}
 \end{figure*}
