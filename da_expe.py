@@ -34,7 +34,7 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 2000, type=int,
+parser.add_argument('-n', action='store', dest='n', default = 200, type=int,
                         help='number of samples ')
 parser.add_argument('-d', action='store', dest='d', default = 1, type=int,
                         help='dataset type ')
