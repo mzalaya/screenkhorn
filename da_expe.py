@@ -52,7 +52,7 @@ n_samples_source = n
 n_samples_target = n
 
 nb_iter = 50
-reg_cl = 1
+reg_cl = 10
 K = 1 # K of KNN
 
 pathres='./resultat/'
@@ -72,7 +72,7 @@ for i in range(nb_iter):
     np.random.seed(i)
 
     if data =='toy':
-        Xs,ys,Xt,yt = toy(n_samples_source,n_samples_target,nz=1,random_state=i)
+        Xs,ys,Xt,yt = toy(n_samples_source,n_samples_target,nz=0.75,random_state=i)
     else:
         data = np.load('mnist_usps_feat10.npz')
         Xs,ys = subsample(data['X_s'], data['y_s'],n//10)
