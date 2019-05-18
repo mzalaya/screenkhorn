@@ -120,7 +120,8 @@ for i in range(nb_iter):
         bc_screen[i,j] = np.mean(y_pred==yt)
     
 #%%
-    
+    print(time_sink[i])
+    print(time_screen[i])
     np.savez(pathres + filename, bc_none = bc_none,
              bc_sink= bc_sink,  bc_screen= bc_screen,
              time_sink = time_sink,  time_screen = time_screen)
