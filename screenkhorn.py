@@ -400,9 +400,9 @@ class Screenkhorn:
         
         # params of bfgs
         theta0 = np.hstack([self.u0, self.v0])
-        maxiter = 1000000 # max number of iterations
-        maxfun = 1000000 # max  number of function evaluations
-        pgtol = 1e-09 # final objective function accuracy
+        maxiter = 10000 # max number of iterations
+        maxfun = 10000 # max  number of function evaluations
+        pgtol = 1e-06 # final objective function accuracy
 
         obj = lambda theta: self._bfgspost(theta)
         bounds = self.bounds_u + self.bounds_v
