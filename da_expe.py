@@ -53,7 +53,7 @@ n_samples_source = n
 n_samples_target = n
 
 nb_iter = 50
-reg_cl = 1
+reg_cl = 10
 K = 1 # K of KNN
 
 pathres='./resultat/'
