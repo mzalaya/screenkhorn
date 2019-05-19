@@ -193,6 +193,7 @@ class Screenkhorn:
         if self.restricted:
             self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
         else:
+            print('no restricted')
             self.u0=u0
             self.v0=v0
 
@@ -339,6 +340,7 @@ class Screenkhorn:
         if self.restricted:
             self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
         else:
+            print('no_restricted')
             self.u0=u0
             self.v0=v0
 

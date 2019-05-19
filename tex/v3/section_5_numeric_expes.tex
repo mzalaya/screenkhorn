@@ -3,9 +3,16 @@
 \section{Numerical experiments} % (fold)
 \label{sec:numerical_experiments}
 
-\subsection{Setup}
-the lbfgs is the one of scipy
+In this section, we present some numerical analyses of our
+\emph{Screenkhorn} algorithm and show how it behaves when
+integrated into some complex machine learning pipelines.
 
+\subsection{Setup}
+
+We have implemented our Screenkhorn in Python and used the LBFGS of
+Scipy. Regarding the machine-learning based comparison, we have based our code
+on the ones of POT \cite{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
+largest component of the projected gradient is smaller than $10^{-6}$, when the number of iterations of number of objective function evaluations reach $10^{5}$. For all applications, we have set $\eta=1$.
 
 \subsection{Analysing on toy problem}
 
@@ -44,11 +51,7 @@ the lbfgs is the one of scipy
 In this subsection, we analyse the impact of using \emph{Screenkhorn}
 instead of Sinkhorn in a complex machine learning pipeline. Our two applications
 are a dimensionality reduction technique, denoted as Wasserstein Discriminant Analysis (WDA), based on Wasserstein distance approximated
-through Sinkhorn divergence \cite{flamary2018WDA} and a domain-adaptation using optimal transport mapping \cite{courty2017optimal}, named OTDA. For both applications, we have based our code
-on the ones of POT \cite{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
-largest component of the projected gradient is smaller than $10^{-6}$, when the
-number of iterations of number of objective function evaluations reach $10^{5}$. For all
-applications, we have set $\eta=1$.
+through Sinkhorn divergence \cite{flamary2018WDA} and a domain-adaptation using optimal transport mapping \cite{courty2017optimal}, named OTDA. 
 
 
 WDA aims at finding a linear projection which minimize the ratio of distance between intra-class samples and distance inter-class samples, where the distance is understood
