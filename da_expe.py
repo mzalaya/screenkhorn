@@ -71,7 +71,7 @@ n_samples_source = n
 n_samples_target = n
 
 nb_iter = 10
-reg_cl = 2   # toy, 2 and 0
+reg_cl = 10   # toy, 2 and 0
 K = 1 # K of KNN
 
 pathres='./resultat/'
