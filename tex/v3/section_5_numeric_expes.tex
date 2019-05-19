@@ -8,6 +8,7 @@ the lbfgs is the one of scipy
 
 
 \subsection{Analysing on toy problem}
+We compare \emph{Screenkhorn} to Sinkhorn as implemented in Python Optimal Transport toolbox\footnote{see \url{https://pot.readthedocs.io/en/stable/index.html}} on  a synthetic example. The dataset we use consists of source samples generated from a bi-dimensional gaussian mixture and target samples following the same distribution but with different gaussian means. We consider an unsupervised domain adaptation using optimal transport with entropic regularization.  Several settings are explored: different values of $\eta$, the regularization parameter, the allowed budget $\frac{n_b}{n} = \frac{m_b}{m} = $ ranging from $0.01$ to $0.99$, different values of $n$ and $m$ and finally, whether the cost matrix $C$ is normalized or not. 
 
 * compared restricted/non-restricted
 
