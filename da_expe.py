@@ -15,9 +15,10 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import argparse
 
-def toy(n_samples_source,n_samples_target,nz=0.75,random_state=None):
+def toy(n_samples_source,n_samples_target,nz=0.75,translate = 3, random_state=None):
     Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
     Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
+    Xt = Xt + translate
     return Xs, ys, Xt, yt
 
 def subsample(x,y,n, nb_class=10):

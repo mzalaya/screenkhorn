@@ -46,8 +46,8 @@ instead of Sinkhorn in a complex machine learning pipeline. Our two applications
 are a dimensionality reduction technique, denoted as Wasserstein Discriminant Analysis (WDA), based on Wasserstein distance approximated
 through Sinkhorn divergence \cite{flamary2018WDA} and a domain-adaptation using optimal transport mapping \cite{courty2017optimal}, named OTDA. For both applications, we have based our code
 on the ones of POT \cite{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
-largest component of the projected gradient is smaller than $10^{-9}$, when the
-number of iterations of number of objective function evaluations reach $10^{6}$. For all
+largest component of the projected gradient is smaller than $10^{-6}$, when the
+number of iterations of number of objective function evaluations reach $10^{5}$. For all
 applications, we have set $\eta=1$.
 
 
