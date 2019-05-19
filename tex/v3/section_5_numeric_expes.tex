@@ -54,11 +54,10 @@ applications, we have set $\eta=1$.
 WDA aims at finding a linear projection which minimize the ratio of distance between intra-class samples and distance inter-class samples, where the distance is understood
 in a Sinkhorn divergence sense. We have used a toy problem involving Gaussian classes with $2$ discriminative features and $8$ noisy features and the MNIST dataset. For the
 former problem, we aim at find the best two-dimensional linear subspace in a WDA sense whereas for MNIST, we look for a subspace of dimension $20$ starting from the original
-$728$ dimensions.  Quality of the retrieved subspace are evaluated using classification task
-based on a $1$-nearest neighbour approach.
+$728$ dimensions.  Quality of the retrieved subspace are evaluated using classification task based on a $1$-nearest neighbour approach.
 
 Figure \ref{fig:wda} presents the average gain (over $30$ trials) in computational time we get as the number of examples evolve and for different decimation factors of the \emph{Sinkhorn} problem.
-Analysis of the quality of the subspace have been deported to the supplementary material, but we can remark a small loss of performance of Screenkhorn for the toy problem, while
+Analysis of the quality of the subspace have been deported to the supplementary material (see Figure \ref{}), but we can remark a small loss of performance of Screenkhorn for the toy problem, while
 for MNIST, accuracies are equivalent regardless of the decimation factor.  We can note
 that for the minimal gains are respectively $2$ and $4.5$ for the toy and MNIST problem
 whereas the maximal gain for $4000$ samples is slightly larger than an order of magnitude. 
@@ -85,8 +84,10 @@ For the optimal transport based domain adaptation problem, we have considered th
 OTDA with $\ell_{0.5,1}$ group-lasso regularizer that helps in exploiting available labels in the source domain. The problem is solved using an majorization-minimization approach 
 for handling the non-convexity of the problem. Hence, at each iteration, a Sinkhorn/Screenkhorn has to be computed. As a domain-adaptation problem, we have
 used a MNIST to USPS problem in which features have been extracted from the
-feature extractor of an domain adversarial neural networks \cite{ganin2016domain} before full
-convergence of the networks (so as to leave room for OT adaptation).
+feature extractor of an domain adversarial neural networks \cite{ganin2016domain} before full convergence of the networks (so as to leave room for OT adaptation). 
+Figure \ref{fig:otda} reports the gain in running time for $2$ fifferent values
+of the group-lasso regularizer hyperparameter, while the curves of performances are
+reported in the supplementary material. We can note that for all the  \emph{Screenkhorn} with different decimation factors, the gain in computation goes from a factor of $4$ to $12$, while accuracies are somewhat equivalent.
 
 
 
