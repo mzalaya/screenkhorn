@@ -171,6 +171,23 @@ Proof of the upper bound for $\norm{\nu - {\nu}^{\text{sc}}}^2_1$ follows the sa
 	\includegraphics[width=6.cm]{../../figure/da_gain_toy_regcl10.pdf}
 	\includegraphics[width=6.cm]{../../figure/da_accur_toy_regcl1.pdf}
 	\includegraphics[width=6.cm]{../../figure/da_accur_toy_regcl10.pdf}
-	\caption{OT Domain adaptation : running time gain for a toy dataset and for mnist as a function of the number of examples and the data decimation factor in \emph{Screenkhorn}}.
+	\caption{OT Domain Adaptation on a toy problem : running time gain for a toy dataset and for mnist as a function of the number of examples and the data decimation factor in \emph{Screenkhorn}}.
 	\label{fig:otda}
+\end{figure*}
+
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl1.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl10.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl1.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl10.pdf}
+	\caption{OT Domain adaptation MNIST to USPS : (top) Accuracy and (bottom) running time of Sinkhorn and \emph{Screenkhorn} for hyperparameter of the $\ell_{p,1}$ regularizer (left) $\lambda = 1$ and (right) $\lambda=10$. Note that this
+	value impact of the ground cost of each Sinkhorn problem involved in the iterative algorithm. The accuracy panels
+	also report the performance of a $1$-NN when no-adaptation is performed.  
+	We remark that the strenght of the class-based has influence on the performance of \emph{Screenkhorn} given a decimation factor. For small value on the left, Screenkhorn slightly performs better than Sinkhorn, while for large value, some
+	decimation factors leads to loss of performances.
+	Regarding, running time, we can note that Sinkhorn is far less efficient than
+	\emph{Screenkhorn}  with an order of magnitude for intermediate number of samples.
+	\label{fig:otda:mnist:extra}}
 \end{figure*}
