@@ -84,7 +84,6 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
         lbfgsb = screenkhorn.lbfgsb()
         time_bfgs = time() - tic
         P_sc= lbfgsb[2]
-        rel_cost_vect = np.abs(np.sum(M*(P_sc - Pstar)))/np.sum(M*Pstar)
         
         # screenkhorn marginals
         a_sc = P_sc @ np.ones(b.shape)
@@ -93,14 +92,16 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
         # comparisons
         rel_time_vect[j] = time_bfgs/time_sink
         diff_a_vect[j]   = norm(a - a_sc, ord=1)**2
-        diff_b_vect[j]   = norm(b - b_sc, ord=1)**2
+        diff_b_vect[j]   = norm(b - b_sc, ord=1)**2       
+        rel_cost_vect[j] = np.abs(np.sum(M*(P_sc - Pstar)))/np.sum(M*Pstar)
+
     return diff_a_vect, diff_b_vect, rel_time_vect,rel_cost_vect
 
 
 
 #%%
 pathres= './resultat/'
-nvect = [100, 500, 1000, 2500, 3000]
+nvect = [200,500, 1000, 2500, 3000]
 pvect = [0.99, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
          0.2, 0.1, 0.05, 0.01]
 regvect = [1e-1, 5e-1, 1, 10]
@@ -122,7 +123,7 @@ for n in nvect:
         np.random.seed(i)
         # gen data
         if datatype =='toy':
-            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, random_state=i)
+            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=0.8, random_state=i)
         else:
             data = np.load('./data/mnist_usps_feat10.npz')
             Xs,ys = subsample(data['X_s'], data['y_s'],n//10)
@@ -130,7 +131,7 @@ for n in nvect:
             
         # cost matrix
         M = dist(Xs, Xt)
-        M /= M.max()
+        #M /= M.max()
         
         # Marginals
         a = np.ones(n)/n
@@ -204,3 +205,16 @@ for n in nvect:
         filename_fig_time = 'time_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
         plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
     
+    
+        rel_cost     = M_cost[:,j,:]
+        rel_cost_mean = rel_cost.mean(axis=0)
+        rel_cost_std  = rel_cost.std(axis=0)
+        
+        plt.figure(figsize=(9, 5))
+        plot_mean_and_CI(pvect, rel_cost_mean, rel_cost_std*coeff, 
+                         color_mean='k', color_shading='k')
+        plt.xlabel(r'$n_b/n$')
+        plt.ylabel('Divergence Ratio')
+        plt.title('Regularization $\eta = ${:} and $n=m=${:d}'.format(reg,n))
+        filename_fig_time = 'divergence_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
+        plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
