@@ -143,7 +143,8 @@ class Screenkhorn:
             self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
             # K_min
             K_min = self.K_IJ.min()
-            
+            if K_min == 0:
+                K_min = np.finfo(float).tiny
             # a_I,b_J,a_Ic,b_Jc
             self.a_I = self.a[self.I]
             self.b_J = self.b[self.J]
@@ -158,7 +159,7 @@ class Screenkhorn:
                 self.b_J_max = self.b_J [0]
                 self.b_J_min = self.b_J[0]
             
-          
+           
     
             # LBFGS box
             self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (m - self.M) \
@@ -287,6 +288,8 @@ class Screenkhorn:
         self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
         
         K_min = self.K_IJ.min()
+        if K_min == 0:
+            K_min = np.finfo(float).tiny
         # a_I,b_J,a_Ic,b_Jc
         self.a_I = self.a[self.I]
         self.b_J = self.b[self.J]
