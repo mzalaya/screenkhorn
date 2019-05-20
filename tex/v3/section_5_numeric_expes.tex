@@ -21,14 +21,15 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 
 \begin{figure*}[t]
 	\begin{center}
-		\includegraphics[width=14.cm]{../../figure/norm_M_marginals_toy_n1000} \\
-		\includegraphics[width=8.cm]{../../figure/norm_M_time_toy_n1000}
+		\includegraphics[width=4.55cm]{../../figure/norm_M_Mu_marginals_toy_n1000} \hfill
+		\includegraphics[width=4.55cm]{../../figure/norm_M_Mu_marginals_toy_n1000} \hfill
+		\includegraphics[width=4.55cm]{../../figure/norm_M_time_toy_n1000}
 	\end{center}
 	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn for normalized cost matrix. (Top panel) marginal violations in relation with the budget of points and (Bottom panel) ratio of computation times $\frac{T_{\text{\emph{Screenkhorn}}}}{T_{\text{Sinkhorn}}}$. The results are averaged over 10 runs.} 
 		\label{fig:margin_expe}
 \end{figure*}
 
-\emph{Screenkhorn} provides good approximation of the marginals $\mu$ and $\nu$ for ''high'' values of the regularization parameter $\eta$ ($\eta > 1$). The approximation quality diminishes for small $\eta$. As expected $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$ converge to zero when increasing the budget of points. Remarkably those quantities are all almost null whatever the budget for high $\eta$.  According to computational gain, \emph{Screenkhorn} is, up to 2 times; faster than Sinkhorn at low budget $n_b/n$
+\emph{Screenkhorn} provides good approximation of the marginals $\mu$ and $\nu$ for ''high'' values of the regularization parameter $\eta$ ($\eta > 1$). The approximation quality diminishes for small $\eta$. As expected $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$ converge to zero when increasing the budget of points. Remarkably those quantities are all almost null whatever the budget for high $\eta$.  According to computational gain, \emph{Screenkhorn} is, up to 2 times, faster than Sinkhorn at low budget $n_b/n$. The inverse situation occurs when $n_b/n$ gets close to 1. The computational benefit  
 
 
 

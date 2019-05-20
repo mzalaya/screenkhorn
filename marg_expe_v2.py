@@ -17,11 +17,11 @@ np.random.seed(3946)
 import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('font', **{'family': 'sans-serif', 'sans-serif': ['Computer Modern Roman']})
-params = {'axes.labelsize': 16, # 12
-          'font.size': 16, # 12
+params = {'axes.labelsize': 18, # 12
+          'font.size': 18, # 12
           'legend.fontsize': 18, # 12
-          'xtick.labelsize': 14, # 10
-          'ytick.labelsize': 14, # 10
+          'xtick.labelsize': 16, # 10
+          'ytick.labelsize': 16, # 10
           #'text.usetex': True,
           #'figure.figsize': (8, 6)
           }
@@ -119,7 +119,7 @@ regvect = [1e-1, 5e-1, 1, 10]
 #regvect = [1e-1, 1, 10]
 datatype = 'toy' # change to mnist to run on Mnist dataset
 n_iter = 10 # we repeat n_iter times 
-normalize = False
+normalize = True
 
 #%%
 for n in nvect:
@@ -183,7 +183,7 @@ for n in nvect:
     
     plt.figure(1, figsize=(9, 6))
     plt.figure(2, figsize=(9, 6))
-    plt.figure(1, figsize=(9, 6))
+    plt.figure(3, figsize=(9, 6))
     
     for j, reg in enumerate(regvect):       
         diff_a      = M_diff_a[:, j, :]
@@ -196,7 +196,7 @@ for n in nvect:
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(pvect, diff_a_mean+diff_a_std*coeff, 
                          diff_a_mean-diff_a_std*coeff, alpha=.15)
-        plt.yscale('log')
+        #plt.yscale('log')
         plt.xlabel(r'$n_b/n$')
         plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$')
         plt.xticks(pvect, pvect, rotation='vertical')
@@ -214,7 +214,7 @@ for n in nvect:
         plt.fill_between(pvect, diff_b_mean+diff_b_std*coeff, 
                          diff_b_mean-diff_b_std*coeff, alpha=.15)
         
-        plt.yscale('log')
+        #plt.yscale('log')
         plt.xlabel(r'$m_b/m$')
         plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$')
         plt.title('$n=m=${:d}'.format(n))
@@ -229,7 +229,7 @@ for n in nvect:
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(pvect, rel_time_mean+rel_time_std*coeff, 
                          rel_time_mean-rel_time_std*coeff, alpha=.15)
-        plt.yscale('log')
+        #plt.yscale('log')
         plt.xlabel(r'$n_b/n$')
         plt.ylabel('Time Ratio')
         plt.title('$n=m=${:d}'.format(n))
