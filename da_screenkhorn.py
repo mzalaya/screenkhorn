@@ -119,11 +119,12 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
 
     p_n = kwargs.get('p_n', 1)
     p_m = kwargs.get('p_m', 1)
+    one_init =  kwargs.get('one_init', False)
 
     n_budget = int(np.ceil(M.shape[0] / p_n))
     m_budget = int(np.ceil(M.shape[1] / p_m))
     
-    screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False)
+    screenkhorn = Screenkhorn(a, b, M, reg, N=n_budget, M=m_budget, verbose=False,one_init=one_init)
     transp = screenkhorn.lbfgsb()[2]
     
     W = np.ones(M.shape)
@@ -1247,7 +1248,7 @@ class ScreenkhornTransport(BaseTransport):
 
     def __init__(self, reg_e=1., max_iter=1000,
                  tol=10e-9, verbose=False, log=False,
-                 metric="sqeuclidean", norm=None,
+                 metric="sqeuclidean", norm=None,one_init=False,
                  distribution_estimation=distribution_estimation_uniform,
                  out_of_sample_map='ferradans', limit_max=np.infty):
 
@@ -1261,7 +1262,7 @@ class ScreenkhornTransport(BaseTransport):
         self.limit_max = limit_max
         self.distribution_estimation = distribution_estimation
         self.out_of_sample_map = out_of_sample_map
-
+        self.one_init=one_init
     def fit(self, Xs=None, ys=None, Xt=None, yt=None, **kwargs):
         """Build a coupling matrix from source and target sets of samples
         (Xs, ys) and (Xt, yt)
@@ -1298,7 +1299,9 @@ class ScreenkhornTransport(BaseTransport):
         n_budget = int(np.ceil(self.cost_.shape[0] / p_n))
         m_budget = int(np.ceil(self.cost_.shape[1] / p_m))
 
-        screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,N=n_budget, M=m_budget,verbose = False)
+        screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,
+                                  N=n_budget, M=m_budget, one_init=self.one_init_init,
+                                  verbose = False)
         returned_ = screenkhorn.lbfgsb()[2]
 
         # returned_ = sinkhorn(
@@ -1370,7 +1373,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
 
     def __init__(self, reg_e=1., reg_cl=0.1,
                  max_iter=10, max_inner_iter=200, log=False,
-                 tol=10e-9, verbose=False,
+                 tol=10e-9, verbose=False, one_init= False,
                  metric="sqeuclidean", norm=None,
                  distribution_estimation=distribution_estimation_uniform,
                  out_of_sample_map='ferradans', limit_max=np.infty):
@@ -1387,6 +1390,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
         self.distribution_estimation = distribution_estimation
         self.out_of_sample_map = out_of_sample_map
         self.limit_max = limit_max
+        self.one_init = one_init
 
     def fit(self, Xs, ys=None, Xt=None, yt=None, **kwargs):
         """Build a coupling matrix from source and target sets of samples
@@ -1421,7 +1425,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
             p_n = kwargs.get('p_n', 2)# keep only 50% of points
             p_m = kwargs.get('p_m', 2)# keep only 50% of points
             returned_ = screenkhorn_lpl1_mm(
-                a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_,
+                a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_, one_init= self.one_init,
                 reg=self.reg_e, eta=self.reg_cl, numItermax=self.max_iter,
                 numInnerItermax=self.max_inner_iter, stopInnerThr=self.tol,
                 verbose=self.verbose, log=self.log, p_n=p_n, p_m=p_m)

@@ -11,7 +11,7 @@ from time import time
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True, restricted=True):
+    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True, restricted=True,one_init=False):
 
         tic_initial = time()
         # In wda_screen.py autograd package is used, we then have to change some arrays from "ArrayBox" type to "np.array".
@@ -32,6 +32,7 @@ class Screenkhorn:
         self.verbose = verbose
         self.uniform = uniform
         self.restricted = restricted
+        self.one_init = one_init
 
         # K
         self.K = np.empty_like(self.C)
@@ -189,8 +190,14 @@ class Screenkhorn:
             self.cst_u = self.fact_scale * self.epsilon * self.K_IJc.sum(axis=1)
             self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0) / self.fact_scale
 
-        u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
-        v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
+        if not self.one_init:
+            u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
+            v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
+        else:
+            print('ONE INIT')
+            u0 = np.full(self.N,1.)
+            v0 = np.full(self.M,1.)
+        
         if self.restricted:
             self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
         else:
@@ -337,8 +344,16 @@ class Screenkhorn:
             self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0) / self.fact_scale
 
         
-        u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
-        v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
+        #u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
+        # v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
+        #u0 = np.full(self.N,1.)
+        #v0 = np.full(self.M,1.)
+        if not self.one_init:
+            u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
+            v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
+        else:
+            u0 = np.full(self.N,1.)
+            v0 = np.full(self.M,1.)
         
         if self.restricted:
             self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
