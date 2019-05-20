@@ -10,6 +10,7 @@ Domain adaptation with optimal transport
 
 import numpy as np
 import scipy.linalg as linalg
+from time import process_time as time
 
 from ot.bregman import sinkhorn
 from ot.lp import emd
@@ -135,8 +136,12 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
         
         Mreg = M + eta * W
         # screenkhorn
+        #tic = time()
+
         screenkhorn.update(Mreg)
         transp = screenkhorn.lbfgsb()[2]
+        #toc = time() - tic
+        #print('screen',toc)
         # transp = sinkhorn(a, b, Mreg, reg, numItermax=numInnerItermax, stopThr=stopInnerThr)
         # the transport has been computed. Check if classes are really
         # separated
@@ -1415,7 +1420,6 @@ class ScreenkhornLpl1Transport(BaseTransport):
 
             p_n = kwargs.get('p_n', 2)# keep only 50% of points
             p_m = kwargs.get('p_m', 2)# keep only 50% of points
-            print(self.cost_)
             returned_ = screenkhorn_lpl1_mm(
                 a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_,
                 reg=self.reg_e, eta=self.reg_cl, numItermax=self.max_iter,

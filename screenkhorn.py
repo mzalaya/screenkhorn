@@ -11,7 +11,7 @@ from time import time
 
 class Screenkhorn:
 
-    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True):
+    def __init__(self, a, b, C, reg, N, M, verbose = True, uniform = True, restricted=True):
 
         tic_initial = time()
         # In wda_screen.py autograd package is used, we then have to change some arrays from "ArrayBox" type to "np.array".
@@ -31,6 +31,7 @@ class Screenkhorn:
         self.M = M
         self.verbose = verbose
         self.uniform = uniform
+        self.restricted = restricted
 
         # K
         self.K = np.empty_like(self.C)
@@ -189,8 +190,12 @@ class Screenkhorn:
 
         u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
         v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
-        
-        self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
+        if self.restricted:
+            self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
+        else:
+            print('no restricted')
+            self.u0=u0
+            self.v0=v0
 
         if self.verbose :
             print(time() - tic_initial)
@@ -332,7 +337,12 @@ class Screenkhorn:
         u0 = np.full(self.N, (1. / self.N) + self.epsilon / self.fact_scale)
         v0 = np.full(self.M, (1. / self.M) + self.epsilon * self.fact_scale)
         
-        self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
+        if self.restricted:
+            self.u0, self.v0 = self.restricted_sinkhorn(u0, v0, max_iter=5)
+        else:
+            print('no_restricted')
+            self.u0=u0
+            self.v0=v0
 
 
 
@@ -392,9 +402,9 @@ class Screenkhorn:
         
         # params of bfgs
         theta0 = np.hstack([self.u0, self.v0])
-        maxiter = 1000 # max number of iterations
-        maxfun = 1000 # max  number of function evaluations
-        pgtol = 1e-09 # final objective function accuracy
+        maxiter = 10000 # max number of iterations
+        maxfun = 10000 # max  number of function evaluations
+        pgtol = 1e-06 # final objective function accuracy
 
         obj = lambda theta: self._bfgspost(theta)
         bounds = self.bounds_u + self.bounds_v
