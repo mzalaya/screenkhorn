@@ -39,6 +39,7 @@
 
 %% formatting appendices
 \usepackage{etoolbox}
+\usepackage{natbib}
 \patchcmd{\appendices}{\quad}{. }{}{}
 
 %% tables
@@ -48,10 +49,17 @@
 
 %% algorithms
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{enumitem}
+
+\setlist[itemize]{leftmargin=4.5mm}
 
 \usepackage{accents}
 \usepackage{datenumber}
 \usepackage{wrapfig}
+
+\newcommand{\rev}[1]{{\color{blue} #1}}
+\newcommand{\ar}[1]{{\color{red} #1}}
+\newcommand{\rf}[1]{{\color{green} #1}}
 
 %% sections
 \newtheorem{theorem}{Theorem}
@@ -108,7 +116,7 @@ INSA, University of Rouen\\
 Alain Rakotomamonjy\\
 LITIS EA4108 \\
 University of Rouen\\
-and Criteo AI Labs, Criteo Paris \\
+and Criteo AI Lab, Criteo Paris \\
 \texttt{alain.rakoto@insa-rouen.fr} \\
 }
 
@@ -148,7 +156,7 @@ achieve when integrated in some complex machine learning pipelines.
 
 \small
 \bibliography{biblio}
-\bibliographystyle{plain}
+\bibliographystyle{icml2019}
 
 \newpage
 \section{Supplementary material}

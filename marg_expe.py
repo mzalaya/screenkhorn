@@ -10,7 +10,8 @@ Created on Thu May 16 10:12:46 2019
 import numpy as np
 from numpy.linalg import norm as norm
 import scipy.stats as stats
-
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 np.random.seed(3946)
 
 # MATPLOTLIB
@@ -22,7 +23,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # TIME
-from time import time 
+from time import process_time as time
 
 # POT
 from ot.datasets import make_data_classif
@@ -46,7 +47,7 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 #%%
-def toy(n_samples_source,n_samples_target,nz=0.75,random_state=None):
+def toy(n_samples_source,n_samples_target,nz=0.8,random_state=None):
     Xs, ys = make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
     Xt, yt = make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
     return Xs, ys, Xt, yt
