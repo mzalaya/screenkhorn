@@ -10,14 +10,33 @@ from time import process_time as time
 import ot
 import ot.plot
 import  da_screenkhorn
+from sklearn.datasets import make_blobs
 
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import argparse
 
-def toy(n_samples_source,n_samples_target,nz=0.75,random_state=None):
-    Xs, ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
+def toy(n_samples_source,n_samples_target,nz=0.8,translate = 0.2, random_state=None):
+    Xs , ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
     Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
+    Xt = Xt + translate
+    
+#    n_features = 50
+#    s_noise = nz
+#    centers = np.array([(1, 0), (-1, 0), (0.4, 0.8)])
+#    Xs, ys = make_blobs(n_samples=n_samples_source, n_features= n_features, cluster_std= s_noise,
+#                  centers=centers, shuffle=False)
+#    ys[ys==2] = 3
+#    ys[ys==1] = 2
+#    ys[ys==0] = 1
+#    
+#    centers = centers + translate
+#    Xt, yt = make_blobs(n_samples=n_samples_target, n_features= n_features, cluster_std= s_noise,
+#                  centers=centers, shuffle=False)
+#    yt[yt==2] = 3
+#    yt[yt==1] = 2
+#    yt[yt==0] = 1
+    
     return Xs, ys, Xt, yt
 
 def subsample(x,y,n, nb_class=10):
@@ -34,7 +53,7 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 200, type=int,
+parser.add_argument('-n', action='store', dest='n', default = 1000, type=int,
                         help='number of samples ')
 parser.add_argument('-d', action='store', dest='d', default = 1, type=int,
                         help='dataset type ')
@@ -51,14 +70,14 @@ else:
 n_samples_source = n
 n_samples_target = n
 
-nb_iter = 50
-reg_cl = 1
+nb_iter = 10
+reg_cl = 10   # toy, 2 and 0
 K = 1 # K of KNN
 
 pathres='./resultat/'
 p_vec = [1.5,2,5,10,20,50,100]
 n_pvec=  len(p_vec)
-filename = 'da_{:}_n{:d}_regcl{:d}.npz'.format(data,n,reg_cl)
+filename = 'da_{:}_n{:d}_regcl{:2.2f}.npz'.format(data,n,reg_cl*10)
 
 bc_none = np.zeros(nb_iter)
 bc_sink = np.zeros(nb_iter)
@@ -72,7 +91,7 @@ for i in range(nb_iter):
     np.random.seed(i)
 
     if data =='toy':
-        Xs,ys,Xt,yt = toy(n_samples_source,n_samples_target,nz=0.75,random_state=i)
+        Xs,ys,Xt,yt = toy(n_samples_source,n_samples_target,random_state=i)
     else:
         data = np.load('mnist_usps_feat10.npz')
         Xs,ys = subsample(data['X_s'], data['y_s'],n//10)
@@ -107,12 +126,12 @@ for i in range(nb_iter):
         print(p_n)
         # Screenkhorn Transport
         tic = time()
-        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1e0,reg_cl=reg_cl)
+        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
         ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, p_n=p_n, p_m=p_n)
        
         time_screen[i,j] = time() - tic
         # transport source samples onto target samples
-        transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs)
+        transp_Xs_screenkhorn = ot_screenkhorn.transform(Xs=Xs,)
         
         clf_screened = KNeighborsClassifier(K)
         clf_screened.fit(transp_Xs_screenkhorn, ys)

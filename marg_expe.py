@@ -10,7 +10,8 @@ Created on Thu May 16 10:12:46 2019
 import numpy as np
 from numpy.linalg import norm as norm
 import scipy.stats as stats
-
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
 np.random.seed(3946)
 
 # MATPLOTLIB
@@ -22,7 +23,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # TIME
-from time import time 
+from time import process_time as time
 
 # POT
 from ot.datasets import make_data_classif
@@ -46,7 +47,7 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 #%%
-def toy(n_samples_source,n_samples_target,nz=0.75,random_state=None):
+def toy(n_samples_source,n_samples_target,nz=0.8,random_state=None):
     Xs, ys = make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
     Xt, yt = make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
     return Xs, ys, Xt, yt
@@ -65,12 +66,14 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
     rel_time_vect = np.empty(n_pvect)
     diff_a_vect   = np.empty(n_pvect)
     diff_b_vect   = np.empty(n_pvect)
-    
+    rel_cost_vect   = np.empty(n_pvect)
+
     # sinkhorn 
     tic = time()
-    _ = sinkhorn(a, b, M, reg)
+    P_sink = sinkhorn(a, b, M, reg)
     time_sink = time() - tic
-    
+    Pstar = P_sink[0]    
+
     for j,p in enumerate(pvect):
         print('p:', p)
         # screenkhorn
@@ -90,14 +93,20 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
         # comparisons
         rel_time_vect[j] = time_bfgs/time_sink
         diff_a_vect[j]   = norm(a - a_sc, ord=1)**2
-        diff_b_vect[j]   = norm(b - b_sc, ord=1)**2
-    return diff_a_vect, diff_b_vect, rel_time_vect
+        diff_b_vect[j]   = norm(b - b_sc, ord=1)**2       
+        rel_cost_vect[j] = np.abs(np.sum(M*(P_sc - Pstar)))/np.sum(M*Pstar)
+
+    return diff_a_vect, diff_b_vect, rel_time_vect,rel_cost_vect
 
 
 
 #%%
 pathres= './resultat/'
-nvect = [100, 500, 1000, 2500, 3000]
+
+nvect = [200,500, 1000, 2500, 3000]
+
+
+
 pvect = [0.99, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
          0.2, 0.1, 0.05, 0.01]
 regvect = [1e-1, 5e-1, 1, 10]
@@ -113,12 +122,13 @@ for n in nvect:
     M_diff_a = np.empty((n_iter, len(regvect), len(pvect)))
     M_diff_b = np.empty((n_iter, len(regvect), len(pvect)))
     M_time   = np.empty((n_iter, len(regvect), len(pvect)))
-    
+    M_cost   = np.empty((n_iter, len(regvect), len(pvect)))
+
     for i in range(n_iter):
         np.random.seed(i)
         # gen data
         if datatype =='toy':
-            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, random_state=i)
+            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=0.8, random_state=i)
         else:
             data = np.load('./data/mnist_usps_feat10.npz')
             Xs,ys = subsample(data['X_s'], data['y_s'],n//10)
@@ -126,7 +136,7 @@ for n in nvect:
             
         # cost matrix
         M = dist(Xs, Xt)
-        M /= M.max()
+        #M /= M.max()
         
         # Marginals
         a = np.ones(n)/n
@@ -134,14 +144,14 @@ for n in nvect:
         
         for j, reg in enumerate(regvect):
             print('reg:', reg)
-            d_av, d_bv, rel_timev = compare_marginals(a, b, M, reg, pvect)
+            d_av, d_bv, rel_timev,rel_costv = compare_marginals(a, b, M, reg, pvect)
             M_diff_a[i, j, :] = d_av
             M_diff_b[i, j, :] = d_bv
             M_time[i, j, :]   = rel_timev
-
+            M_cost[i,j,:] = rel_costv
     np.savez(pathres + filename, 
              M_diff_a = M_diff_a,  M_diff_b = M_diff_b,
-             M_time = M_time)
+             M_time = M_time, M_cost = M_cost)
 
     
 
@@ -200,3 +210,16 @@ for n in nvect:
         filename_fig_time = 'time_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
         plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
     
+    
+        rel_cost     = M_cost[:,j,:]
+        rel_cost_mean = rel_cost.mean(axis=0)
+        rel_cost_std  = rel_cost.std(axis=0)
+        
+        plt.figure(figsize=(9, 5))
+        plot_mean_and_CI(pvect, rel_cost_mean, rel_cost_std*coeff, 
+                         color_mean='k', color_shading='k')
+        plt.xlabel(r'$n_b/n$')
+        plt.ylabel('Divergence Ratio')
+        plt.title('Regularization $\eta = ${:} and $n=m=${:d}'.format(reg,n))
+        filename_fig_time = 'divergence_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
+        plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')

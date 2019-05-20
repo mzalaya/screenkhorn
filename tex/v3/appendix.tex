@@ -158,8 +158,6 @@ Finally, by Lemma~\ref{lem:pinsker} we obtain
 \end{align*}
 Proof of the upper bound for $\norm{\nu - {\nu}^{\text{sc}}}^2_1$ follows the same lines as above.
 
-
-
 \subsection{Bounding dual objective values}
 
 For each vectors $u \in \mathcal{U}_{\text{sc}}$ and $v\in \mathcal{V}_{\text{sc}}$ we define its rearrgement 
@@ -405,3 +403,50 @@ Hence,
 \end{proof}
 
 \subsection{Additional experimental results}
+
+\subsection{Additional experimental results}
+
+\begin{figure*}[t]
+	\centering
+	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
+	~\hfill~\includegraphics[width=6.cm]{./figs/wda_accur_toy.pdf}~\hfill~
+	\includegraphics[width=6.cm]{./figs/wda_accur_mnist.pdf}~\hfill~\\
+	\caption{Accuracy of a $1$-nearest-neighbour after WDA for the (left) toy problem.
+		(right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
+		\label{fig:wda_gain}}
+\end{figure*}
+
+
+
+\begin{figure*}[t]
+	\centering
+	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
+	~\hfill~\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~
+	\includegraphics[width=6.cm]{./figs/da_accur_toy_regcl100.pdf}~\hfill~\\
+	~\hfill~\includegraphics[width=6.cm]{./figs/da_time_toy_regcl100.pdf}
+	~\hfill~\includegraphics[width=6.cm]{./figs/da_gain_toy_regcl100.pdf}~\hfill~\\
+	\caption{OT Domain Adaptation on a 3-class Gaussian toy problem. (top-left) Examples of source and target samples. (top-right) Evolution of the accuracy of a 1-nearest-neighbour classifier with respect to the number of samples. (bottom-left) Running time of the \emph{Sinkhorn} and \emph{Screenkhorn} for different decimation
+	factors. (bottom-right). Gain in computation time. This toy problem is a problem in which classes are overlapping and distance between samples are rather limited. According to our analysis, this may be a situation in which \emph{Screenkhorn} may
+	result in smaller computational gain. We can remark that with respect to the accuracy
+	\emph{Screenkhorn} with decimation factors up to $10$ are competitive with \emph{Sinkhorn}, although a slight loss of performance. Regarding computational time, for this example, small decimation factors does not  result in gain. However for above  $5$-factor decimation, the gain goes from  $2$ to $10$ depending on
+	the number of samples. 
+	\label{fig:otda}}
+\end{figure*}
+
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl1.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl10.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl1.pdf}
+	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl10.pdf}
+	\caption{OT Domain adaptation MNIST to USPS : (top) Accuracy and (bottom) running time of Sinkhorn and \emph{Screenkhorn} for hyperparameter of the $\ell_{p,1}$ regularizer (left) $\lambda = 1$ and (right) $\lambda=10$. Note that this
+	value impact of the ground cost of each Sinkhorn problem involved in the iterative algorithm. The accuracy panels
+	also report the performance of a $1$-NN when no-adaptation is performed.  
+	We remark that the strenght of the class-based has influence on the performance of \emph{Screenkhorn} given a decimation factor. For small value on the left, Screenkhorn slightly performs better than Sinkhorn, while for large value, some
+	decimation factors leads to loss of performances.
+	Regarding, running time, we can note that Sinkhorn is far less efficient than
+	\emph{Screenkhorn}  with an order of magnitude for intermediate number of samples.
+	\label{fig:otda:mnist:extra}}
+\end{figure*}
+

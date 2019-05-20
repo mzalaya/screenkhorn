@@ -128,6 +128,20 @@ We illustrate the efficiency of Screenkhorn on complex tasks such as dimensional
 \input{section_4_marginal_viols}
 \input{section_5_numeric_expes}
 
+\section{Conclusion}
+The paper proposed a novel efficient approximation of the Sinkhorn divergence
+based on a screening strategy. Screening some of the Sinkhorn dual variables
+has been made possible by defining a novel constrained dual problem and by 
+carefully analyzing its optimality conditions. From the latter, we derived some
+sufficient conditions depending on the ground cost matrix, that some dual variables are smaller than a given threshold. Hence, we need just to solve a restricted
+dual Sinkhorn problem using an off-the-shelf LBFGS algorithm. We also provided
+some theoretical guarantees of the quality of the approximation with respect to
+the number of variables that has been screened. Numerical experiments show 
+the behaviour of our \emph{Screenkhorn} algorithm and computational time gain it can
+achieve when integrated in some complex machine learning pipelines.
+
+
+
 % \subsubsection*{Acknowledgments}
 
 % Use unnumbered third level headings for the acknowledgments. All acknowledgments go at the end of the paper. Do not include acknowledgments in the anonymized submission, only in the final paper.
