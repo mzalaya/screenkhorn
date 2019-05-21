@@ -32,7 +32,7 @@ where $c_z = z - \log z - 1$ for $z>0$ and $c_{\mu\nu} = \underline{\mu}\wedge \
 Proof of Proposition~\ref{proposition_error_in_marginals} is presented in supplementary material and its is based on first order optimality conditions for problem~\eqref{screen-sinkhorn_second_def} and on a generalization of Pinsker inequality (see Lemma~\ref{lem:pinsker} in supplementary).
 Note that $c_\kappa$ and $c_{\frac 1\kappa}$ tend to zeros as $\kappa$ goes to one, which is the case when the number budget of points $(n_b,m_b)$ tends to the full one $(n,m)$.
 
-Our second theoretical result, Proposition~\ref{prop:objective-error}, is an upper bound of the difference between objective values of Screenkhorn and dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. %It depends on the quantity $\norm{\mu - \mu^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1$
+Our second theoretical result, Proposition~\ref{prop:objective-error}, is an upper bound of the difference between objective values of Screenkhorn and dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. 
 \begin{proposition}
 \label{prop:objective-error}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def} and $(u^\star, v^\star)$ is the solution of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. Then we have 
@@ -42,4 +42,6 @@ Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{sc
 \end{align*}
 where $\omega_{\kappa} = o(1)$  as $\kappa$ tends to $1.$
 \end{proposition}
+Proof of Proposition~\ref{prop:objective-error} is postponed to the supplemntary material.
+Comparing to some other analysis results of this quantity, see for instance Lemma 2 in~\cite{dvurechensky18aICML} and Lemma 3.1 in~\cite{lin2019}, our bound involves an additional term $\omega_{\kappa}$, that tends to zero when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, i.e., $\kappa$ goes to $1.$
 % section analysis_of_marginal_violations (end)

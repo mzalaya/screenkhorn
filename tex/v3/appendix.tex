@@ -256,14 +256,14 @@ Then
 \begin{align}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) &
 \leq \norm{{u}^{\text{sc}} - {u}^\star}_\infty \norm{\mu^{\text{sc}} - \mu}_1 + \norm{{v}^{\text{sc}} - {v}^\star}_\infty \norm{\nu^{\text{sc}} - \nu}_1\nonumber\\
-&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}} ,\dt{\mu}^{\text{sc}}} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}} ,\dt{\nu}^{\text{sc}}}\nonumber\\
+&\qquad + (1- \kappa)\inr{{u}^{\text{sc}} ,{\mu}^{\text{sc}}} + (1- \kappa^{-1})\inr{{v}^{\text{sc}} ,{\nu}^{\text{sc}}}\nonumber\\
 &\leq \norm{{u}^{\text{sc}} - {u}^\star}_\infty \norm{\mu^{\text{sc}} - \mu}_1 + \norm{{v}^{\text{sc}} - {v}^\star}_\infty\norm{\nu^{\text{sc}} - \nu}_1 \nonumber\\
 &\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{priori_bounds_induction}
 \end{align}
 
 \paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
 
-If $r \in I^\complement_{\varepsilon, \kappa}$ then 
+If $r \in I^\complement_{\varepsilon, \kappa}$, then we have 
 \begin{align*}
 |({u}^{\text{sc}})_{r} - {u}^\star_r| 
 &= \bigg|\log\bigg(\frac{\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m \frac{\kappa \mu_r}{m\varepsilon}}\bigg) \bigg|\\
@@ -273,7 +273,7 @@ If $r \in I^\complement_{\varepsilon, \kappa}$ then
 & \leq \norm{v^\star - {v}^{\text{sc}}}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}}).
 \end{align*}
 where the inequality $(\star)$ comes from the fact that $\frac{\sum_{j=1}^na_j}{\sum_{j'=1}^nb_{j'}} \leq \max_{1\leq j \leq n} \frac{a_j}{b_j}, \forall a_j, b_j>0.$
-Now, if $r \in I_{\varepsilon, \kappa}$, then  we have 
+Now, if $r \in I_{\varepsilon, \kappa}$, we get 
 \begin{align*}
 |{u}^{\text{sc}}_{r} - {u}^\star_r|
 = \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}})_j}}\bigg)\bigg|
@@ -332,19 +332,13 @@ Moreover, we have
 \begin{align*}
 \omega_{\kappa} := (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1
 \end{align*}
-
-
 We arrive at 
-\begin{align}
+\begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
-&\leq 2\big(R + \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) \big(\norm{\mu^{\text{sc}} - \mu}_1+ \norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber\\
-&\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{post_bounds_induction_2}
-\end{align}
-
-
-\paragraph{Bounds of}$\norm{\mu^{\text{sc}}}_1$  and $\norm{\nu^{\text{sc}}}_1.$ 
-
-Lemma~\ref{lemma_bounds_on_marginals} expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$, while 
+& = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1) + \omega_{\kappa}\Big).\label{post_bounds_induction_2}
+\end{align*}
+Note that $\omega_{\kappa}$ tends to zeros as $(n_b,m_b)$ tends to $(n,m)$ (i.e., $\kappa \rightarrow 1)$. To more characterize $\omega_\kappa$, the following 
+lemma expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. 
 \begin{lemma}
 \label{lemma_bounds_on_marginals}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
@@ -356,14 +350,6 @@ and
 \begin{align*}
 \norm{\nu^{\text{sc}}}_1 = \bigO\Big(\frac{m_b\sqrt{n}}{\sqrt{mK_{\min}c_{\mu\nu}}} + (m-m_b)\Big(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} + \frac{n-n_b}{\sqrt{nm}K_{\min}}\Big)\Big).
 \end{align*}
-% \begin{align*}
-% \norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon
-%  ^2 \bigg)
-% \end{align*}
-% and 
-% \begin{align*}
-% \norm{\nu^{\text{sc}}}_1  \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\bigg(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m K_{\min}} + (n-n_b)\varepsilon^2\bigg).
-% \end{align*}
 \end{lemma}
 
 \begin{proof}
