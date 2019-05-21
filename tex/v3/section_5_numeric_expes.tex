@@ -9,7 +9,7 @@ integrated into some complex machine learning pipelines.
 
 \subsection{Setup}
 
-We have implemented our Screenkhorn in Python and used the LBFGS of
+We have implemented our Screenkhorn in Python and used the L-BFGS-B of
 Scipy. Regarding the machine-learning based comparison, we have based our code
 on the ones of POT~\citep{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
 largest component of the projected gradient is smaller than $10^{-6}$, when the number of iterations of number of objective function evaluations reach $10^{5}$. For all applications, we have set $\eta=1$ unless otherwise specified.
