@@ -71,9 +71,9 @@ To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ an
  \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
 \end{equation}
 Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. On the other hand, when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
-In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence in this case corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
+In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence in this case the approximate dual in problem \eqref{screen-sinkhorn} corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
-Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
+Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
 Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
 \begin{equation*}
 \mathcal{U}_{\text{sc}} = \{u \in \R^{n_b}: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}\} \text{ and } \mathcal{V}_{\text{sc}} =\{v\in\R^{m_b}: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}.%, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
@@ -102,7 +102,6 @@ Furthermore, Screenkhorn consists of two steps: the first one is an initializati
 The second is a constrained L-BFGS-B for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 L-BFGS-B handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
 The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
-
 \begin{proposition}
 \label{prop:bounds_of_usc_and_vsc}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqref{screen-sinkhorn_second_def} and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
