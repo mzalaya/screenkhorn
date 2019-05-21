@@ -20,7 +20,7 @@ We first compare \emph{Screenkhorn} to Sinkhorn on  a single call basis. The dat
 % and, whether the cost matrix $C$ is normalized or not.
  We empirically measure  marginal violations as the norms $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$, running time expressed as $\frac{T_{\text{\emph{Screenkhorn}}}}{T_{\text{Sinkhorn}}}$ and the relative divergence difference $| \inr{C, P^\star} - \inr{C, P^{\text{sc}}}|/\inr{C, P^\star}$ between \emph{Screenkhorn} and Sinkhorn, where $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$ and $P^{\text{sc}} = \Delta(e^{u^{\text{sc}}}) K \Delta(e^{v^{\text{sc}}}).$
 
-Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithms under these settings. We choose to only report results for $n=m=1000$ as we get similar findings for other values of $n$ and $m$. 
+Figure \ref{fig:margin_expe} shows the behaviors of both algorithms under these settings and a normalized cost matrix. We choose to only report results for $n=m=1000$ as we get similar findings for other $n$ and $m$. 
 
 \begin{figure*}[t]
 	\begin{center}
@@ -29,11 +29,11 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 		\includegraphics[width=5cm]{./figs/norm_M_time_toy_n1000}\hspace*{18pt}
 		\includegraphics[width=5cm]{./figs/norm_M_div_toy_n1000}
 	\end{center}
-	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn for normalized cost matrix. Top panel: marginal violations as a function of the budget expressed as the decimation factor $n/n_b$. Bottom panel: (left) Running time gain and, (right) relative divergence variation. The results are averaged over 30 trials.} 
+	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn. Top panel: marginal violations as a function of the budget expressed as the decimation factor $n/n_b$. Bottom panel: (left) Running time gain and, (right) relative divergence variation. The results are averaged over 30 trials} 
 		\label{fig:margin_expe}
 \end{figure*}
 %
-\emph{Screenkhorn} provides good approximation of the marginals $\mu$ and $\nu$ for "high" values of the regularization parameter $\eta$ ($\eta > 1$). The approximation quality diminishes for small $\eta$. As expected $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$ converge towards zero when increasing the budget of points. Remarkably marginal violations are almost negligible whatever the budget for high $\eta$.  According to computation gain, \emph{Screenkhorn} is, up to 2 times, faster than Sinkhorn at low budget $n_b/n$ while the reverse holds when $n_b/n$ gets close to 1.  Computational benefit of \emph{Screenkhorn} also depends on $\eta$ with appropriate values $\eta \leq 1$. Finally except for $\eta=0.1$ \emph{Screenkhorn} achieves a close divergence $\inr{C, P}$ compared to Sinkhorn showing that our static screening test does not harm Sinkhorn divergence.  
+\emph{Screenkhorn} provides good approximation of the marginals $\mu$ and $\nu$ for "high" values of the regularization parameter $\eta$ ($\eta > 1$). The approximation quality diminishes for small $\eta$. As expected $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$ converge towards zero when increasing the budget of points. Remarkably marginal violations are almost negligible whatever the budget for high $\eta$.  According to computation gain, \emph{Screenkhorn} is, up to 2 times, faster than Sinkhorn at high decimation factor $n/n_b$ while the reverse holds when $n_b/n$ gets close to 1.  Computational benefit of \emph{Screenkhorn} also depends on $\eta$ with appropriate values $\eta \leq 1$. Finally except for $\eta=0.1$ \emph{Screenkhorn} achieves a close divergence $\inr{C, P}$ compared to Sinkhorn showing that our static screening test does not harm Sinkhorn divergence.  
 
 
 

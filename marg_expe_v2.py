@@ -17,11 +17,11 @@ np.random.seed(3946)
 import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('font', **{'family': 'sans-serif', 'sans-serif': ['Computer Modern Roman']})
-params = {'axes.labelsize': 18, # 12
-          'font.size': 20, # 12
-          'legend.fontsize': 20, # 12
-          'xtick.labelsize': 18, # 10
-          'ytick.labelsize': 18, # 10
+params = {'axes.labelsize': 24, # 12
+          'font.size': 24, # 12
+          'legend.fontsize': 22, # 12
+          'xtick.labelsize': 22, # 10
+          'ytick.labelsize': 22, # 10
           #'text.usetex': True,
           #'figure.figsize': (8, 6)
           }
@@ -113,9 +113,8 @@ def compare_marginals(a, b, M, reg, decvect = [50, 10, 5, 2, 1.1]):
 #%%
 pathres= './resultat/'
 nvect = [500, 1000, 2500]
-#pvect = [0.99, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
- #        0.2, 0.1, 0.05, 0.01]
-decvect = [1.1, 1.25, 1.5, 2, 2.5, 5, 10, 20, 50, 100]
+#decvect = [1.1, 1.25, 1.5, 2, 2.5, 5, 10, 20, 50, 100]
+decvect = [1.1, 1.25, 2, 5, 10, 20, 50, 100]
 regvect = [1e-1, 5e-1, 1, 10]
 datatype = 'toy' # change to mnist to run on Mnist dataset
 n_iter = 30 # we repeat n_iter times 
@@ -197,7 +196,7 @@ for n in nvect:
         diff_a_std  = diff_a.std(axis=0)
         
         plt.figure(1)
-        plt.semilogx(decvect, diff_a_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, diff_a_mean, marker='s', markersize=10, linewidth=4,
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, diff_a_mean+diff_a_std*coeff, 
                          diff_a_mean-diff_a_std*coeff, alpha=.15)
@@ -214,7 +213,7 @@ for n in nvect:
         diff_b_std  = diff_b.std(axis=0)
         
         plt.figure(2)
-        plt.semilogx(decvect, diff_b_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, diff_b_mean, marker='s', markersize=10, linewidth=4,
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, diff_b_mean+diff_b_std*coeff, 
                          diff_b_mean-diff_b_std*coeff, alpha=.15)
@@ -231,7 +230,7 @@ for n in nvect:
         rel_time_std  = rel_time.std(axis=0)
         
         plt.figure(3)
-        plt.semilogx(decvect, rel_time_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, rel_time_mean, marker='s', markersize=10, linewidth=4,
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, rel_time_mean+rel_time_std*coeff, 
                          rel_time_mean-rel_time_std*coeff, alpha=.15)
@@ -246,7 +245,7 @@ for n in nvect:
         rel_cost_std  = rel_cost.std(axis=0)
         
         plt.figure(4)
-        plt.semilogx(decvect, rel_cost_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, rel_cost_mean, marker='s', markersize=10, linewidth=4,
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, rel_cost_mean+rel_cost_std*coeff, 
                          rel_cost_mean-rel_cost_std*coeff, alpha=.15)
