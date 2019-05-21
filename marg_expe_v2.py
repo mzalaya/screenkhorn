@@ -203,7 +203,7 @@ for n in nvect:
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(pvect, diff_a_mean+diff_a_std*coeff, 
                          diff_a_mean-diff_a_std*coeff, alpha=.15)
-        #plt.yscale('log')
+        plt.yscale('log')
         plt.xlabel(r'$n_b/n$')
         plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$')
         plt.xticks(pvect, pvect, rotation='vertical')
@@ -221,7 +221,7 @@ for n in nvect:
         plt.fill_between(pvect, diff_b_mean+diff_b_std*coeff, 
                          diff_b_mean-diff_b_std*coeff, alpha=.15)
         
-        #plt.yscale('log')
+        plt.yscale('log')
         plt.xlabel(r'$m_b/m$')
         plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$')
         plt.title('$n=m=${:d}'.format(n))
@@ -252,12 +252,10 @@ for n in nvect:
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(pvect, rel_cost_mean+rel_cost_std*coeff, 
                          rel_cost_mean-rel_cost_std*coeff, alpha=.15)
+        plt.yscale('log')
         plt.xlabel(r'$n_b/n$')
         plt.ylabel('Divergence Ratio')
         plt.title('$n=m=${:d}'.format(n))
-        
-        filename_fig_time = 'divergence_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
-        plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
         
         
     plt.figure(1)
@@ -275,12 +273,12 @@ for n in nvect:
         filename_fig_mu = 'norm_M_Mu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_nu = 'norm_M_Nu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_time = 'norm_M_time_{:}_n{:d}.pdf'.format(datatype,n)
-        filename_fig_div = 'norm_divergence_{:}_n{:d}.pdf'.format(datatype,n)
+        filename_fig_div = 'norm_M_div_{:}_n{:d}.pdf'.format(datatype,n)
     else:
         filename_fig_mu = 'Mu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_nu = 'Nu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_time = 'time_{:}_n{:d}.pdf'.format(datatype,n)
-        filename_fig_div = 'divergence_{:}_n{:d}.pdf'.format(datatype,n)
+        filename_fig_div = 'div_{:}_n{:d}.pdf'.format(datatype,n)
 
     plt.figure(1)
     plt.savefig(pathfig+filename_fig_mu, bbox_inches='tight')
