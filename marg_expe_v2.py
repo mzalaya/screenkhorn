@@ -123,7 +123,7 @@ regvect = [1e-1, 5e-1, 1, 10]
 #regvect = [1e-1, 1, 10]
 datatype = 'toy' # change to mnist to run on Mnist dataset
 n_iter = 10 # we repeat n_iter times 
-normalize = True
+normalize = False
 
 #%%
 for n in nvect:
@@ -142,6 +142,7 @@ for n in nvect:
     for i in range(n_iter):
         #np.random.seed(i)
         # gen data
+        print('iter = ', i)
         if datatype =='toy':
             Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, random_state=i)
         else:
