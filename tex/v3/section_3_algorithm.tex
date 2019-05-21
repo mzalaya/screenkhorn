@@ -74,9 +74,9 @@ Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\vareps
 In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence the objective in problem \eqref{screen-sinkhorn} converges to the objective of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
 Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
-Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
+Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$, 
 \begin{equation*}
-\mathcal{U}_{\text{sc}} = \{u \in \R^{n_b}: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}\} \text{ and } \mathcal{V}_{\text{sc}} =\{v\in\R^{m_b}: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}.%, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
+\mathcal{U}_{\text{sc}} = \{u \in \R^{n_b}: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}\} \text{ and } \mathcal{V}_{\text{sc}} =\{v\in\R^{m_b}: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}%, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
 \end{equation*}
 % and 
 % \begin{equation*}
