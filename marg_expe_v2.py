@@ -18,10 +18,10 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('font', **{'family': 'sans-serif', 'sans-serif': ['Computer Modern Roman']})
 params = {'axes.labelsize': 18, # 12
-          'font.size': 18, # 12
-          'legend.fontsize': 18, # 12
-          'xtick.labelsize': 16, # 10
-          'ytick.labelsize': 16, # 10
+          'font.size': 20, # 12
+          'legend.fontsize': 20, # 12
+          'xtick.labelsize': 18, # 10
+          'ytick.labelsize': 18, # 10
           #'text.usetex': True,
           #'figure.figsize': (8, 6)
           }
@@ -71,12 +71,12 @@ def plot_mean_and_CI(pvect, mean, margin, color_mean=None, color_shading=None, l
     plt.xticks(pvect, pvect, rotation='vertical')
 
 #%%
-def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
-    n_pvect = len(pvect)
-    rel_time_vect = np.empty(n_pvect)
-    diff_a_vect   = np.empty(n_pvect)
-    diff_b_vect   = np.empty(n_pvect)
-    rel_cost_vect = np.empty(n_pvect)
+def compare_marginals(a, b, M, reg, decvect = [50, 10, 5, 2, 1.1]):
+    n_decvect = len(decvect)
+    rel_time_vect = np.empty(n_decvect)
+    diff_a_vect   = np.empty(n_decvect)
+    diff_b_vect   = np.empty(n_decvect)
+    rel_cost_vect = np.empty(n_decvect)
     
     # sinkhorn 
     tic = time()
@@ -84,11 +84,11 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
     time_sink = time() - tic
     Pstar = P_sink[0]
     
-    for j,p in enumerate(pvect):
+    for j,p in enumerate(decvect):
         print('p:', p)
         # screenkhorn
-        n_budget = int(np.ceil(a.shape[0]*p))
-        m_budget = int(np.ceil(b.shape[0]*p))
+        n_budget = int(np.ceil(a.shape[0]/p))
+        m_budget = int(np.ceil(b.shape[0]/p))
         
         tic = time()
         screenkhorn = Screenkhorn(a, b, M, reg, n_budget, m_budget, verbose=False)
@@ -112,17 +112,13 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
 
 #%%
 pathres= './resultat/'
-#nvect = [500, 1000, 2500, 3000]
 nvect = [500, 1000, 2500]
-#nvect = [500, 1000]
-pvect = [0.99, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
-         0.2, 0.1, 0.05, 0.01]
 #pvect = [0.99, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
  #        0.2, 0.1, 0.05, 0.01]
+decvect = [1.1, 1.25, 1.5, 2, 2.5, 5, 10, 20, 50, 100]
 regvect = [1e-1, 5e-1, 1, 10]
-#regvect = [1e-1, 1, 10]
 datatype = 'toy' # change to mnist to run on Mnist dataset
-n_iter = 10 # we repeat n_iter times 
+n_iter = 30 # we repeat n_iter times 
 normalize = True
 
 #%%
@@ -134,17 +130,18 @@ for n in nvect:
     else:
         filename = 'marginals_{:}_n{:d}'.format(datatype,n)
     
-    M_diff_a = np.empty((n_iter, len(regvect), len(pvect)))
-    M_diff_b = np.empty((n_iter, len(regvect), len(pvect)))
-    M_time   = np.empty((n_iter, len(regvect), len(pvect)))
-    M_cost   = np.empty((n_iter, len(regvect), len(pvect)))
+    M_diff_a = np.empty((n_iter, len(regvect), len(decvect)))
+    M_diff_b = np.empty((n_iter, len(regvect), len(decvect)))
+    M_time   = np.empty((n_iter, len(regvect), len(decvect)))
+    M_cost   = np.empty((n_iter, len(regvect), len(decvect)))
     
     for i in range(n_iter):
         #np.random.seed(i)
         # gen data
         print('iter = ', i)
         if datatype =='toy':
-            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, random_state=i)
+            Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, 
+                              random_state=i)
         else:
             data = np.load('./data/mnist_usps_feat10.npz')
             Xs,ys = subsample(data['X_s'], data['y_s'],n//10)
@@ -161,7 +158,7 @@ for n in nvect:
         
         for j, reg in enumerate(regvect):
             print('reg:', reg)
-            d_av, d_bv, rel_timev, rel_costv = compare_marginals(a, b, M, reg, pvect)
+            d_av, d_bv, rel_timev, rel_costv = compare_marginals(a, b, M, reg, decvect)
             M_diff_a[i, j, :] = d_av
             M_diff_b[i, j, :] = d_bv
             M_time[i, j, :]   = rel_timev
@@ -200,14 +197,14 @@ for n in nvect:
         diff_a_std  = diff_a.std(axis=0)
         
         plt.figure(1)
-        plt.semilogx(pvect, diff_a_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, diff_a_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
-        plt.fill_between(pvect, diff_a_mean+diff_a_std*coeff, 
+        plt.fill_between(decvect, diff_a_mean+diff_a_std*coeff, 
                          diff_a_mean-diff_a_std*coeff, alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'$n_b/n$')
+        plt.xlabel(r'Decimation factor $n/n_b$')
         plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$')
-        plt.xticks(pvect, pvect, rotation='vertical')
+        plt.xticks(decvect, decvect, rotation='vertical')
         plt.title('$n=m=${:d}'.format(n))
         
         
@@ -217,13 +214,13 @@ for n in nvect:
         diff_b_std  = diff_b.std(axis=0)
         
         plt.figure(2)
-        plt.semilogx(pvect, diff_b_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, diff_b_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
-        plt.fill_between(pvect, diff_b_mean+diff_b_std*coeff, 
+        plt.fill_between(decvect, diff_b_mean+diff_b_std*coeff, 
                          diff_b_mean-diff_b_std*coeff, alpha=.15)
         
         plt.yscale('log')
-        plt.xlabel(r'$m_b/m$')
+        plt.xlabel(r'Decimation factor $m_b/m$')
         plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$')
         plt.title('$n=m=${:d}'.format(n))
         
@@ -234,13 +231,13 @@ for n in nvect:
         rel_time_std  = rel_time.std(axis=0)
         
         plt.figure(3)
-        plt.semilogx(pvect, rel_time_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, rel_time_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
-        plt.fill_between(pvect, rel_time_mean+rel_time_std*coeff, 
+        plt.fill_between(decvect, rel_time_mean+rel_time_std*coeff, 
                          rel_time_mean-rel_time_std*coeff, alpha=.15)
         #plt.yscale('log')
-        plt.xlabel(r'$n_b/n$')
-        plt.ylabel('Time Ratio')
+        plt.xlabel(r'Decimation factor $n/n_b$')
+        plt.ylabel('Running Time Gain')
         plt.title('$n=m=${:d}'.format(n))
         
         # -------
@@ -249,25 +246,25 @@ for n in nvect:
         rel_cost_std  = rel_cost.std(axis=0)
         
         plt.figure(4)
-        plt.semilogx(pvect, rel_cost_mean, marker='s', markersize=6, 
+        plt.semilogx(decvect, rel_cost_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
-        plt.fill_between(pvect, rel_cost_mean+rel_cost_std*coeff, 
+        plt.fill_between(decvect, rel_cost_mean+rel_cost_std*coeff, 
                          rel_cost_mean-rel_cost_std*coeff, alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'$n_b/n$')
-        plt.ylabel('Divergence Ratio')
+        plt.xlabel(r'Decimation factor $n/n_b$')
+        plt.ylabel('Relative Divergence Variation')
         plt.title('$n=m=${:d}'.format(n))
         
         
     plt.figure(1)
-    plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
+    plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(True)
     plt.figure(2)
-    plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
+    plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(True)
-    plt.figure(3), plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
+    plt.figure(3), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(True)
-    plt.figure(4), plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
+    plt.figure(4), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(True)
 
     if normalize:
