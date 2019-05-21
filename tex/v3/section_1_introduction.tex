@@ -25,11 +25,11 @@ is strongly related to a screening strategy when solving a \emph{Lasso}
 problem in sparse supervised learning \citep{Ghaoui2010SafeFE}. Based on the fact
 that a  transport plan resulting from an OT problem is sparse or presents a large
 number of neglectable values \citep{blondel2018ICML}, our objective is to identify the  dual variables of an approximate Sinkhorn problem, that are smaller than a predefined threshold, and thus that can be safely removed before optimization.  
-Within this global context, our contributions are the following :
+Within this global context, our contributions are the following:
 \begin{itemize}
 	  \setlength\itemsep{-0.1cm}
 	
-	\item From a methodological point of view, we propose a reformulation the dual of the Sinkhorn divergence problem by imposing variables to be larger than a threshold.
+	\item From a methodological point of view, we propose a reformulation of the dual of the Sinkhorn divergence problem by imposing variables to be larger than a threshold.
 	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to be strictly satisfied its constraint, leading then to
 	a ``screened'' version of the dual of Sinkhorn divergence. 
 	\item We provide some theoretical analysis of the solution of the ``screened''  Sinkhorn divergence, showing that its objective value and the marginal constraint satisfaction are properly controlled 	as the number of screened variables decreases.
