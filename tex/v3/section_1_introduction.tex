@@ -20,7 +20,7 @@ The main idea is to improve the matrix-vector operations that are the computatio
 Another approach based on low-rank approximation of the cost matrix using Nystrom method induces the Nys-Sink algorithm~\citep{altschuler2018Nystrom}. 
 Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\citep{xie2018proxpointOT,dvurechensky18aICML,lin2019}, quasi Newton methods~\citep{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\citep{genevay2016stochOT,khalilabid2018}. 
 
-\rev{In this paper, we propose a novel technique for accelerating the Sinkhorn algorithm when computing regularized OT distance between discrete measures. Our idea
+{In this paper, we propose a novel technique for accelerating the Sinkhorn algorithm when computing regularized OT distance between discrete measures. Our idea
 is strongly related to a screening strategy when solving a \emph{Lasso}
 problem in sparse supervised learning \citep{Ghaoui2010SafeFE}. Based on the fact
 that a  transport plan resulting from an OT problem is sparse or presents a large
@@ -33,7 +33,7 @@ Within this global context, our contributions are the following :
 	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to be strictly satisfied its constraint, leading then to
 	a ``screened'' version of the dual of Sinkhorn divergence. 
 	\item We provide some theoretical analysis of the solution of the ``screened''  Sinkhorn divergence, showing that its objective value and the marginal constraint satisfaction are properly controlled 	as the number of screened variables decreases.
-	\item From an algorithmic standpoint, we use a constrained LBFGS algorithm \cite{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower bound and upper bound of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \emph{Screenkhorn}.
+	\item From an algorithmic standpoint, we use a constrained LBFGS algorithm \citep{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower bound and upper bound of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \emph{Screenkhorn}.
 	\item Our empirical analysis depicts how the approach behaves in a simple Sinkhorn divergence computation context. When considered in  complex machine learning
 	pipelines, we show that \emph{Screenkhorn} can lead to strong gain in efficiency
 	while not compromising on accuracy.

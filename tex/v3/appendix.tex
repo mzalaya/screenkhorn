@@ -1,4 +1,5 @@
 %!TEX root = main.tex
+
 \subsection{Proof of Lemma~\ref{lemma_actives_sets}}
 
 Since the objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, the set of optima of problem~\eqref{screen-sinkhorn} is non empty.
@@ -52,9 +53,24 @@ Therefore,
 \min_{i \in I_{\varepsilon,\kappa}} e^{u^{\text{sc}}_i}  \geq \frac \varepsilon\kappa \vee \frac{\kappa\min_{I_{\varepsilon,\kappa}}\mu_i}{\varepsilon\kappa (m-m_b) + \varepsilon\kappa \vee \frac{\max_{j\in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon K_{\min}} m_b}.
 \end{align*}
 
-\subsection{Proof of Lemma~\ref{lemma_bounds_on_marginals}}
+\subsection{Proof of Proposition~\ref{proposition_error_in_marginals}}
 
-The optimality condition for $({u}^{\text{sc}}, {v}^{\text{sc}})$ entails 
+We define the distance function $\varrho: \R_+ \times \R_+ \mapsto [0, \infty]$ by $\varrho(a,b) = b - a + a \log(\frac ab).$
+While $\varrho$ is not a metric, it is easy to see that $\varrho$ is not nonnegative and satisfies $\varrho(a,b) =0$ iff $a=b$.
+The violations are computed through the following function: 
+\begin{equation*}
+	d_{\varrho}(\gamma,\beta) = \sum_{i=1}^n \varrho(\gamma_i,\beta_i), \text{ for } \gamma, \beta \in \R^n_+.
+\end{equation*}
+Note that if $\gamma,\beta$ are two vectors of positive entries, $d_{\varrho}(\gamma,\beta)$ will return some measurement on how far they are from each other. The next Lemma is from~\cite{khalilabid2018} (see Lemma 7 herein).
+\begin{lemma}
+\label{lem:pinsker}
+For any $\gamma, \beta \in \R^n_+$, the following generalized Pinsker inequality holds 
+\begin{align*}
+\norm{\gamma - \beta}_1 \leq \sqrt{7 (\norm{\gamma}_1\wedge \norm{\beta}_1)d_{\varrho}(\gamma,\beta)}.
+\end{align*}
+\end{lemma}
+
+The optimality conditions for $({u}^{\text{sc}}, {v}^{\text{sc}})$ entails 
 \begin{align}
 \label{i-th-marginal-mu} 
 {\mu}^{\text{sc}}_i  &= 
@@ -81,43 +97,11 @@ e^{v^{\text{sc}}_j} \sum_{i=1}^n K_{ij} e^{u^{\text{sc}}_i}, \text{ if  }j \in J
 \end{cases}
 \end{align}
 
-Using inequality~\eqref{bound_on_v}, we obtain 
-\begin{align*}
-\norm{\mu^{\text{sc}}}_1 &= \sum_{i \in I_{\varepsilon,\kappa}} \mu^{\text{sc}}_i +  \sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu^{\text{sc}}_i\\
-& \overset{\eqref{i-th-marginal-mu}}{=} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + \frac \varepsilon\kappa \sum_{i \in I^\complement}\Big( \sum_{j \in J_{\varepsilon,\kappa}} K_{ij} e^{v^{\text{sc}}_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{ij}\Big)\\
-& \overset{\eqref{bound_on_v}}{\leq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big).
-\end{align*}
-Again by left-hand-side of inequaltiy~\eqref{bound_on_v}, we arrive at 
-\begin{align*}
-\norm{\mu^{\text{sc}}}_1 %&= \sum_{i \in I_{\varepsilon,\kappa}} \mu^{\text{sc}}_i +  \sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu^{\text{sc}}_i\\
-%& \overset{\eqref{i-th-marginal-mu}}{=} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + \frac \varepsilon\kappa \sum_{i \in I^\complement}\Big( \sum_{j \in J_{\varepsilon,\kappa}} K_{ij} e^{v^{\text{sc}}_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{ij}\Big)\\
-& \overset{}{\geq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n -n_b) \Big(\frac{mm_b\varepsilon^2 K_{\min}^2 \min_{j\in J_{\varepsilon, \kappa}} \nu_j}{ (n-n_b)m\kappa \varepsilon^2 K_{\min} + n_b\kappa^2 \max_{i\in I_{\varepsilon,\kappa}}\mu_i }+ (m-m_b)\varepsilon^2K_{\min}\Big),
-\end{align*}
-which gives the claimed result.
-Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
-
-\subsection{Proof of Proposition~\ref{proposition_error_in_marginals}}
-
-We define the distance function $\varrho: \R_+ \times \R_+ \mapsto [0, \infty]$ by $\varrho(a,b) = b - a + a \log(\frac ab).$
-While $\varrho$ is not a metric, it is easy to see that $\varrho$ is not nonnegative and satisfies $\varrho(a,b) =0$ iff $a=b$.
-The violations are computed through the following function: 
-\begin{equation*}
-	d_{\varrho}(\gamma,\beta) = \sum_{i=1}^n \varrho(\gamma_i,\beta_i), \text{ for } \gamma, \beta \in \R^n_+.
-\end{equation*}
-Note that if $\gamma,\beta$ are two vectors of positive entries, $d_{\varrho}(\gamma,\beta)$ will return some measurement on how far they are from each other. The next Lemma is from~\cite{khalilabid2018} (see Lemma 7 herein).
-\begin{lemma}
-\label{lem:pinsker}
-For any $\gamma, \beta \in \R^n_+$, the following generalized Pinsker inequality holds 
-\begin{align*}
-\norm{\gamma - \beta}_1 \leq \sqrt{7 (\norm{\gamma}_1\wedge \norm{\beta}_1)d_{\varrho}(\gamma,\beta)}
-\end{align*}
-\end{lemma}
 By~\eqref{i-th-marginal-mu}, we have
 \begin{align*}
 d_\varrho({\mu} ,{\mu}^{\text{sc}}) &= \sum_{i=1}^n  {\mu}^{\text{sc}}_i - {\mu}_i + {\mu}_i  \log\Big(\frac{{\mu}_i}{{\mu}^{\text{sc}}_i }\Big)\\
 &= \sum_{i\in I_{\varepsilon,\kappa}} (\kappa-1)\mu_i - \mu_i\log(\kappa) + \sum_{i\in I^\complement_{\varepsilon,\kappa}}\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} - \mu_i + \mu_i \log\Big(\frac{\mu_i}{\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j}}\Big)\\
 &= \sum_{i\in I_{\varepsilon,\kappa}} (\kappa-\log(\kappa)-1)\mu_i  + \sum_{i\in I^\complement_{\varepsilon,\kappa}}\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} - \mu_i + \mu_i \log\Big(\frac{\mu_i}{\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j}}\Big).
-% &\leq  \sum_{i\in I^\complement_{\varepsilon,\kappa}}\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} - \mu_i + \mu_i \log\Big(\frac{\mu_i}{\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j}}\Big)
 \end{align*}
 Now by~\eqref{bound_on_v}, we have in one hand 
 \begin{align*}
@@ -142,271 +126,253 @@ Then
 It entails 
 \begin{align*}
 &\sum_{i\in I^\complement_{\varepsilon,\kappa}}\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} - \mu_i + \mu_i \log\Big(\frac{\mu_i}{\frac \varepsilon\kappa\sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j}}\Big)\\
-&\leq (n-n_b)\bigg(\frac{m_b}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
-&\qquad + \max_{i}\mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i}\mu_i}{m_bK_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{n_b\kappa^2(\max_{i}\mu_i)^2}{mm_b\varepsilon^2 K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)
+&\qquad \leq (n-n_b)\bigg(\frac{m_b}{n\kappa K_{\min}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+&\qquad \qquad + \max_{i}\mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i}\mu_i}{m_bK_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{n_b\kappa^2(\max_{i}\mu_i)^2}{mm_b\varepsilon^2 K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big)
 \bigg).
 \end{align*}
 Therefore
 \begin{align*}
-d_\varrho({\mu},{\mu}^{\text{sc}}) &\leq n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+d_\varrho({\mu},{\mu}^{\text{sc}}) &\leq n_b c_{\kappa}\max_{i} \mu_i + (n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa K_{\min}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
 &\qquad + \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_bK_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{n_b\kappa^2(\max_{i} \mu_i)^2}{mm_b\varepsilon^2 K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big).
 \end{align*}
 Finally, by Lemma~\ref{lem:pinsker} we obtain
 \begin{align*}
-\norm{{\mu} -{\mu}^{\text{sc}}}^2_1 \leq & n_b(\kappa-\log(\kappa)-1)\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa\min_{i,j} K_{ij}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
-&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_bK_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{n_b\kappa^2(\max_{i} \mu_i)^2}{mm_b\varepsilon^2K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big).%\bigg\}^{1/2}
+\norm{{\mu} -{\mu}^{\text{sc}}}^2_1 \leq & n_bc_{\kappa}\max_{i} \mu_i + 7(n-n_b)\bigg(\frac{m_b\max_{j}\nu_j}{n\kappa K_{\min}} + (m- m_b) \varepsilon^2 - \min_{i}\mu_i\\
+&+ \max_{i} \mu_i\log\Big(\frac{\kappa(n-n_b+ 1)\max_{i} \mu_i}{m_bK_{\min}\min_{j \in J_{\varepsilon,\kappa}}\nu_j} + \frac{n_b\kappa^2(\max_{i} \mu_i)^2}{mm_b\varepsilon^2K_{\min}^2\min_{j \in J_{\varepsilon,\kappa}}\nu_j}\Big).
 \end{align*}
-Proof of the upper bound for $\norm{\nu - {\nu}^{\text{sc}}}^2_1$ follows the same lines as above.
+Following the same lines as above, we also have
+\begin{align*}
+\norm{{\nu} -{\nu}^{\text{sc}}}^2_1 \leq & m_bc_{\frac 1\kappa}\max_{i} \mu_i + 7(m-m_b)\bigg(\frac{n_b\kappa\max_{i}\mu_i}{mK_{\min}} + (n- n_b) \varepsilon^2 - \min_{j}\nu_j\\
+&+ \max_{j} \nu_j\log\Big(\frac{(m-m_b+ 1)\max_{j} \nu_j}{n_b\kappa K_{\min}\min_{i \in I_{\varepsilon,\kappa}}\mu_i} + \frac{m_b(\max_{j} \nu_j)^2}{nn_b\varepsilon^2\kappa^2K_{\min}^2\min_{i \in I_{\varepsilon,\kappa}}\mu_i}\Big).%\bigg\}^{1/2}
+\end{align*}
+To get the closed forms~\eqref{marginal-error-mu} and~\eqref{marginal-error-nu}, we used the follwoing facts:
+\begin{remark}
+\label{rem:orders_of_epsilonappa}
+ We have 
+$\varepsilon = \bigO((mnK_{\min}^2)^{-1/4})$, $\kappa= \bigO(\sqrt{m/(nc_{\mu\nu}K_{\min})}),$ $\kappa^{-1} = \bigO(\sqrt{n/(mK_{\min}c_{\mu\nu}})$, $(\kappa/\varepsilon)^2 = \bigO( m^{3/2} / \sqrt{nK_{\min}}(c_{\mu\nu})^{3/2})$, and $(\varepsilon\kappa)^{-2} = \bigO(n^{3/2}/\sqrt{mK_{\min}}c^{3/2}_{\mu\nu}).$
+\end{remark}
 
-\subsection{Bounding dual objective values}
+\subsection{Proof of Proposition~\ref{prop:objective-error}}
 
-For each vectors $u \in \mathcal{U}_{\text{sc}}$ and $v\in \mathcal{V}_{\text{sc}}$ we define its rearrgement 
+We first define $\widetilde{K}$ a rearrgement of $K$ with respect to the active sets $I_{\varepsilon,\kappa}$ and $J_{\varepsilon,\kappa}$as follows:
 \begin{equation*}
-\dt{u} =(u_{I_{\varepsilon,\kappa}}^\top, u_{I^\complement_{\varepsilon,\kappa}}^\top)^\top = (u_{I_{\varepsilon,\kappa}}^\top, \log(\frac\varepsilon\kappa)\mathbf1_{n- n_b}^\top)^\top,
-\end{equation*}
-and 
-\begin{equation*}
-\dt{v} =(v_{J_{\varepsilon,\kappa}}^\top, v_{J^\complement_{\varepsilon,\kappa}}^\top)^\top = (v_{J_{\varepsilon,\kappa}}^\top, \log(\varepsilon\kappa)\mathbf 1_{m- m_b}^\top)^\top.
-\end{equation*}
-
-
-\begin{proposition}
-Let $k\geq 1$ and $u^{sc}_k, v^{sc}_k$ be generated by Screenkhorn. Then, ones has 
-\begin{align*}
-\Psi_{\varepsilon, \kappa}(u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)
-&\leq \norm{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^\star}_\infty \norm{\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}}_1 + \norm{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^\star}_\infty \norm{\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}_1\\
-&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
-\end{align*}
-
-\begin{align*}
-\Psi_{\varepsilon, \kappa}(u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)
-&\leq \norm{\kappa {u}^{\text{sc}}_k - {u}^\star}_\infty \norm{\tilde{B}({u}^{\text{sc}}_k ,{v}^{\text{sc}}_k)\mathbf 1_m - {\mu}}_1 + \norm{\kappa^{-1}{v}^{\text{sc}}_k - {v}^\star}_\infty \norm{\tilde{B}({u}^{\text{sc}}_k ,{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}_1\\
-&\qquad + (1- \kappa)\inr{{u}^{\text{sc}}_k ,\tilde{B}({u}^{\text{sc}}_k ,{v}^{\text{sc}}_k)\mathbf 1_m} + (1- \kappa^{-1})\inr{{v}^{\text{sc}}_k ,\tilde{B}({u}^{\text{sc}}_k ,{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
-\end{align*}
-
-\newpage
-\begin{align*}
-\Psi_{\varepsilon, \kappa}(u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)
-&\leq \norm{\kappa {u}^{\text{sc}}_k - {u}^\star}_\infty \norm{\mu ^{\text{sc}}_k- {\mu}}_1 + \norm{\kappa^{-1}{v}^{\text{sc}}_k - {v}^\star}_\infty \norm{\nu^{\text{sc}}_k - {\nu}}_1\\
-&\qquad + (1- \kappa)\inr{{u}^{\text{sc}}_k ,\mu ^{\text{sc}}_k} + (1- \kappa^{-1})\inr{{v}^{\text{sc}}_k ,\nu ^{\text{sc}}_k}.
-\end{align*}
-
-\end{proposition}
-
-\newpage
-\begin{proof}
-
-Let $k\geq 0$ and $u^{sc}_k, v^{sc}_k$ be generated by Algorithm~\ref{screenkhorn} and $(u^\star, v^\star)$ be a solution of~\ref{sinkhorn-dual}. Then 
-\begin{align*}
-&\Psi_{\varepsilon, \kappa}(u^{sc}_k,v^{sc}_k) - \Psi(u^\star, v^\star)\\
-& = \mathbf1_{n_b}^\top B(u_{I_{\varepsilon,\kappa}}, v_{J_{\varepsilon,\kappa}}) \mathbf 1_{m_b} + \varepsilon \kappa (e^{u_{I_{\varepsilon,\kappa}}})^\top K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})} + \varepsilon \kappa^{-1} K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}e^{v_{J_{\varepsilon,\kappa}}}\\
-&\qquad - \kappa \mu_{I_{\varepsilon,\kappa}}^\top u_{I_{\varepsilon,\kappa}} - \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}^\top v_{J_{\varepsilon,\kappa}} + \Xi
-\end{align*}
-
-% \begin{proof}
-Let us define $\tilde{K}$ a rearrgement of $K$ with respect to the active sets $I_{\varepsilon,\kappa}$ and $J_{\varepsilon,\kappa}$as follows:
-\begin{equation*}
-\tilde{K} = 
+\widetilde{K} = 
 \begin{bmatrix}
 K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} & K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}\\
 K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} &K_{(I^\complement_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}
 \end{bmatrix}.
 \end{equation*}
-For each vectors $u \in \mathcal{U}_{\text{sc}}$ and $v\in \mathcal{V}_{\text{sc}}$ we define its rearrgement 
+Setting $\dt{\mu} = (\mu_{I_{\varepsilon,\kappa}}^\top, \mu_{I^\complement_{\varepsilon,\kappa}}^\top)^\top$, $\dt{\nu} = (\nu_{J_{\varepsilon,\kappa}}^\top, \nu_{J^\complement_{\varepsilon,\kappa}}^\top)^\top$ and for each vectors $u \in \R^n$ and $v\in \R^m$ we set $\dt{u} =(u_{I_{\varepsilon,\kappa}}^\top, u_{I^\complement_{\varepsilon,\kappa}}^\top)^\top  \text{ and } \dt{v} =(v_{J_{\varepsilon,\kappa}}^\top, v_{J^\complement_{\varepsilon,\kappa}}^\top)^\top.$
+We then have 
 \begin{equation*}
-\dt{u} =(u_{I_{\varepsilon,\kappa}}^\top, u_{I^\complement_{\varepsilon,\kappa}}^\top)^\top = (u_{I_{\varepsilon,\kappa}}^\top, \log(\frac\varepsilon\kappa)\mathbf1_{n- n_b}^\top)^\top,
+\Psi_{\varepsilon, \kappa} (u,v) = \mathbf 1_n^\top \widetilde{K}(\dt{u}, \dt{v}) \mathbf 1_m - \kappa \dt{\mu}^\top \dt{u} - \kappa^{-1} \dt{\nu}^\top \dt{v},
 \end{equation*}
 and 
 \begin{equation*}
-\dt{v} =(v_{J_{\varepsilon,\kappa}}^\top, v_{J^\complement_{\varepsilon,\kappa}}^\top)^\top = (v_{J_{\varepsilon,\kappa}}^\top, \log(\varepsilon\kappa)\mathbf 1_{m- m_b}^\top)^\top.
-\end{equation*}
-We then have 
-\begin{equation*}
-\Psi_{\varepsilon, \kappa} (u,v) = \mathbf 1_n^\top \tilde{B}(\dt{u}, \dt{v}) \mathbf 1_m - \kappa \dt{\mu}^\top \dt{u} - \kappa^{-1} \dt{\nu}^\top \dt{v},
+\Psi_{} (u,v) = \mathbf 1_n^\top \widetilde{K}(\dt{u}, \dt{v}) \mathbf 1_m - \dt{\mu}^\top \dt{u} - \dt{\nu}^\top \dt{v},
 \end{equation*}
 where
 \begin{equation*}
-  \tilde{B}(\dt{u}, \dt{v}) = \Delta(e^{\dt{u}})\tilde{K} \Delta(e^{\dt{v}}).
+  \widetilde{B}(\dt{u}, \dt{v}) = \Delta(e^{\dt{u}})\widetilde{K} \Delta(e^{\dt{v}}).
 \end{equation*}
-
-
-Let us fix $k\geq 1$ and consider the convex function
+Let us consider the convex function
 \begin{equation*}
-	(\hat u, \hat v) \mapsto \inr{\mathbf 1_n, \tilde{B}(\dt{\hat u}^{\text{}} ,\dt{\hat v}^{\text{}})\mathbf 1_m} - \inr{\kappa\dt{\hat u}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} - \inr{\kappa^{-1}\dt{\hat v}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
+	(\hat u, \hat v) \mapsto \inr{\mathbf 1_n, \widetilde{B}(\dt{\hat u}^{\text{}} ,\dt{\hat v}^{\text{}})\mathbf 1_m} - \inr{\kappa\dt{\hat u}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} - \inr{\kappa^{-1}\dt{\hat v}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}.
 \end{equation*}
 Gradient inequality of any convex function g at point $x_o$ reads as $g(x_o) \geq g(x) + \inr{\nabla g(x), x_o - x}, \text{ for all } x \in \textbf{dom}(g).$
 Applying the latter fact to the above function at point ($u^{\star}, v^{\star})$ we obtain
 \begin{align*}
-&\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} - \inr{\kappa\dt{u}^{\text{sc}}_k, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} - \inr{\kappa^{-1}\dt{v}^{\text{sc}}_k, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}\\
-& - \big(\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\kappa\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\kappa^{-1}\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n} \big)\\
-& \leq \inr{\dt{u}^{\text{sc}}_k - \dt{u}^\star, (1-\kappa) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-+ \inr{\dt{v}^{\text{sc}}_k - \dt{v}^\star, (1-\kappa^{-1}) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
+\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} &- \inr{\kappa\dt{u}^{\text{sc}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} - \inr{\kappa^{-1}\dt{v}^{\text{sc}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}\\
+& - \big(\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
+- \inr{\kappa\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\kappa^{-1}\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n} \big)\\
+&\qquad \qquad  \leq \inr{\dt{u}^{\text{sc}} - \dt{u}^\star, (1-\kappa) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
++ \inr{\dt{v}^{\text{sc}} - \dt{v}^\star, (1-\kappa^{-1}) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}.
 \end{align*}
 Moreover,
 \begin{align*}
-\Psi_{\varepsilon, \kappa} (u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)
-&= \inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} - \inr{\kappa\dt{u}^{\text{sc}}_k, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} - \inr{\kappa^{-1}\dt{v}_k^{\text{sc}}, \tilde{B}(\dt{u}_k^{\text{sc}}, \dt{v}^{\text{sc}}_k)\mathbf 1_n^\top}\\
-& - \big( 
-\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n} \big)\\
-&+ \inr{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}} + \inr{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}.
+\Psi_{\varepsilon, \kappa} (u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
+&= \inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} - \inr{\kappa\dt{u}^{\text{sc}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} - \inr{\kappa^{-1}\dt{v}^{\text{sc}}, \widetilde{B}(\dt{u}^{\text{sc}}, \dt{v}^{\text{sc}})\mathbf 1_n^\top}\\
+&\qquad - \big( 
+\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
+- \inr{\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n} \big)\\
+&\qquad + \inr{\kappa \dt{u}^{\text{sc}} - \dt{u}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}} + \inr{\kappa^{-1}\dt{v}^{\text{sc}} - \dt{v}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}.
 \end{align*}
 Hence,
 \begin{align*}
-&\Psi_{\varepsilon, \kappa} (u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)\\
-&\qquad + \big( \inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n} \big)\\
-& \qquad -\inr{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}} -\inr{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}\\
-& \leq \inr{\dt{u}^{\text{sc}}_k - \dt{u}^\star, (1-\kappa) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-+ \inr{\dt{v}^{\text{sc}}_k - \dt{v}^\star, (1-\kappa^{-1}) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}\\
-&\qquad + \big(\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\kappa\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\kappa^{-1}\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n} \big)
+\Psi_{\varepsilon, \kappa} (u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
++& \big( \inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m} \\
+&- \inr{\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n} \big)\\
+& \qquad -\inr{\kappa \dt{u}^{\text{sc}} - \dt{u}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}} -\inr{\kappa^{-1}\dt{v}^{\text{sc}} - \dt{v}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}\\
+& \leq \inr{\dt{u}^{\text{sc}} - \dt{u}^\star, (1-\kappa) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
++ \inr{\dt{v}^{\text{sc}} - \dt{v}^\star, (1-\kappa^{-1}) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}\\
+&\qquad + \big(\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
+- \inr{\kappa\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\kappa^{-1}\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n} \big).
 \end{align*}
 Then,
 \begin{align*}
-&\Psi_{\varepsilon, \kappa} (u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)\\
-&\leq \inr{\dt{u}^{\text{sc}}_k - \dt{u}^\star, (1-\kappa) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-+ \inr{\dt{v}^{\text{sc}}_k - \dt{v}^\star, (1-\kappa^{-1}) \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}\\
-&\qquad + \big(\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\kappa\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\kappa^{-1}\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n} \big)
+\Psi_{\varepsilon, \kappa} (u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
+&\leq \inr{\dt{u}^{\text{sc}} - \dt{u}^\star, (1-\kappa) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
++ \inr{\dt{v}^{\text{sc}} - \dt{v}^\star, (1-\kappa^{-1}) \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}\\
+&\qquad + \big(\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
+- \inr{\kappa\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\kappa^{-1}\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n} \big)
 \\
-&\qquad + \inr{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}} + \inr{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}\\
-&\qquad - \big(\inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
-- \inr{\dt{u}^{\star{}}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} 
-- \inr{\dt{v}^\star, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top \mathbf 1_n} \big).
+&\qquad + \inr{\kappa \dt{u}^{\text{sc}} - \dt{u}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}} + \inr{\kappa^{-1}\dt{v}^{\text{sc}} - \dt{v}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}\\
+&\qquad - \big(\inr{\mathbf 1_n, \widetilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m}  
+- \inr{\dt{u}^{\star{}}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} 
+- \inr{\dt{v}^\star, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top \mathbf 1_n} \big),
 \end{align*}
-So
+which yields 
 \begin{align*}
-&\Psi_{\varepsilon, \kappa} (u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)\\
-&\leq  \inr{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}} +\inr{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^{\star}, \tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}\\
-&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
+\Psi_{\varepsilon, \kappa} (u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
+&\leq  \inr{\kappa \dt{u}^{\text{sc}} - \dt{u}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}} +\inr{\kappa^{-1}\dt{v}^{\text{sc}} - \dt{v}^{\star}, \widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}\\
+&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}.
 \end{align*}
-Applying Holder's inequality entails
+Applying Holder's inequality gives 
 \begin{align*}
-&\Psi_{\varepsilon, \kappa}(u^{\text{sc}}_k ,v^{\text{sc}}_k) -\Psi(u^\star, v^\star)\\
-&\leq \norm{\kappa \dt{u}^{\text{sc}}_k - \dt{u}^\star}_\infty \norm{\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m - \dt{\mu}}_1 + \norm{\kappa^{-1}\dt{v}^{\text{sc}}_k - \dt{v}^\star}_\infty \norm{\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n - \dt{\nu}}_1\\
-&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}}_k ,\tilde{B}(\dt{u}^{\text{sc}}_k ,\dt{v}^{\text{sc}}_k)^\top\mathbf 1_n}.
+\Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
+&\leq \norm{\kappa \dt{u}^{\text{sc}} - \dt{u}^\star}_\infty \norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}}_1 + \norm{\kappa^{-1}\dt{v}^{\text{sc}} - \dt{v}^\star}_\infty \norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}_1\\
+&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}\\
+&\leq \norm{\dt{u}^{\text{sc}} - \dt{u}^\star}_\infty \norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}}_1 + \norm{\dt{v}^{\text{sc}} - \dt{v}^\star}_\infty \norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}_1\\
+&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}} ,\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n}\\
 \end{align*}
-Next, we bound the right-hand side of this inequality.
+Note that
+\begin{align*}
+\begin{cases}
+\norm{\dt{u}^{\text{sc}} - \dt{u}^\star}_\infty = \norm{{u}^{\text{sc}} - {u}^\star}_\infty,\\
+\norm{\dt{v}^{\text{sc}} - \dt{v}^\star}_\infty = \norm{{v}^{\text{sc}} - {v}^\star}_\infty,
+\end{cases}
+\text{ and }
+\begin{cases}
+\norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})\mathbf 1_m - \dt{\mu}}_1 = \norm{{B}({u}^{\text{sc}} ,{v}^{\text{sc}})\mathbf 1_m - {\mu}}_1 = \norm{\mu^{\text{sc}} - \mu}_1,\\
+\norm{\widetilde{B}(\dt{u}^{\text{sc}} ,\dt{v}^{\text{sc}})^\top\mathbf 1_n - \dt{\nu}}_1 = \norm{{B}({u}^{\text{sc}} ,{v}^{\text{sc}})^\top\mathbf 1_n - {\nu}}_1 = \norm{\nu^{\text{sc}} - \nu}_1.
+\end{cases}
+\end{align*}
+Then
+\begin{align}
+\Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) &
+\leq \norm{{u}^{\text{sc}} - {u}^\star}_\infty \norm{\mu^{\text{sc}} - \mu}_1 + \norm{{v}^{\text{sc}} - {v}^\star}_\infty \norm{\nu^{\text{sc}} - \nu}_1\nonumber\\
+&\qquad + (1- \kappa)\inr{\dt{u}^{\text{sc}} ,\dt{\mu}^{\text{sc}}} + (1- \kappa^{-1})\inr{\dt{v}^{\text{sc}} ,\dt{\nu}^{\text{sc}}}\nonumber\\
+&\leq \norm{{u}^{\text{sc}} - {u}^\star}_\infty \norm{\mu^{\text{sc}} - \mu}_1 + \norm{{v}^{\text{sc}} - {v}^\star}_\infty\norm{\nu^{\text{sc}} - \nu}_1 \nonumber\\
+&\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{priori_bounds_induction}
+\end{align}
+
+\paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
 
 If $r \in I^\complement_{\varepsilon, \kappa}$ then 
 \begin{align*}
-|(\dt{u}^{\text{sc}}_k)_{r} - \dt{u}^\star_r| &= \bigg| \log(\frac \varepsilon\kappa) - \log(\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}})\bigg|\\
-&= \bigg|\log\Big(\frac{\frac \varepsilon\kappa}{\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}}}\Big) \bigg|\\
+|({u}^{\text{sc}})_{r} - {u}^\star_r| 
 &= \bigg|\log\bigg(\frac{\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m \frac{\kappa \mu_r}{m\varepsilon}}\bigg) \bigg|\\
-& \leq \bigg|\log\bigg(\max_{1\leq j \leq m} \frac{K_{rj}e^{v^\star_j}}{\frac{\kappa \mu_r}{m\varepsilon}}\bigg) \bigg|\\
+& \overset{(\star)}{\leq} \bigg|\log\bigg(\max_{1\leq i \leq m} \frac{K_{rj}e^{v^\star_j}}{\frac{\kappa \mu_r}{m\varepsilon}}\bigg) \bigg|\\
 & \leq \big|\max_{1\leq j \leq m} (v_j^\star - \log(\frac{\kappa \mu_r}{m\varepsilon})\big|\\
 & \leq \norm{v^\star - \log(\frac{\kappa \mu_r}{m\varepsilon})}_\infty \\
-& \leq \norm{v^\star - v^{\text{sc}}_k - \log(\frac{\mu_r}{m\varepsilon^2})}_\infty \\
-& \leq \norm{v^\star - v^{\text{sc}}_k}_\infty +  \log(m\varepsilon^2).
+& \leq \norm{v^\star - {v}^{\text{sc}}}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}}).
 \end{align*}
-
-If $r \in I_{\varepsilon, \kappa}$ then 
+where the inequality $(\star)$ comes from the fact that $\frac{\sum_{j=1}^na_j}{\sum_{j'=1}^nb_{j'}} \leq \max_{1\leq j \leq n} \frac{a_j}{b_j}, \forall a_j, b_j>0.$
+Now, if $r \in I_{\varepsilon, \kappa}$, then  we have 
 \begin{align*}
-|(\dt{u}^{\text{sc}}_k)_{r} - \dt{u}^\star_r| &= \bigg|\log\bigg(\frac{\kappa\mu_r}{\sum_{j\in J_{\varepsilon,\kappa}}K_{rj}e^{(v^{\text{sc}}_k)_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{rj}}\bigg) - \log\bigg(\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}}\bigg)\bigg|\\
-&= \bigg|\log\bigg(\frac{\kappa\mu_r}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg) - \log\bigg(\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}}\bigg)\bigg|\\
-&= \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg)\bigg|\\
-& \leq \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg)\bigg|\\
-& \leq \norm{(v^{\text{sc}}_k) - v^\star - \log(\kappa)}_\infty\\
-& \leq \norm{(v^{\text{sc}}_k) - v^\star}_\infty (\kappa \leq 1)
+|({u}^{\text{sc}})_{r} - {u}^\star_r|
+= \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}})_j}}\bigg)\bigg|
+\leq \bigg|\log\bigg(\frac{\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}})_j}}\bigg)\bigg|
+\overset{(\star)}{\leq}\norm{v^{\text{sc}} - v^\star}_\infty.
 \end{align*}
-
 If $s \in J^\complement_{\varepsilon, \kappa}$ then 
 \begin{align*}
-|(\dt{v}^{\text{sc}}_k)_{s} - \dt{v}^\star_s| &= \bigg| \log(\varepsilon\kappa) - \log(\frac{\nu_s}{\sum_{i=1}^n K_{is}e^{u^\star_i}})\bigg|\\
-&= \bigg|\log\Big(\frac{\varepsilon\kappa}{\frac{\nu_s}{\sum_{i=1}^n K_{is}e^{u^\star_i}}}\Big) \bigg|\\
-&= \bigg|\log\bigg(\frac{\sum_{j=1}^n K_{is}e^{u^\star_i}}{\sum_{i=1}^n \frac{\nu_s}{n\kappa\varepsilon}}\bigg) \bigg|\\
+|({v}^{\text{sc}})_{s} - {v}^\star_s| &= \bigg| \log(\varepsilon\kappa) - \log(\frac{\nu_s}{\sum_{i=1}^n K_{is}e^{u^\star_i}})\bigg|\\
 & \leq \bigg|\log\bigg(\max_{1\leq i \leq n} \frac{K_{is}e^{u^\star_i}}{\frac{\nu_s}{n\kappa\varepsilon}}\bigg) \bigg|\\
-& \leq \big|\max_{1\leq i \leq n} (u_i^\star - \log(\frac{\nu_s}{n\kappa\varepsilon})\big|\\
-& \leq \norm{u^\star - \log(\frac{\kappa \mu_r}{m\varepsilon})}_\infty \\
-& \leq \norm{u^\star - u^{\text{sc}}_k - \log(\frac{\nu_s}{n\varepsilon^2})}_\infty \\
-& \leq \norm{u^\star - u^{\text{sc}}_k}_\infty +  \log(n\varepsilon^2).
+& \overset{(\star)}{\leq} \big|\max_{1\leq i \leq n} (u_i^\star - \log(\frac{\nu_s}{n\kappa\varepsilon})\big|\\
+& \leq \norm{u^\star - \log(\frac{\nu_s}{n\kappa\varepsilon})}_\infty \\
+& \leq \norm{u^\star - u^{\text{sc}}}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}).
 \end{align*}
-
-If $r \in I_{\varepsilon, \kappa}$ then 
+If $s \in J_{\varepsilon, \kappa}$ then 
 \begin{align*}
-|(\dt{u}^{\text{sc}}_k)_{r} - \dt{u}^\star_r| &= \bigg|\log\bigg(\frac{\kappa\mu_r}{\sum_{j\in J_{\varepsilon,\kappa}}K_{rj}e^{(v^{\text{sc}}_k)_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{rj}}\bigg) - \log\bigg(\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}}\bigg)\bigg|\\
-&= \bigg|\log\bigg(\frac{\kappa\mu_r}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg) - \log\bigg(\frac{\mu_r}{\sum_{j=1}^m K_{rj}e^{v^\star_j}}\bigg)\bigg|\\
-&= \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg)\bigg|\\
-& \leq \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}}_k)_j}}\bigg)\bigg|\\
-& \leq \norm{(v^{\text{sc}}_k) - v^\star - \log(\kappa)}_\infty\\
-& \leq \norm{(v^{\text{sc}}_k) - v^\star}_\infty (\kappa \leq 1)
+|({v}^{\text{sc}})_{s} - {v}^\star_s| 
+= \bigg|\log\bigg(\frac{\kappa\sum_{i=1}^m K_{ri}e^{u^\star_i}}{\sum_{i=1}^m K_{ri}e^{(u^{\text{sc}})_i}}\bigg)\bigg|
+ \leq \bigg|\log\bigg(\frac{\kappa\sum_{i=1}^m K_{ri}e^{v^\star_j}}{\sum_{i=1}^m K_{ri}e^{(u^{\text{sc}})_i}}\bigg)\bigg|
+\overset{(\star)}{\leq} \norm{u^{\text{sc}} - u^\star}_\infty.
 \end{align*}
-
-
-\newpage
-\begin{align*} 
-\nabla_u \Psi_{\varepsilon, \kappa}(u^{\text{sc}},v^{\text{sc}}) &= e^{u^{\text{sc}}_{I_{\varepsilon,\kappa}}} \odot K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} e^{v^{\text{sc}}_{J_{\varepsilon,\kappa}}} + \varepsilon\kappa e^{u^{\text{sc}}_{I_{\varepsilon,\kappa}}} \odot K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})} \mathbf 1_{m_b} - \kappa \mu_{I_{\varepsilon,\kappa}}\\
-&= 
-\begin{bmatrix}
-e^{u^{\text{sc}}_{I_{\varepsilon,\kappa}}}\\
-e^{u^{\text{sc}}_{I^\complement_{\varepsilon,\kappa}}}
-\end{bmatrix}
-\tilde{K}^1_O
-\begin{bmatrix}
-e^{v^{\text{sc}}_{J_{\varepsilon,\kappa}}}\\
-e^{v^{\text{sc}}_{J^\complement_{\varepsilon,\kappa}}}
-\end{bmatrix}
-- \kappa \mu_{I_{\varepsilon,\kappa}},\\
+Therefore, we obtain the followoing bound:
+\begin{align}
+\label{induction_uppers_bounds}
+\max\{\norm{u^\star - u^{\text{sc}}}_\infty, \norm{v^\star - v^{\text{sc}}}_\infty\} %&\leq \max\{\norm{u^\star - u^{\text{sc}}_0}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star - v^{\text{sc}}_0}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\}\nonumber\\
+&\leq \max\Big\{\norm{u^\star}_\infty + \norm{u^{\text{sc}}}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star}_\infty + \norm{v^{\text{sc}}}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\Big\}\nonumber\\
+&\leq 2\Big(\norm{u^\star}_\infty + \norm{v^\star}_\infty +  \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}}\big)\Big).
+\end{align}
+%where we used $u^{\text{sc}}_0 = \mathbf 0_n$ and $v^{\text{sc}}_0 = \mathbf 0_m.$ 
+Now, Lemma 3.2 in~\cite{lin2019} provides an upper bound for the $\ell_\infty$ of the optimal solution pair $(u^\star, v^\star)$ of problem~\eqref{sinkhorn-dual} as follows:
+$\norm{u^\star}_\infty \leq R$ and $\norm{v^\star}_\infty\leq R,$ where 
+\begin{align}
+\label{R_constant}
+R = \frac{\norm{C}_\infty}{\eta} + \log\big(\frac{n\vee m}{c^2_{\mu\nu}}\big).
+\end{align}
+Plugging~\eqref{induction_uppers_bounds} and~\eqref{R_constant} in~\eqref{priori_bounds_induction}, we obtain
+\begin{align}
+\Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
+&\leq 2\big(R + \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) \big(\norm{\mu^{\text{sc}} - \mu}_1+ \norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber\\
+&\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{post_bounds_induction_2}
+\end{align}
+By Proposition~\ref{prop:bounds_of_usc_and_vsc}, we have 
+\begin{align*} %\max_{i \in I_{\varepsilon,\kappa}} \mu_i %\max_{j \in J_{\varepsilon,\kappa}} \nu_j
+\norm{u^{\text{sc}}}_\infty \leq \log\big(\frac \varepsilon\kappa\vee \frac{1}{m\varepsilon K_{\min}}\big) \text{ and } \norm{v^{\text{sc}}}_\infty \leq \log\big(\varepsilon\kappa \vee \frac{1}{n\varepsilon K_{\min} }\big)
 \end{align*}
-where 
+and hence by Remark~\ref{rem:orders_of_epsilonappa}, 
 \begin{equation*}
-\tilde{K}^1_O = 
-\begin{bmatrix}
-K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} & K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}\\
-\mathbf O_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} &\mathbf O_{(I^\complement_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}
-\end{bmatrix}.
+\norm{u^{\text{sc}}}_\infty = \bigO\big(\log({n^{1/4}}/{(mK_{\min})^{3/4}c_{\mu\nu}^{1/4}})\big) \text{ and }\norm{u^{\text{sc}}}_\infty =\bigO\big(\log({m^{1/4}}/{(nK_{\min})^{3/4}c_{\mu\nu}^{1/4}})\big).
 \end{equation*}
+Hence, we have 
+\begin{align*}
+R + \norm{u^{\text{sc}}}_\infty  + \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) = \bigO\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big).
+\end{align*}
+Letting $\omega_{\kappa} := (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1,$
+Moreover, we have 
+\begin{align*}
+\omega_{\kappa} := (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1
+\end{align*}
+
+
+We arrive at 
+\begin{align}
+\Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
+&\leq 2\big(R + \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) \big(\norm{\mu^{\text{sc}} - \mu}_1+ \norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber\\
+&\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{post_bounds_induction_2}
+\end{align}
+
+
+\paragraph{Bounds of}$\norm{\mu^{\text{sc}}}_1$  and $\norm{\nu^{\text{sc}}}_1.$ 
+
+Lemma~\ref{lemma_bounds_on_marginals} expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$, while 
+\begin{lemma}
+\label{lemma_bounds_on_marginals}
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
+Then one has 
+\begin{align*}
+\norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon
+ ^2 \bigg)
+\end{align*}
 and 
-\begin{align*} 
-\nabla_v \Psi_{\varepsilon, \kappa}(u^{\text{sc}},v^{\text{sc}}) &= e^{v^{\text{sc}}_{J_{\varepsilon,\kappa}}} \odot K^\top_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} e^{u^{\text{sc}}_{I_{\varepsilon,\kappa}}} + \frac\varepsilon\kappa e^{v^{\text{sc}}_{J_{\varepsilon,\kappa}}} \odot K^\top_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} \mathbf 1_{n_b} - \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}\\
-&= 
-\begin{bmatrix}
-e^{v^{\text{sc}}_{J_{\varepsilon, \kappa}}}\\
-e^{v^{\text{sc}}_{J^\complement_{\varepsilon, \kappa}}}
-\end{bmatrix}
-\tilde{K}^2_O
-\begin{bmatrix}
-e^{u^{\text{sc}}_{I_{\varepsilon,\kappa}}}\\
-e^{u^{\text{sc}}_{I^\complement_{\varepsilon,\kappa}}}
-\end{bmatrix}
-- \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}\\
-\end{align*}
-where 
-\begin{equation*}
-\tilde{K}^2_O = 
-\begin{bmatrix}
-K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} &\mathbf O_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}\\
-K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} &\mathbf O_{(I^\complement_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}
-\end{bmatrix}.
-\end{equation*}
-Therefore, we obtain 
-\begin{equation*}
-\nabla_u \Psi_{\varepsilon, \kappa}(u^{\text{sc}},v^{\text{sc}}) = \tilde{B}^1_O(\dt{u}^{\text{sc}},\dt{v}^{\text{sc}}) \mathbf 1_m - \kappa \mu_{I_{\varepsilon,\kappa}} \text{ and } \nabla_v \Psi_{\varepsilon, \kappa}(u^{\text{sc}},v^{\text{sc}}) = \tilde{B}^2_O(\dt{u}^{\text{sc}},\dt{v}^{\text{sc}})^\top \mathbf 1_n- \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}
-\end{equation*}
-
-Analogously, one can define 
 \begin{align*}
-\Psi(u^\star, v^\star) = \mathbf{1}_n \tilde{B}(\dt{u}^\star, \dt{v}^\star) \mathbf{1}_m - \dt{\mu}^\top \dt{u}^\star - \dt{\nu}^\top \dt{v}^\star
+\norm{\nu^{\text{sc}}}_1  \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\bigg(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m K_{\min}} + (n-n_b)\varepsilon^2\bigg).
 \end{align*}
-Hence,
-\begin{align*} 
- \Psi_{\varepsilon, \kappa} (u^{\text{}} ,v^{\text{}}) -\Psi(u^\star, v^\star)
-& = \inr{\mathbf 1_n, \tilde{B}(\dt{u}^{\text{}} ,\dt{v}^{\text{}})\mathbf 1_m} - \inr{\mathbf{1}_n, \tilde{B}(\dt{u}^{\star} ,\dt{v}^{\star})\mathbf 1_m} + \inr{\dt{u}^{\star} - \kappa \dt{u}^{\text{}}, \dt{\mu}} + \inr{\dt{v}^{\star} - \kappa^{-1}\dt{v}^{\text{}}, \dt{\nu}}.
+\end{lemma}
+
+\begin{proof}
+Using inequality~\eqref{bound_on_v}, we obtain 
+\begin{align*}
+\norm{\mu^{\text{sc}}}_1 &= \sum_{i \in I_{\varepsilon,\kappa}} \mu^{\text{sc}}_i +  \sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu^{\text{sc}}_i\\
+& \overset{\eqref{i-th-marginal-mu}}{=} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + \frac \varepsilon\kappa \sum_{i \in I^\complement}\Big( \sum_{j \in J_{\varepsilon,\kappa}} K_{ij} e^{v^{\text{sc}}_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{ij}\Big)\\
+& \overset{\eqref{bound_on_v}}{\leq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big).
+% &\leq n_b\kappa + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big)
 \end{align*}
+Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 \end{proof}
 
 \subsection{Additional experimental results}
 
-\subsection{Additional experimental results}
-
-\begin{figure*}[t]
+\begin{figure*}[htbp]
 	\centering
 	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/wda_accur_toy.pdf}~\hfill~
@@ -416,9 +382,7 @@ Hence,
 		\label{fig:wda_gain}}
 \end{figure*}
 
-
-
-\begin{figure*}[t]
+\begin{figure*}[htbp]
 	\centering
 	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~
@@ -434,7 +398,7 @@ Hence,
 \end{figure*}
 
 
-\begin{figure*}[t]
+\begin{figure*}[htbp]
 	\centering
 	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl1.pdf}
 	\includegraphics[width=6.5cm]{../../figure/da_accur_mnist_regcl10.pdf}

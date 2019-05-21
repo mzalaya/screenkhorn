@@ -7,7 +7,7 @@ We briefly present in this section the setup of OT between two discrete measures
 We denote their probabilistic couplings set as $\Pi(\mu, \nu) = \{P \in \R_+^{n\times m}, P\mathbf{1}_m = \mu, P^\top \mathbf{1}_n = \nu\}.$ 
 \paragraph{Sinkhorn divergence.}
 
-Computing OT distance between the two discrete measures $\mu$ and $\nu$  amounts to solving a linear problem~\cite{kantorovich1942} given by
+Computing OT distance between the two discrete measures $\mu$ and $\nu$  amounts to solving a linear problem~\citep{kantorovich1942} given by
 \begin{equation}
   \label{monge-kantorovich}
   \mathcal{S}(\mu, \nu) =  \min_{P\in \Pi(\mu, \nu)} \inr{C, P},
@@ -42,6 +42,6 @@ where the couple $(u^\star, v^\star)$ satisfies:
 \label{sinkhorn-dual}
   (u^\star, v^\star) &= \argmin_{u \in \R^{n}, v\in \R^m} \{\Psi(u,v)\}.
 \end{align*}
-Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}. Moreover, $P^\star$ can be solved efficiently by iterative Bregman projections~\cite{benamou2015IterativeBP} referred as Sinkhorn iterations, and the method is referred as Sinkhorn algorithm which, recently, is proven to achieve a near-$\bigO(n^2)$ complexity~\cite{altschulernips17}.
+Note that the matrices $\Delta(e^{u^\star})$ and $\Delta(e^{v^\star})$ are unique up to a constant factor~\citep{sinkhorn1967}. Moreover, $P^\star$ can be solved efficiently by iterative Bregman projections~\citep{benamou2015IterativeBP} referred as Sinkhorn iterations, and the method is referred as Sinkhorn algorithm which, recently, is proven to achieve a near-$\bigO(n^2)$ complexity~\citep{altschulernips17}.
 
 % section regularized_discrete_ot (end)
