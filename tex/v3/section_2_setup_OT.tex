@@ -14,10 +14,10 @@ Computing OT distance between the two discrete measures $\mu$ and $\nu$  amounts
 \end{equation*}
 where $P= (P_{ij}) \in \R^{n\times m}$ is called the transportation plan, namely each entry $P_{ij}$ represents the fraction of mass moving from $x_i$ to $y_j$, and $C= (C_{ij}) \in \R^{n\times m}$ is a cost matrix comprised of nonnegative elements and related to the energy needed to move a probability mass from $x_i$ to $y_j$. 
 The entropic regularization of OT distances~\citep{cuturinips13} relies on the addition of a penalty term as follows:
-\begin{equation*}
+\begin{equation}
 \label{sinkhorn-primal}
   \mathcal{S}_\eta(\mu, \nu) =  \min_{P\in \Pi(\mu, \nu)} \{\inr{C, P} - \eta H(P)\},
-\end{equation*}
+\end{equation}
 where $\eta > 0$ is a regularization parameter. We refer to $\mathcal{S}_\eta(\mu, \nu) $ as the \emph{Sinkhorn divergence}~\citep{cuturinips13}.
 
 \paragraph{Dual of Sinkhorn divergence.}
