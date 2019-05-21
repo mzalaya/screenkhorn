@@ -76,11 +76,13 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
     rel_time_vect = np.empty(n_pvect)
     diff_a_vect   = np.empty(n_pvect)
     diff_b_vect   = np.empty(n_pvect)
+    rel_cost_vect = np.empty(n_pvect)
     
     # sinkhorn 
     tic = time()
-    _ = sinkhorn(a, b, M, reg)
+    P_sink = sinkhorn(a, b, M, reg)
     time_sink = time() - tic
+    Pstar = P_sink[0]
     
     for j,p in enumerate(pvect):
         print('p:', p)
@@ -102,7 +104,9 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
         rel_time_vect[j] = time_bfgs/time_sink
         diff_a_vect[j]   = norm(a - a_sc, ord=1)
         diff_b_vect[j]   = norm(b - b_sc, ord=1)
-    return diff_a_vect, diff_b_vect, rel_time_vect
+        rel_cost_vect[j] = np.abs(np.sum(M*(P_sc - Pstar)))/np.sum(M*Pstar)
+        
+    return diff_a_vect, diff_b_vect, rel_time_vect, rel_cost_vect
 
 
 
@@ -133,9 +137,10 @@ for n in nvect:
     M_diff_a = np.empty((n_iter, len(regvect), len(pvect)))
     M_diff_b = np.empty((n_iter, len(regvect), len(pvect)))
     M_time   = np.empty((n_iter, len(regvect), len(pvect)))
+    M_cost   = np.empty((n_iter, len(regvect), len(pvect)))
     
     for i in range(n_iter):
-        np.random.seed(i)
+        #np.random.seed(i)
         # gen data
         if datatype =='toy':
             Xs,ys,Xt,yt = toy(n_samples_source=n, n_samples_target=n, nz=1, random_state=i)
@@ -155,14 +160,15 @@ for n in nvect:
         
         for j, reg in enumerate(regvect):
             print('reg:', reg)
-            d_av, d_bv, rel_timev = compare_marginals(a, b, M, reg, pvect)
+            d_av, d_bv, rel_timev, rel_costv = compare_marginals(a, b, M, reg, pvect)
             M_diff_a[i, j, :] = d_av
             M_diff_b[i, j, :] = d_bv
             M_time[i, j, :]   = rel_timev
+            M_cost[i,j,:] = rel_costv
 
     np.savez(pathres + filename, 
              M_diff_a = M_diff_a,  M_diff_b = M_diff_b,
-             M_time = M_time)
+             M_time = M_time, M_cost = M_cost)
 
 
 #%% Plots
@@ -184,14 +190,15 @@ for n in nvect:
     plt.figure(1, figsize=(9, 6))
     plt.figure(2, figsize=(9, 6))
     plt.figure(3, figsize=(9, 6))
+    plt.figure(4, figsize=(9, 6))
     
-    for j, reg in enumerate(regvect):       
+    for j, reg in enumerate(regvect):  
+        # -------
         diff_a      = M_diff_a[:, j, :]
         diff_a_mean = diff_a.mean(axis=0)
         diff_a_std  = diff_a.std(axis=0)
         
         plt.figure(1)
-        #plt.subplot(1,2,1)
         plt.semilogx(pvect, diff_a_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
         plt.fill_between(pvect, diff_a_mean+diff_a_std*coeff, 
@@ -202,12 +209,12 @@ for n in nvect:
         plt.xticks(pvect, pvect, rotation='vertical')
         plt.title('$n=m=${:d}'.format(n))
         
-
+        
+        # -------
         diff_b      = M_diff_b[:, j, :]
         diff_b_mean = diff_b.mean(axis=0)
         diff_b_std  = diff_b.std(axis=0)
         
-        #plt.subplot(1,2,2)
         plt.figure(2)
         plt.semilogx(pvect, diff_b_mean, marker='s', markersize=6, 
                      label='$\eta = ${:}'.format(reg))
@@ -220,6 +227,7 @@ for n in nvect:
         plt.title('$n=m=${:d}'.format(n))
         
         
+        # -------
         rel_time      = M_time[:,j,:]
         rel_time_mean = rel_time.mean(axis=0)
         rel_time_std  = rel_time.std(axis=0)
@@ -234,30 +242,45 @@ for n in nvect:
         plt.ylabel('Time Ratio')
         plt.title('$n=m=${:d}'.format(n))
         
-    
+        # -------
+        rel_cost     = M_cost[:,j,:]
+        rel_cost_mean = rel_cost.mean(axis=0)
+        rel_cost_std  = rel_cost.std(axis=0)
+        
+        plt.figure(4)
+        plt.semilogx(pvect, rel_cost_mean, marker='s', markersize=6, 
+                     label='$\eta = ${:}'.format(reg))
+        plt.fill_between(pvect, rel_cost_mean+rel_cost_std*coeff, 
+                         rel_cost_mean-rel_cost_std*coeff, alpha=.15)
+        plt.xlabel(r'$n_b/n$')
+        plt.ylabel('Divergence Ratio')
+        plt.title('$n=m=${:d}'.format(n))
+        
+        filename_fig_time = 'divergence_{:}_n{:d}_reg{:d}.pdf'.format(datatype,n, int(10*reg))
+        plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
+        
+        
     plt.figure(1)
-    #plt.subplot(1,2,1), 
     plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
     plt.grid(True)
-    #plt.axvline(x=0.5, color='k', linestyle = '--', linewidth=1.5)
-    #plt.subplot(1,2,2), 
     plt.figure(2)
     plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
     plt.grid(True)
-    #plt.axvline(x=0.5, color='k', linestyle = '--', linewidth=1.5)
     plt.figure(3), plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
     plt.grid(True)
-    #plt.axhline(y=1, color='k', linestyle = '--', linewidth=1.5)
-    #plt.axvline(x=0.5, color='k', linestyle = '--', linewidth=1.5)
+    plt.figure(4), plt.legend(), plt.xticks(pvect, pvect, rotation='vertical')
+    plt.grid(True)
 
     if normalize:
         filename_fig_mu = 'norm_M_Mu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_nu = 'norm_M_Nu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_time = 'norm_M_time_{:}_n{:d}.pdf'.format(datatype,n)
+        filename_fig_div = 'norm_divergence_{:}_n{:d}.pdf'.format(datatype,n)
     else:
         filename_fig_mu = 'Mu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_nu = 'Nu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
         filename_fig_time = 'time_{:}_n{:d}.pdf'.format(datatype,n)
+        filename_fig_div = 'divergence_{:}_n{:d}.pdf'.format(datatype,n)
 
     plt.figure(1)
     plt.savefig(pathfig+filename_fig_mu, bbox_inches='tight')
@@ -265,4 +288,5 @@ for n in nvect:
     plt.savefig(pathfig+filename_fig_nu, bbox_inches='tight')
     plt.figure(3)
     plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
-    
+    plt.figure(4)
+    plt.savefig(pathfig+filename_fig_div, bbox_inches='tight')
