@@ -15,16 +15,16 @@ Then one has
 
 \begin{align}
 \label{marginal-error-mu}
-{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\bigg(n_bc_\kappa + (n- n_b) \bigg(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}K_{\min}}
- + \log\bigg(\frac{\sqrt{nm}}{m_b(c_{\mu\nu}K_{\min})^{5/2}} 
-\bigg)\bigg)\bigg)
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Big(n_bc_\kappa + (n- n_b) \Big(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}K_{\min}}
+ + \log\Big(\frac{\sqrt{nm}}{m_b(c_{\mu\nu}K_{\min})^{5/2}} 
+\Big)\Big)\Big)
 \end{align}
 and 
 \begin{align}
 \label{marginal-error-nu}
-{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} = \bigO\bigg(m_bc_{\frac1\kappa} + (m- m_b) \bigg(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{n-n_b}{\sqrt{nm}K_{\min}}
- + \log\bigg(\frac{\sqrt{nm}}{n_b (c_{\mu\nu}K_{\min})^{5/2}}
-\bigg)\bigg)\bigg),
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} = \bigO\Big(m_bc_{\frac1\kappa} + (m- m_b) \Big(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{n-n_b}{\sqrt{nm}K_{\min}}
+ + \log\Big(\frac{\sqrt{nm}}{n_b (c_{\mu\nu}K_{\min})^{5/2}}
+\Big)\Big)\Big),
 \end{align}
 where $c_z = z - \log z - 1$ for $z>0$ and $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ with $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i$ and $\underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$.
 
@@ -32,13 +32,13 @@ where $c_z = z - \log z - 1$ for $z>0$ and $c_{\mu\nu} = \underline{\mu}\wedge \
 Proof of Proposition~\ref{proposition_error_in_marginals} is presented in supplementary material and its is based on first order optimality conditions for problem~\eqref{screen-sinkhorn_second_def} and on a generalization of Pinsker inequality (see Lemma~\ref{lem:pinsker} in supplementary).
 Note that $c_\kappa$ and $c_{\frac 1\kappa}$ tend to zeros as $\kappa$ goes to one, which is the case when the number budget of points $(n_b,m_b)$ tends to the full one $(n,m)$.
 
-Our second theoretical result, Proposition~\ref{prop:objective-error}, is an upper bound of the difference between objective values of Screenkhorn and the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
+Our second theoretical result, Proposition~\ref{prop:objective-error}, is an upper bound of the difference between objective values of Screenkhorn and dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. %It depends on the quantity $\norm{\mu - \mu^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1$
 \begin{proposition}
 \label{prop:objective-error}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def} and $(u^\star, v^\star)$ is the solution of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. Then we have 
 \begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
-= \bigO\bigg(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - \mu^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1)  + \omega_{\kappa}\bigg).
+= \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - \mu^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1)  + \omega_{\kappa}\Big).
 \end{align*}
 where $\omega_{\kappa} = o(1)$  as $\kappa$ tends to $1.$
 \end{proposition}

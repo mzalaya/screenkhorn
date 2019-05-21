@@ -67,7 +67,7 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 In this subsection, we analyse the impact of using \emph{Screenkhorn}
 instead of Sinkhorn in a complex machine learning pipeline. Our two applications
 are a dimensionality reduction technique, denoted as Wasserstein Discriminant Analysis (WDA), based on Wasserstein distance approximated
-through Sinkhorn divergence \cite{flamary2018WDA} and a domain-adaptation using optimal transport mapping \cite{courty2017optimal}, named OTDA. 
+through Sinkhorn divergence \citep{flamary2018WDA} and a domain-adaptation using optimal transport mapping \citep{courty2017optimal}, named OTDA. 
 
 
 WDA aims at finding a linear projection which minimize the ratio of distance between intra-class samples and distance inter-class samples, where the distance is understood
@@ -103,7 +103,7 @@ For the optimal transport based domain adaptation problem, we have considered th
 OTDA with $\ell_{0.5,1}$ group-lasso regularizer that helps in exploiting available labels in the source domain. The problem is solved using an majorization-minimization approach 
 for handling the non-convexity of the problem. Hence, at each iteration, a Sinkhorn/Screenkhorn has to be computed. As a domain-adaptation problem, we have
 used a MNIST to USPS problem in which features have been extracted from the
-feature extractor of an domain adversarial neural networks \cite{ganin2016domain} before full convergence of the networks (so as to leave room for OT adaptation). 
+feature extractor of an domain adversarial neural networks \citep{ganin2016domain} before full convergence of the networks (so as to leave room for OT adaptation). 
 Figure \ref{fig:otda} reports the gain in running time for $2$ different values
 of the group-lasso regularizer hyperparameter, while the curves of performances are
 reported in the supplementary material. We can note that for all the  \emph{Screenkhorn} with different decimation factors, the gain in computation goes from a factor of $4$ to $12$, while accuracies are somewhat equivalent.

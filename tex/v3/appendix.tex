@@ -275,14 +275,14 @@ If $r \in I^\complement_{\varepsilon, \kappa}$ then
 where the inequality $(\star)$ comes from the fact that $\frac{\sum_{j=1}^na_j}{\sum_{j'=1}^nb_{j'}} \leq \max_{1\leq j \leq n} \frac{a_j}{b_j}, \forall a_j, b_j>0.$
 Now, if $r \in I_{\varepsilon, \kappa}$, then  we have 
 \begin{align*}
-|({u}^{\text{sc}})_{r} - {u}^\star_r|
+|{u}^{\text{sc}}_{r} - {u}^\star_r|
 = \bigg|\log\bigg(\frac{\kappa\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}})_j}}\bigg)\bigg|
 \leq \bigg|\log\bigg(\frac{\sum_{j=1}^m K_{rj}e^{v^\star_j}}{\sum_{j=1}^m K_{rj}e^{(v^{\text{sc}})_j}}\bigg)\bigg|
 \overset{(\star)}{\leq}\norm{v^{\text{sc}} - v^\star}_\infty.
 \end{align*}
 If $s \in J^\complement_{\varepsilon, \kappa}$ then 
 \begin{align*}
-|({v}^{\text{sc}})_{s} - {v}^\star_s| &= \bigg| \log(\varepsilon\kappa) - \log(\frac{\nu_s}{\sum_{i=1}^n K_{is}e^{u^\star_i}})\bigg|\\
+|{v}^{\text{sc}}_{s} - {v}^\star_s| &= \bigg| \log(\varepsilon\kappa) - \log(\frac{\nu_s}{\sum_{i=1}^n K_{is}e^{u^\star_i}})\bigg|\\
 & \leq \bigg|\log\bigg(\max_{1\leq i \leq n} \frac{K_{is}e^{u^\star_i}}{\frac{\nu_s}{n\kappa\varepsilon}}\bigg) \bigg|\\
 & \overset{(\star)}{\leq} \big|\max_{1\leq i \leq n} (u_i^\star - \log(\frac{\nu_s}{n\kappa\varepsilon})\big|\\
 & \leq \norm{u^\star - \log(\frac{\nu_s}{n\kappa\varepsilon})}_\infty \\
@@ -290,7 +290,7 @@ If $s \in J^\complement_{\varepsilon, \kappa}$ then
 \end{align*}
 If $s \in J_{\varepsilon, \kappa}$ then 
 \begin{align*}
-|({v}^{\text{sc}})_{s} - {v}^\star_s| 
+|{v}^{\text{sc}}_{s} - {v}^\star_s| 
 = \bigg|\log\bigg(\frac{\kappa\sum_{i=1}^m K_{ri}e^{u^\star_i}}{\sum_{i=1}^m K_{ri}e^{(u^{\text{sc}})_i}}\bigg)\bigg|
  \leq \bigg|\log\bigg(\frac{\kappa\sum_{i=1}^m K_{ri}e^{v^\star_j}}{\sum_{i=1}^m K_{ri}e^{(u^{\text{sc}})_i}}\bigg)\bigg|
 \overset{(\star)}{\leq} \norm{u^{\text{sc}} - u^\star}_\infty.
@@ -350,13 +350,20 @@ Lemma~\ref{lemma_bounds_on_marginals} expresses a lower and upper bounds with re
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
 Then one has 
 \begin{align*}
-\norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon
- ^2 \bigg)
+\norm{\mu^{\text{sc}}}_1 = \bigO\Big(\frac{n_b\sqrt{m}}{\sqrt{nK_{\min}c_{\mu\nu}}} + (n-n_b)\Big(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} + \frac{m-m_b}{\sqrt{nm}K_{\min}}\Big)\Big),
 \end{align*}
-and 
+and
 \begin{align*}
-\norm{\nu^{\text{sc}}}_1  \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\bigg(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m K_{\min}} + (n-n_b)\varepsilon^2\bigg).
+\norm{\nu^{\text{sc}}}_1 = \bigO\Big(\frac{m_b\sqrt{n}}{\sqrt{mK_{\min}c_{\mu\nu}}} + (m-m_b)\Big(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} + \frac{n-n_b}{\sqrt{nm}K_{\min}}\Big)\Big).
 \end{align*}
+% \begin{align*}
+% \norm{\mu^{\text{sc}}}_1 \leq \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{}}}_1 + (n-n_b) \bigg(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon
+%  ^2 \bigg)
+% \end{align*}
+% and 
+% \begin{align*}
+% \norm{\nu^{\text{sc}}}_1  \leq \kappa^{-1} \norm{\nu_{J_{\varepsilon,\kappa}}}_1 + (m-m_b)\bigg(\frac{n_b\kappa \max_{i\in I_{\varepsilon,\kappa}}\mu_i}{m K_{\min}} + (n-n_b)\varepsilon^2\bigg).
+% \end{align*}
 \end{lemma}
 
 \begin{proof}

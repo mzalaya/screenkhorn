@@ -48,7 +48,7 @@ I_{\varepsilon,\kappa} = \big\{i=1, \ldots, n: \mu_i \geq \frac {\varepsilon^2} 
 Then one has $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ for all $i \in I^\complement_{\varepsilon,\kappa} $ and $j\in J^\complement_{\varepsilon,\kappa} .$
 \end{lemma}
 
-Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplementary material. It is worth to note that first order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$, that correspond to the Sinkhorn marginal conditions~\cite{peyre2019COTnowpublisher} up to the scaling factor $\kappa$. 
+Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplementary material. It is worth to note that first order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$, that correspond to the Sinkhorn marginal conditions~\citep{peyre2019COTnowpublisher} up to the scaling factor $\kappa$. 
 
 \paragraph{Screening with a fixed number budget of points.}
 
@@ -125,7 +125,7 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \caption{Screenkhorn$(C,\eta,\mu,\nu,n_b,m_b)$}
 \label{screenkhorn}
 
-\textbf{step 1:} \textcolor{black}{Initialization}\\
+\textbf{Step 1:} \textcolor{black}{Initialization}\\
 
 \nl   $\xi \gets \mu \oslash r(K);$ \\
 \nl   $\zeta \gets \nu \oslash c(K);$\\
@@ -141,7 +141,7 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
 \nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
 
-\noindent \textbf{step 2:} \textcolor{black}{L-BFGS-B}\\
+\noindent \textbf{Step 2:} \textcolor{black}{L-BFGS-B}\\
 
 \nl  $u^{(0)}\gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
 \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
