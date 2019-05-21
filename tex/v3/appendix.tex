@@ -335,7 +335,7 @@ Moreover, we have
 We arrive at 
 \begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
-& = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1) + \omega_{\kappa}\Big).\label{post_bounds_induction_2}
+& = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1) + \omega_{\kappa}\Big).
 \end{align*}
 Note that $\omega_{\kappa}$ tends to zeros as $(n_b,m_b)$ tends to $(n,m)$ (i.e., $\kappa \rightarrow 1)$. To more characterize $\omega_\kappa$, the following 
 lemma expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. 
@@ -343,13 +343,15 @@ lemma expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{
 \label{lemma_bounds_on_marginals}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
 Then one has 
-\begin{align*}
+\begin{align}
+\label{l1-norm-mu-sc}
 \norm{\mu^{\text{sc}}}_1 = \bigO\Big(\frac{n_b\sqrt{m}}{\sqrt{nK_{\min}c_{\mu\nu}}} + (n-n_b)\Big(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} + \frac{m-m_b}{\sqrt{nm}K_{\min}}\Big)\Big),
-\end{align*}
+\end{align}
 and
-\begin{align*}
+\begin{align}
+\label{l1-norm-nu-sc}
 \norm{\nu^{\text{sc}}}_1 = \bigO\Big(\frac{m_b\sqrt{n}}{\sqrt{mK_{\min}c_{\mu\nu}}} + (m-m_b)\Big(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} + \frac{n-n_b}{\sqrt{nm}K_{\min}}\Big)\Big).
-\end{align*}
+\end{align}
 \end{lemma}
 
 \begin{proof}
@@ -360,6 +362,7 @@ Using inequality~\eqref{bound_on_v}, we obtain
 & \overset{\eqref{bound_on_v}}{\leq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big).
 % &\leq n_b\kappa + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big)
 \end{align*}
+Using Remark~\ref{rem:orders_of_epsilonappa}, we get the desired closed form in~\eqref{l1-norm-mu-sc}.
 Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 \end{proof}
 
