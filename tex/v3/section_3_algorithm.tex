@@ -105,7 +105,7 @@ The following proposition (proof in supplementary material) expresses these boun
 
 \begin{proposition}
 \label{prop:bounds_of_usc_and_vsc}
-Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def} and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqref{screen-sinkhorn_second_def} and $K_{\min} = \min\limits_{i\in I_{\varepsilon,\kappa},j \in J_{\varepsilon,\kappa}}K_{ij}$. Then,
 one has
 \begin{equation}
 \label{bound_on_u}
@@ -141,12 +141,12 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
 \nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
 
-\noindent \textbf{Step 2:} \textcolor{black}{L-BFGS-B}\\
+\noindent \textbf{Step 2:} \textcolor{black}{LBFGS}\\
 
 \nl  $u^{(0)}\gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
 \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
 \nl  $\theta^{(0)} \gets \text{stack}[u^{(0)}, v^{(0)}];$\\
-\nl   $\theta \gets \text{L-BFGS-B}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
+\nl   $\theta \gets \text{LBFGS}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
 \nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
 \nl   {$u^{sc}_i \gets (\theta_u)_i$ if $i \in I_{\varepsilon,\kappa}$ and $u_i \gets \log(\varepsilon\kappa^{-1})$ if $i \in I^\complement_{\varepsilon,\kappa};$}\\
 \nl   {$v^{sc}_j \gets (\theta_v)_j$ if $j \in J_{\varepsilon,\kappa}$ and $v_j \gets \log(\varepsilon\kappa)$ if $j \in J^\complement_{\varepsilon,\kappa};$}\\

@@ -10,9 +10,8 @@ Our first theoretical result, Proposition~\ref{proposition_error_in_marginals}, 
 
 \begin{proposition}
 \label{proposition_error_in_marginals}
-Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqref{screen-sinkhorn_second_def}.
 Then one has 
-
 \begin{align}
 \label{marginal-error-mu}
 {\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Big(n_bc_\kappa + (n- n_b) \Big(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}K_{\min}}
@@ -35,7 +34,7 @@ Note that $c_\kappa$ and $c_{\frac 1\kappa}$ tend to zeros as $\kappa$ goes to o
 Our second theoretical result, Proposition~\ref{prop:objective-error}, is an upper bound of the difference between objective values of Screenkhorn and dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. 
 \begin{proposition}
 \label{prop:objective-error}
-Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def} and $(u^\star, v^\star)$ is the solution of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. Then we have 
+Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqref{screen-sinkhorn_second_def} and $(u^\star, v^\star)$ is the pair solution of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}. Then we have 
 \begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star)
 = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - \mu^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1)  + \omega_{\kappa}\Big).
@@ -43,5 +42,5 @@ Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{sc
 where $\omega_{\kappa} = o(1)$  as $\kappa$ tends to $1.$
 \end{proposition}
 Proof of Proposition~\ref{prop:objective-error} is postponed to the supplemntary material.
-Comparing to some other analysis results of this quantity, see for instance Lemma 2 in~\cite{dvurechensky18aICML} and Lemma 3.1 in~\cite{lin2019}, our bound involves an additional term $\omega_{\kappa}$, that tends to zero when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, i.e., $\kappa$ goes to $1.$
+Comparing to some other analysis results of this quantity, see for instance Lemma 2 in~\cite{dvurechensky18aICML} and Lemma 3.1 in~\cite{lin2019}, our bound involves an additional term $\omega_{\kappa}$, that tends to zero when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$ (i.e., $\kappa$ goes to $1).$
 % section analysis_of_marginal_violations (end)
