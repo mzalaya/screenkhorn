@@ -3,7 +3,7 @@
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-Computing OT distances between pairs of probability measures or histograms, such as the earth mover's distance~\citep{werman1985,Rubner2000} and Monge-Kantorovich or Wasserstein distance~\citep{villani09optimal}, are currently generating an increasing attraction in different machine learning tasks~\citep{pmlr-v32-solomon14,kusnerb2015,pmlr-v70-arjovsky17a,ho2017}, statistics~\citep{frogner2015nips,panaretos2016,ebert2017ConstructionON,bigot2017,flamary2018WDA}, and computer vision~\citep{bonnel2011,Rubner2000,solomon2015}, among other applications~\citep{klouri17,peyre2019COTnowpublisher}.
+Computing optimal transport (OT) distances between pairs of probability measures or histograms, such as the earth mover's distance~\citep{werman1985,Rubner2000} and Monge-Kantorovich or Wasserstein distance~\citep{villani09optimal}, are currently generating an increasing attraction in different machine learning tasks~\citep{pmlr-v32-solomon14,kusnerb2015,pmlr-v70-arjovsky17a,ho2017}, statistics~\citep{frogner2015nips,panaretos2016,ebert2017ConstructionON,bigot2017,flamary2018WDA}, and computer vision~\citep{bonnel2011,Rubner2000,solomon2015}, among other applications~\citep{klouri17,peyre2019COTnowpublisher}.
 In many of these problems, OT exploits the geometric features of the objects at hand in the underlying spaces to be leveraged in comparing probability measures.
 This effectively leads to improve performance of methods that are oblivious to the geometry, for example the chi-squared distances or the Kullback-Leibler divergence.
 Unfortunately, this advantage comes at the price of an enormous computational cost of solving the OT problem, that can be prohibitive in large scale applications.
