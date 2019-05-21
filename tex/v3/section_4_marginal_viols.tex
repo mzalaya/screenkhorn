@@ -4,7 +4,7 @@
 \label{sec:analysis_of_marginal_violations}
 
 % We derive in this section 
-This section is devoted to establishing theoretical guarantees for Screenkhorn algorithm. %the marginal violations of
+This section is devoted to establishing theoretical guarantees for \emph{Screenkhorn} algorithm. %the marginal violations of
 We first define the screened marginals $\mu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}}) \mathbf 1_m$ and $\nu^{\text{sc}} = B(u^{\text{sc}}, v^{\text{sc}})^\top \mathbf 1_n.$ 
 Our first theoretical result, Proposition~\ref{proposition_error_in_marginals}, gives an upper bound of the screened marginal violations with respect to $\ell_1$-norm.
 
@@ -41,6 +41,6 @@ Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqr
 \end{align*}
 where $\omega_{\kappa} = o(1)$  as $\kappa$ tends to $1.$
 \end{proposition}
-Proof of Proposition~\ref{prop:objective-error} is postponed to the supplemntary material.
+Proof of Proposition~\ref{prop:objective-error} is exposed in the supplementary material.
 Comparing to some other analysis results of this quantity, see for instance Lemma 2 in~\cite{dvurechensky18aICML} and Lemma 3.1 in~\cite{lin2019}, our bound involves an additional term $\omega_{\kappa}$, that tends to zero as pair budget $(n_b,m_b)$ goes to the full number budget of points $(n,m)$ (i.e., $\kappa$ goes to $1).$
 % section analysis_of_marginal_violations (end)

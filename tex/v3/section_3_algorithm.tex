@@ -48,7 +48,7 @@ I_{\varepsilon,\kappa} = \big\{i=1, \ldots, n: \mu_i \geq \frac {\varepsilon^2} 
 Then one has $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ for all $i \in I^\complement_{\varepsilon,\kappa} $ and $j\in J^\complement_{\varepsilon,\kappa} .$
 \end{lemma}
 
-Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplementary material. It is worth to note that first order conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$, that correspond to the Sinkhorn marginal conditions~\citep{peyre2019COTnowpublisher} up to the scaling factor $\kappa$. 
+Proof of Lemma~\ref{I_epsilon_kappa_J_epsilon_kappa} is postponed to the supplementary material. It is worth to note that first order optimality conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$, that correspond to the Sinkhorn marginal conditions~\citep{peyre2019COTnowpublisher} up to the scaling factor $\kappa$. 
 
 \paragraph{Screening with a fixed number budget of points.}
 
@@ -97,8 +97,8 @@ where
 with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
 Pseudocode of our proposed algorithm is shown in Algorithm~\ref{screenkhorn}. %~\cite{nocedal1980,nocedal2006numerical}
-It is worth to note that Screenkhorn algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
-Furthermore, Screenkhorn consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+It is worth to note that \emph{Screenkhorn} algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
+Furthermore, \emph{Screenkhorn} consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
 The second is a constrained L-BFGS-B for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 L-BFGS-B handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
 The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of \emph{Screenkhorn}.
@@ -121,7 +121,7 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \begin{algorithm}[htbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
-\caption{Screenkhorn$(C,\eta,\mu,\nu,n_b,m_b)$}
+\caption{\emph{Screenkhorn}$(C,\eta,\mu,\nu,n_b,m_b)$}
 \label{screenkhorn}
 
 \textbf{Step 1:} \textcolor{black}{Initialization}\\
