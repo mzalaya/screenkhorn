@@ -14,10 +14,10 @@
 
 \paragraph{Motivation.} 
 
-The key idea of our approach is motivated by the so-called \emph{static screening test}~\cite{Ghaoui2010SafeFE} in supervised learning, which is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
+The key idea of our approach is motivated by the so-called \emph{static screening test}~\citep{Ghaoui2010SafeFE} in supervised learning, which is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
 Then, these inactive features can be removed from the optimization problem to reduce its scale.
 Before diving into detailed algorithmic analysis, let's us present a brief illustration of how we adapt static screening test to the dual of Sinkhorn divergence.
-Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w \in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
+Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w\in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
 In Figure~\ref{fig:motivations}, we plot $(e^{u^\star}, e^{v^\star})$ solution of dual of Sinkhorn divergence~\ref{sinkhorn-dual} in the particular case of: $n=m=500, \eta=0.1, \mu = \nu = \frac 1n \mathbf 1_n$ and the cost matrix $C$ correspond the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$. 
 We also plot two lines correspond to $e^{u^\star} \equiv \alpha_u$ and $e^{v^\star} \equiv \alpha_v$ for some $\alpha_u>0$ and $\alpha_v >0$, playing the role of thresholds to select indices to be discard from the optimization procedure.
 
@@ -92,9 +92,9 @@ where
 \begin{align*} 
 \Psi_{\varepsilon,\kappa}(u, v) &= (e^{u_{I_{\varepsilon,\kappa}}})^\top K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})} e^{v_{J_{\varepsilon,\kappa}}} + 
 \varepsilon \kappa (e^{u_{I_{\varepsilon,\kappa}}})^\top K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})}\mathbf 1_{m_b} + \varepsilon \kappa^{-1} \mathbf 1_{n_b}^\top K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}e^{v_{J_{\varepsilon,\kappa}}}\\
-&\qquad - \kappa \mu_{I_{\varepsilon,\kappa}}^\top u_{I_{\varepsilon,\kappa}} - \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}^\top v_{J_{\varepsilon,\kappa}}. %+ \Xi
+&\qquad - \kappa \mu_{I_{\varepsilon,\kappa}}^\top u_{I_{\varepsilon,\kappa}} - \kappa^{-1} \nu_{J_{\varepsilon,\kappa}}^\top v_{J_{\varepsilon,\kappa}} + \Xi
 \end{align*}
-%with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
+with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
 Pseudocode of our proposed algorithm is shown in Algorithm~\ref{screenkhorn}. %~\cite{nocedal1980,nocedal2006numerical}
 It is worth to note that Screenkhorn algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradients, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
@@ -118,18 +118,15 @@ and
 \end{equation}
 for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \end{proposition}
-
 \LinesNotNumbered
 \begin{algorithm}[htbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
 \caption{Screenkhorn$(C,\eta,\mu,\nu,n_b,m_b)$}
 \label{screenkhorn}
-% \textbf{input: }{$C$, $\eta$, $\mu \in \Sigma_n$, $\nu \in \Sigma_m$, $n_b$ and $m_b$;}\\
 
 \textbf{step 1:} \textcolor{black}{Initialization}\\
 
-% \nl   $K \gets \exp(-C/\eta);$\\
 \nl   $\xi \gets \mu \oslash r(K);$ \\
 \nl   $\zeta \gets \nu \oslash c(K);$\\
 \nl   $\xi \gets \texttt{sort}(\xi);$ //(decreasing order)\\
@@ -137,27 +134,20 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $\varepsilon \gets (\xi_{n_b}\zeta_{m_b})^{1/4}, \text{  } \kappa \gets \sqrt{{\zeta_{m_b}}/{\xi_{n_b}}}$;\\
 \nl   $I_{\varepsilon,\kappa} \gets \{i=1, \ldots, n: \mu_i \geq {\varepsilon^2} \kappa^{-1} r_i(K)\};$\\
 \nl   $J_{\varepsilon,\kappa} \gets \{j=1, \ldots, m: \nu_j \geq \varepsilon^2\kappa c_j(K)\};$\\ 
-
-% \textbf{step 2:} \textcolor{black}{Bounds for L-BFGS}
-
-% \nl   $K_{\min} \gets \min_{i \in I_{\varepsilon,\kappa}, j \in J_{\varepsilon,\kappa}}K_{ij};$ \\
 \nl   $\underline{\mu} \gets \min_{i \in I_{\varepsilon,\kappa}} \mu_i, \bar{\mu} \gets \max_{i \in I_{\varepsilon,\kappa}} \mu_i$; \\
 \nl   $\underline{\nu} \gets \min_{j \in J_{\varepsilon,\kappa}} \mu_i, \bar{\nu} \gets \max_{j \in J_{\varepsilon,\kappa}} \mu_i$; \\
 \nl   $\underline{u} \gets \log\big(\frac \varepsilon\kappa \vee \frac{\underline{\mu}}{\varepsilon (m-m_b) + \varepsilon \vee \frac{\bar{\nu}}{n\varepsilon\kappa K_{\min}} m_b}\big), \bar{u} \gets  \log\big(\frac \varepsilon\kappa\vee \frac{\bar{\mu}}{m\varepsilon K_{\min}}\big);$\\
 \nl   $\underline{v} \gets \log\big(\varepsilon\kappa \vee \frac{\underline{\nu}}{\varepsilon(n-n_b) + \varepsilon \vee \frac{\kappa\bar{\mu}}{m\varepsilon K_{\min}} n_b}\big), \bar{v} \gets \log\big(\varepsilon\kappa \vee \frac{\bar{\nu}}{n\varepsilon K_{\min}}\big);$\\
 \nl   $ \bar{\theta} \gets \text{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
-\nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\ %\in \R^{n_b\times m_b}
+\nl   $ \underline{\theta} \gets \text{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
 
 \noindent \textbf{step 2:} \textcolor{black}{L-BFGS-B}\\
 
-\nl  $u^{(0)} \gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
+\nl  $u^{(0)}\gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
 \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
 \nl  $\theta^{(0)} \gets \text{stack}[u^{(0)}, v^{(0)}];$\\
 \nl   $\theta \gets \text{L-BFGS-B}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
 \nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
-
-% \textbf{step 4:} \textcolor{black}{Output}\\
-
 \nl   {$u^{sc}_i \gets (\theta_u)_i$ if $i \in I_{\varepsilon,\kappa}$ and $u_i \gets \log(\varepsilon\kappa^{-1})$ if $i \in I^\complement_{\varepsilon,\kappa};$}\\
 \nl   {$v^{sc}_j \gets (\theta_v)_j$ if $j \in J_{\varepsilon,\kappa}$ and $v_j \gets \log(\varepsilon\kappa)$ if $j \in J^\complement_{\varepsilon,\kappa};$}\\
 \nl   \Return{$B(u^{\text{sc}},v^{\text{sc}})$.}
