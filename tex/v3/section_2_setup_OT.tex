@@ -22,7 +22,7 @@ where $\eta > 0$ is a regularization parameter. We refer to $\mathcal{S}_\eta(\m
 
 \paragraph{Dual of Sinkhorn divergence.}
 
-Below we provide the derivation of the dual problem for the regularized OT problem~\eqref{sinkhorn-primal}. Towards this end, we begin with writing its Lagrangian dual function :
+Below we provide the derivation of the dual problem for the regularized OT problem~\eqref{sinkhorn-primal}. Towards this end, we begin with writing its Lagrangian dual function:
 \begin{equation*}
   \mathscr{L}(P,y, z) = \inr{C,P} + \eta \inr{\log P, P} + \inr{y, P\mathbf{1}_m - \mu} + \inr{z,P^\top \mathbf{1}_n - \nu}.
 \end{equation*}

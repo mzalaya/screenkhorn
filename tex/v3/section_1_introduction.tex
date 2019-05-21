@@ -30,7 +30,7 @@ Within this global context, our contributions are the following:
 	  \setlength\itemsep{-0.1cm}
 	
 	\item From a methodological point of view, we propose a reformulation of the dual of the Sinkhorn divergence problem by imposing variables to be larger than a threshold.
-	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to be strictly satisfied its constraint, leading then to
+	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to  strictly satisfy its constraint, leading then to
 	a ``screened'' version of the dual of Sinkhorn divergence. 
 	\item We provide some theoretical analysis of the solution of the ``screened''  Sinkhorn divergence, showing that its objective value and the marginal constraint satisfaction are properly controlled 	as the number of screened variables decreases.
 	\item From an algorithmic standpoint, we use a constrained LBFGS algorithm \citep{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower bound and upper bound of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \emph{Screenkhorn}.
@@ -48,8 +48,8 @@ Within this global context, our contributions are the following:
 %L-BFGS-B algorithm was adapted to the OT setting via the dual of Sinkhorn divergence in ~\cite{cuturi2016SIAM,blondel2018ICML}.}
 
 The remainder of the paper is organized as follow. In Section~\ref{sec:regularized_discrete_ot} we briefly review the basic setup of regularized discrete OT. 
-Section~\ref{sec:screened_dual_of_sinkhorn_divergence} contains our main contribution, that is, the Screenkhorn algorithm. 
-Section~\ref{sec:analysis_of_marginal_violations} devotes to theoretical guarantees for marginal violations of Screenkhorn. 
+Section~\ref{sec:screened_dual_of_sinkhorn_divergence} contains our main contribution, that is, the \emph{Screenkhorn} algorithm. 
+Section~\ref{sec:analysis_of_marginal_violations} devotes to theoretical guarantees for marginal violations of \emph{Screenkhorn}. 
 In Section~\ref{sec:numerical_experiments} we present numerical results for the proposed algorithm, compared with the state-of-art Sinkhorn algorithm as implemented in~\cite{flamary2017pot}. 
 The proofs of theoretical results are postponed to the supplementary material.
 
