@@ -373,8 +373,7 @@ Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/wda_accur_toy.pdf}~\hfill~
 	\includegraphics[width=6.cm]{./figs/wda_accur_mnist.pdf}~\hfill~\\
-	\caption{Accuracy of a $1$-nearest-neighbour after WDA for the (left) toy problem.
-		(right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
+	\caption{Accuracy of a $1$-nearest-neighbour after WDA for the (left) toy problem and, (right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
 		\label{fig:wda_gain}}
 \end{figure*}
 
@@ -401,9 +400,9 @@ Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl1.pdf}
 	\includegraphics[width=6.5cm]{../../figure/da_time_mnist_regcl10.pdf}
 	\caption{OT Domain adaptation MNIST to USPS : (top) Accuracy and (bottom) running time of Sinkhorn and \emph{Screenkhorn} for hyperparameter of the $\ell_{p,1}$ regularizer (left) $\lambda = 1$ and (right) $\lambda=10$. Note that this
-	value impact of the ground cost of each Sinkhorn problem involved in the iterative algorithm. The accuracy panels
+	value impacts the ground cost of each Sinkhorn problem involved in the iterative algorithm. The accuracy panels
 	also report the performance of a $1$-NN when no-adaptation is performed.  
-	We remark that the strenght of the class-based has influence on the performance of \emph{Screenkhorn} given a decimation factor. For small value on the left, Screenkhorn slightly performs better than Sinkhorn, while for large value, some
+	We remark that the strenght of the class-based regularization has influence on the performance of \emph{Screenkhorn} given a decimation factor. For small value on the left, \emph{Screenkhorn} slightly performs better than Sinkhorn, while for large value, some
 	decimation factors leads to loss of performances.
 	Regarding, running time, we can note that Sinkhorn is far less efficient than
 	\emph{Screenkhorn}  with an order of magnitude for intermediate number of samples.
