@@ -123,7 +123,7 @@ regvect = [1e-1, 5e-1, 1, 10]
 #regvect = [1e-1, 1, 10]
 datatype = 'toy' # change to mnist to run on Mnist dataset
 n_iter = 10 # we repeat n_iter times 
-normalize = False
+normalize = True
 
 #%%
 for n in nvect:
