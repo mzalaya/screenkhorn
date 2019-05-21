@@ -126,10 +126,10 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 
 \textbf{Step 1:} \textcolor{black}{Initialization}\\
 
-\nl   $\xi \gets \mu \oslash r(K);$ \\
-\nl   $\zeta \gets \nu \oslash c(K);$\\
-\nl   $\xi \gets \texttt{sort}(\xi);$ //(decreasing order)\\
-\nl   $\zeta \gets \texttt{sort}(\zeta);$ //(decreasing order)\\
+\nl   $\xi \gets \texttt{sort}(\mu \oslash r(K)),$ $\zeta \gets \texttt{sort}(\nu \oslash c(K));$ //(decreasing order)\\
+% \nl   $\zeta \gets \texttt{sort}(\nu \oslash c(K));$\\
+% \nl   $\xi \gets \texttt{sort}(\xi);$ //(decreasing order)\\
+% \nl   $\zeta \gets \texttt{sort}(\zeta);$ //(decreasing order)\\
 \nl   $\varepsilon \gets (\xi_{n_b}\zeta_{m_b})^{1/4}, \text{  } \kappa \gets \sqrt{{\zeta_{m_b}}/{\xi_{n_b}}}$;\\
 \nl   $I_{\varepsilon,\kappa} \gets \{i=1, \ldots, n: \mu_i \geq {\varepsilon^2} \kappa^{-1} r_i(K)\};$\\
 \nl   $J_{\varepsilon,\kappa} \gets \{j=1, \ldots, m: \nu_j \geq \varepsilon^2\kappa c_j(K)\};$\\ 
@@ -137,14 +137,14 @@ for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \nl   $\underline{\nu} \gets \min_{j \in J_{\varepsilon,\kappa}} \mu_i, \bar{\nu} \gets \max_{j \in J_{\varepsilon,\kappa}} \mu_i$; \\
 \nl   $\underline{u} \gets \log\big(\frac \varepsilon\kappa \vee \frac{\underline{\mu}}{\varepsilon (m-m_b) + \varepsilon \vee \frac{\bar{\nu}}{n\varepsilon\kappa K_{\min}} m_b}\big), \bar{u} \gets  \log\big(\frac \varepsilon\kappa\vee \frac{\bar{\mu}}{m\varepsilon K_{\min}}\big);$\\
 \nl   $\underline{v} \gets \log\big(\varepsilon\kappa \vee \frac{\underline{\nu}}{\varepsilon(n-n_b) + \varepsilon \vee \frac{\kappa\bar{\mu}}{m\varepsilon K_{\min}} n_b}\big), \bar{v} \gets \log\big(\varepsilon\kappa \vee \frac{\bar{\nu}}{n\varepsilon K_{\min}}\big);$\\
-\nl   $ \bar{\theta} \gets \texttt{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b});$\\
-\nl   $ \underline{\theta} \gets \texttt{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
+\nl   $ \bar{\theta} \gets \texttt{stack}(\bar{u}\mathbf 1_{n_b}, \bar{v}\mathbf 1_{m_b}),$ $ \underline{\theta} \gets \texttt{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
+% \nl   $ \underline{\theta} \gets \texttt{stack}(\underline{u}\mathbf 1_{n_b}, \underline{v}\mathbf 1_{m_b}) ;$\\
 
 \noindent \textbf{Step 2:} \textcolor{black}{L-BFGS-B}\\
 
-\nl  $u^{(0)}\gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b} ;$\\
-\nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
-\nl  $\theta^{(0)} \gets \texttt{stack}(u^{(0)}, v^{(0)});$\\
+\nl  $u^{(0)}\gets \log(\varepsilon\kappa^{-1}) \mathbf 1_{n_b},$ $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b},$ $\theta^{(0)} \gets \texttt{stack}(u^{(0)}, v^{(0)});$\\
+% \nl  $v^{(0)} \gets \log(\varepsilon\kappa) \mathbf 1_{m_b} ;$\\
+% \nl  $\theta^{(0)} \gets \texttt{stack}(u^{(0)}, v^{(0)});$\\
 \nl   $\theta \gets \text{L-BFGS-B}(\theta^{(0)}, \underline{\theta}, \bar{\theta});$\\
 \nl   $\theta_u \gets (\theta_1, \ldots, \theta_{n_b})^\top, \theta_v \gets(\theta_{n_b+1}, \ldots, \theta_{n_b+m_b})^\top;$\\
 \nl   {$u^{sc}_i \gets (\theta_u)_i$ if $i \in I_{\varepsilon,\kappa}$ and $u_i \gets \log(\varepsilon\kappa^{-1})$ if $i \in I^\complement_{\varepsilon,\kappa};$}\\
