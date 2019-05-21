@@ -33,7 +33,7 @@ Within this global context, our contributions are the following:
 	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to  strictly satisfy its constraint, leading then to
 	a ``screened'' version of the dual of Sinkhorn divergence. 
 	\item We provide some theoretical analysis of the solution of the ``screened''  Sinkhorn divergence, showing that its objective value and the marginal constraint satisfaction are properly controlled 	as the number of screened variables decreases.
-	\item From an algorithmic standpoint, we use a constrained LBFGS algorithm \citep{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower bound and upper bound of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \emph{Screenkhorn}.
+	\item From an algorithmic standpoint, we use a constrained L-BFGS-B algorithm \citep{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower bound and upper bound of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \emph{Screenkhorn}.
 	\item Our empirical analysis depicts how the approach behaves in a simple Sinkhorn divergence computation context. When considered in  complex machine learning
 	pipelines, we show that \emph{Screenkhorn} can lead to strong gain in efficiency
 	while not compromising on accuracy.
