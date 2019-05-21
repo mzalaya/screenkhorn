@@ -8,10 +8,10 @@ We denote their probabilistic couplings set as $\Pi(\mu, \nu) = \{P \in \R_+^{n\
 \paragraph{Sinkhorn divergence.}
 
 Computing OT distance between the two discrete measures $\mu$ and $\nu$  amounts to solving a linear problem~\citep{kantorovich1942} given by
-\begin{equation}
+\begin{equation*}
   \label{monge-kantorovich}
   \mathcal{S}(\mu, \nu) =  \min_{P\in \Pi(\mu, \nu)} \inr{C, P},
-\end{equation}
+\end{equation*}
 where $P= (P_{ij}) \in \R^{n\times m}$ is called the transportation plan, namely each entry $P_{ij}$ represents the fraction of mass moving from $x_i$ to $y_j$, and $C= (C_{ij}) \in \R^{n\times m}$ is a cost matrix comprised of nonnegative elements and related to the energy needed to move a probability mass from $x_i$ to $y_j$. 
 The entropic regularization of OT distances~\citep{cuturinips13} relies on the addition of a penalty term as follows:
 \begin{equation}
@@ -27,9 +27,9 @@ Below we provide the derivation of the dual problem for the regularized OT probl
   \mathscr{L}(P,y, z) = \inr{C,P} + \eta \inr{\log P, P} + \inr{y, P\mathbf{1}_m - \mu} + \inr{z,P^\top \mathbf{1}_n - \nu}.
 \end{equation*}
 The dual of Sinkhorn divergence can be derived by solving $\min_{P \in \R_+^{n\times m}}\mathscr{L}(P,y, z)$. It is easy to check that objective function $P\mapsto \mathscr{L}(P,y, z)$ is strongly convex and differentiable. Hence, one can solve the latter minimum by setting $\nabla_P \mathscr{L}(P,y, z)$ to $\mathbf{0}_{n\times m}$. Therefore, we get 
-\begin{equation}
+\begin{equation*}
   P^\star_{ij} = \exp\Big(- \frac{1}{\eta} (y_i + z_j + C_{ij}) - 1\Big), 
-\end{equation}
+\end{equation*}
 for all $i=1, \ldots, n$ and $j=1, \ldots, m$. Plugging this solution,  and setting the change of variables $u = -y/\eta - 1/2$ and $v = - z/\eta - 1/2$, the dual problem is given by
 \begin{equation}
 \label{sinkhorn-dual}

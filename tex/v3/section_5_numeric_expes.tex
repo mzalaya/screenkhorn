@@ -11,14 +11,14 @@ integrated into some complex machine learning pipelines.
 
 We have implemented our Screenkhorn in Python and used the LBFGS of
 Scipy. Regarding the machine-learning based comparison, we have based our code
-on the ones of POT \cite{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
+on the ones of POT~\citep{flamary2017pot} and just replaced the Sinkhorn function call with a Screenkhorn one. We have considered the POT's default Sinkhorn stopping criterion parameters and for Screenkhorn, the LBFGS algorithm is stopped when the 
 largest component of the projected gradient is smaller than $10^{-6}$, when the number of iterations of number of objective function evaluations reach $10^{5}$. For all applications, we have set $\eta=1$ unless otherwise specified.
 
 \subsection{Analysing on toy problem}
 
 We compare \emph{Screenkhorn} to Sinkhorn as implemented in Python Optimal Transport toolbox\footnote{\url{https://pot.readthedocs.io/en/stable/index.html}} on  a synthetic example. The dataset we use consists of source samples generated from a bi-dimensional gaussian mixture and target samples following the same distribution but with different gaussian means. We consider an unsupervised domain adaptation using optimal transport with entropic regularization.  Several settings are explored: different values of $\eta$, the regularization parameter, the allowed budget $\frac{n_b}{n} = \frac{m_b}{m} = $ ranging from $0.01$ to $0.99$, different values of $n$ and $m$.
 % and, whether the cost matrix $C$ is normalized or not.
- We empirically measure  marginal violations as the norms $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$, running time expressed as $\frac{T_{\text{\emph{Screenkhorn}}}}{T_{\text{Sinkhorn}}}$ and the relative divergence difference $| \inr{C, P^\star} - \inr{C, P^{sc}}|/\inr{C, P^\star}$ between \emph{Screenkhorn} and Sinkhorn. 
+ We empirically measure  marginal violations as the norms $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$, running time expressed as $\frac{T_{\text{\emph{Screenkhorn}}}}{T_{\text{Sinkhorn}}}$ and the relative divergence difference $| \inr{C, P^\star} - \inr{C, P^{\text{sc}}}|/\inr{C, P^\star}$ between \emph{Screenkhorn} and Sinkhorn, where $P^\star = \Delta(e^{u^\star}) K \Delta(e^{v^\star})$ and $P^{\text{sc}} = \Delta(e^{u^{\text{sc}}}) K \Delta(e^{v^{\text{sc}}}).$
 
 Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithms under these settings. We choose to only report results for $n=m=1000$ as we get similar findings for other values of $n$ and $m$. 
 
