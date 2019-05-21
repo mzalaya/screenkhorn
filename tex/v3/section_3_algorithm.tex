@@ -59,7 +59,7 @@ In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\
 \vspace{-18pt}
 \centering
 \includegraphics[width=0.46\textwidth]{./figs/kappa_epsilon.pdf}
-\caption{Plots of $\varepsilon$ and $\kappa$ as a functions of budgets for a screening test with $n_b=m_b$ and the parameters $\mu, \nu, \eta, C$ as in Figure~\eqref{fig:motivations}. As can be seen, $(\varepsilon, \kappa)$ tends to $(0,1)$ as $(n_b,m_b)$ tends to $(n,m)$.}
+\caption{Plots of $\varepsilon$ and $\kappa$ as a functions of number budget of points for a screening test with $n_b=m_b$ and the parameters $\mu, \nu, \eta, C$ are setting as in Figure~\eqref{fig:motivations}. As can be seen, $(\varepsilon, \kappa)$ tends to $(0,1)$ as $(n_b,m_b)$ tends to $(n,m)$.}
 \label{fig:kappa_epsilon}
 \vspace{-15pt}
 \end{wrapfigure}
@@ -97,10 +97,10 @@ where
 with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
 Pseudocode of our proposed algorithm is shown in Algorithm~\ref{screenkhorn}. %~\cite{nocedal1980,nocedal2006numerical}
-It is worth to note that Screenkhorn algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradients, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
-Furthermore, it consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
-The second is a constrained LBFGS for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}),$ 
-that handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
+It is worth to note that Screenkhorn algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
+Furthermore, Screenkhorn consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+The second is a constrained LBFGS for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
+LBFGS handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
 The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
 
 \begin{proposition}
