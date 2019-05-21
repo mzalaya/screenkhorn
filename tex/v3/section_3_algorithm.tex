@@ -71,9 +71,9 @@ To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ an
  \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
 \end{equation}
 Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. On the other hand, when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
-In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence in this case corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
+In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence in this case the approximate dual in problem \eqref{screen-sinkhorn} corresponds to the dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
-Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfy $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
+Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
 Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$ where 
 \begin{equation*}
 \mathcal{U}_{\text{sc}} = \{u \in \R^{n_b}: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}\} \text{ and } \mathcal{V}_{\text{sc}} =\{v\in\R^{m_b}: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}.%, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
@@ -97,11 +97,11 @@ where
 with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
 Pseudocode of our proposed algorithm is shown in Algorithm~\ref{screenkhorn}. %~\cite{nocedal1980,nocedal2006numerical}
-It is worth to note that Screenkhorn algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
-Furthermore, Screenkhorn consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+It is worth to note that \emph{Screenkhorn} algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
+Furthermore, \emph{Screenkhorn} consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
 The second is a constrained LBFGS for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 LBFGS handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
-The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of Screenkhorn.
+The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of \emph{Screenkhorn}.
 
 \begin{proposition}
 \label{prop:bounds_of_usc_and_vsc}
