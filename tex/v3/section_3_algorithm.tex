@@ -14,28 +14,51 @@
 
 \paragraph{Motivation.} 
 
-The key idea of our approach is motivated by the so-called \emph{static screening test}~\citep{Ghaoui2010SafeFE} in supervised learning, which is a method able to quickly identify inactive features, i.e., features that have zero components in the solution vector. 
+The key idea of our approach is motivated by the so-called \emph{static screening test}~\citep{Ghaoui2010SafeFE} in supervised learning, which is a method able to  identify inactive features, i.e., features that have zero components in the solution vector. 
 Then, these inactive features can be removed from the optimization problem to reduce its scale.
 Before diving into detailed algorithmic analysis, let's us present a brief illustration of how we adapt static screening test to the dual of Sinkhorn divergence.
-Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w\in \R^{r}: \min_{1\leq i\leq r} e^{w_i} \geq \alpha\}$.
-In Figure~\ref{fig:motivations}, we plot $(e^{u^\star}, e^{v^\star})$ where $(u^\star, v^\star)$ is the pair solution of dual of Sinkhorn divergence~(\ref{sinkhorn-dual}) in the particular case of: $n=m=500, \eta=0.1, \mu = \nu = \frac 1n \mathbf 1_n$ and the cost matrix $C$ corresponds the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$. 
-We also plot two lines corresponding to $e^{u^\star} \equiv \alpha_u$ and $e^{v^\star} \equiv \alpha_v$ for some $\alpha_u>0$ and $\alpha_v >0$, playing the role of thresholds to select indices to be discard from the optimization procedure.
+Towards this end, we define the convex set $\mathcal{C}^r_{\alpha} \subseteq \R^r$, for $r\in \mathbb N$ and $\alpha >0$, by $\mathcal{C}^r_{\alpha} = \{w\in \R^{r}:  e^{w_i} \geq \alpha\}$.
+In Figure~\ref{fig:motivations}, we plot $(e^{u^\star}, e^{v^\star})$ where $(u^\star, v^\star)$ is the pair solution of dual of Sinkhorn divergence~(\ref{sinkhorn-dual}) in the particular case of: $n=m=500, \eta=0.1, \mu = \nu = \frac 1n \mathbf 1_n$ and the cost matrix $C$ corresponds to the pairwise euclidean distance, i.e., $C_{ij} = \norm{x_i - y_j}_2$. 
+We also plot two lines corresponding to $e^{u^\star} \equiv \alpha_u$ and $e^{v^\star} \equiv \alpha_v$ for some $\alpha_u>0$ and $\alpha_v >0$, playing the role of thresholds to select indices to be discard. \rev{If we are able to identify these indices before solving the problem, we
+	can fix them at the threshold and remove then from the optimization procedure yielding to an approximate solution.}.
 
-\paragraph{Static screening test.} The core of the static screening test developed in this paper aims at locating two subsets of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i}\geq \alpha_u, \text{ and } e^{v_j}\geq \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
-$e^{u_{i'}} = \alpha_u, \text{ and } e^{v_{j'}} = \alpha_v, \text{ for all } (i',j') \in I^\complement \times J^\complement$, namely $(u,v) \in \mathcal{C}^n_{\alpha_u}\times \mathcal{C}^m_{\alpha_v}$.
-The sets $I$ and $J$ are called active sets, we further emphasize that they are determined in an initialization step in the proposed algorithm before running the L-BFGS-B solver.
-Consequently, we can work on a "screened" dual of Sinkhorn divergence by considering variables that belong only to $\R^{|I|} \times \R^{|J|}$ in order to reduce the computational cost.
-
-In the following, the parameters $\alpha_u = \varepsilon \kappa^{-1}$ and $\alpha_v = \varepsilon \kappa$ where $\varepsilon > 0$ and $\kappa > 0$ are fixed numeric constants to be given later. 
-Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, defined by:
-
+\paragraph{Static screening test.} Based on this idea, we define a so-called \emph{approximate dual of Sinkhorn divergence} 
 \begin{equation} 
 \label{screen-sinkhorn}
 \min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
 \end{equation}
+which is simply a dual Sinkhorn with lower-bounded variables, where the bounds
+are $\alpha_u = \varepsilon \kappa^{-1}$ and $\alpha_v = \varepsilon \kappa$ with $\varepsilon > 0$ and $\kappa > 0$ being fixed numeric constants which values will be
+clear latter. 
 The $\kappa$-parameter plays a role of scaling factor, allowing to get a closed order of the potential components $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for these components.
-Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
-As explained above, our static screening test is based on constructing two {active sets} denoted $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} as follows: 
+Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} when $\varepsilon=0$ and $\kappa=1$.
+ \rev{Intuitively, our hope is to gain efficiency in the resolution of
+this problem compared to the original one in Equation \eqref{sinkhorn-dual} by avoiding optimizing variables smaller than the threshold and by identifying
+those that make the constraints active. } More formally, 
+ the core of the static screening test aims at locating two subsets of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i} > \alpha_u, \text{ and } e^{v_j} > \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
+$e^{u_{i'}} = \alpha_u, \text{ and } e^{v_{j'}} = \alpha_v, \text{ for all } (i',j') \in I^\complement \times J^\complement$, namely $(u,v) \in \mathcal{C}^n_{\alpha_u}\times \mathcal{C}^m_{\alpha_v}$. \rev{The following key result states sufficient conditions for identifying variables in $I^\complement$ and $J^\complement$.}
+%The sets $I$ and $J$ are called active sets, we further emphasize that they are determined in an initialization step in the proposed algorithm before running the L-BFGS-B solver.
+ 
+%Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, defined by:
+
+
+%\paragraph{Static screening test.} The core of the static screening test developed in this paper aims at locating two subsets of indices $(I, J)$ in $\{1, \ldots, n\}\times\{1, \ldots, m\}$ satisfying: $e^{u_i}\geq \alpha_u, \text{ and } e^{v_j}\geq \alpha_v, \text{ for all } (i,j) \in I \times J$ and 
+%$e^{u_{i'}} = \alpha_u, \text{ and } e^{v_{j'}} = \alpha_v, \text{ for all } (i',j') \in I^\complement \times J^\complement$, namely $(u,v) \in \mathcal{C}^n_{\alpha_u}\times \mathcal{C}^m_{\alpha_v}$.
+%The sets $I$ and $J$ are called active sets, we further emphasize that they are determined in an initialization step in the proposed algorithm before running the L-BFGS-B solver.
+%Consequently, we can work on a "screened" dual of Sinkhorn divergence by considering variables that belong only to $\R^{|I|} \times \R^{|J|}$ in order to reduce the computational cost.
+%
+%In the following, the parameters $\alpha_u = \varepsilon \kappa^{-1}$ and $\alpha_v = \varepsilon \kappa$ where $\varepsilon > 0$ and $\kappa > 0$ are fixed numeric constants to be given later. 
+%Our screening test relies on a new formulation of problem~\eqref{sinkhorn-dual}, that we refer as to \emph{approximate dual of Sinkhorn divergence}, defined by:
+%
+%\begin{equation} 
+%\label{screen-sinkhorn}
+%\min_{u \in \mathcal{C}^n_{\frac \varepsilon \kappa}, v\in \mathcal{C}^m_{\varepsilon\kappa}} \big\{\Psi_{\kappa}(u,v):= \mathbf{1}_n^\top B(u,v)\mathbf{1}_m - \inr{\kappa u, \mu} - \inr{\frac v\kappa, \nu} \big\},
+%\end{equation}
+%The $\kappa$-parameter plays a role of scaling factor, allowing to get a closed order of the potential components $e^u$ and $e^v$, while the $\varepsilon$-parameter acts like a threshold for these components.
+%Note that the approximate dual of Sinkhorn divergence coincides with the dual of Sinkhorn divergence~\eqref{sinkhorn-dual} in the setting of $\varepsilon=0$ and $\kappa=1$.
+%As explained above, our static screening test is based on constructing two {active sets} denoted $I_{\varepsilon, \kappa}$ and $J_{\varepsilon, \kappa}$ throughout the dual problem of~\eqref{screen-sinkhorn} as follows: 
+
+
 
 \begin{lemma}
 \label{lemma_actives_sets}
@@ -51,9 +74,11 @@ Then one has $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsil
 Proof of Lemma~\ref{lemma_actives_sets} is postponed to the supplementary material. It is worth to note that first order optimality conditions applied to $(u^{*}, v^{*})$ ensure that if $e^{u^{*}_i} > \varepsilon\kappa^{-1}$ then $e^{u^{*}_i} (Ke^{v^{*}})_i =  \kappa\mu_i$ and if $e^{v^{*}_j} > \varepsilon\kappa$ then $e^{v^{*}_j} (K^\top e^{u^{*}})_j =  \kappa^{-1}\nu_j$, that correspond to the Sinkhorn marginal conditions~\citep{peyre2019COTnowpublisher} up to the scaling factor $\kappa$. 
 
 \paragraph{Screening with a fixed number budget of points.}
-
-Recall that the approximate dual of Sinkhorn divergence is defined with respect to $\varepsilon$ and $\kappa$, where its values depend on a priori \emph{fixed number budget of points} from the supports of $\mu$ and $\nu$.
-In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number budget of points to be given for resolving problem~\eqref{screen-sinkhorn}. More precisely, we change the domain of the objective function $\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
+The approximate dual of Sinkhorn divergence is defined with respect to $\varepsilon$ and $\kappa$. \rev{As those parameters are
+	difficult to interpret, we exhibit their relations with  \emph{fixed  budget of points} from the supports of $\mu$ and $\nu$}.
+In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number of points \rev{that are going to be optimized in problem  problem~\eqref{screen-sinkhorn}, \emph{i.e}, the points we can not guaranteed
+that  $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ }. 
+%More precisely, we change the domain of the objective function %$\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
 
 \begin{wrapfigure}{o}{0.44\textwidth}
 \vspace{-18pt}
@@ -64,7 +89,7 @@ In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\
 \vspace{-15pt}
 \end{wrapfigure}
 
-In this spirit, let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
+Let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
 To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ and $\varepsilon$ satisfy ${\varepsilon^2}\kappa^{-1} = \xi_{n_b}$ and $\varepsilon^2\kappa = \zeta_{m_b}$. Hence 
 \begin{equation}
 \label{epsilon_kappa}
