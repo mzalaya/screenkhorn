@@ -79,23 +79,21 @@ The approximate dual of Sinkhorn divergence is defined with respect to $\varepsi
 In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number of points \rev{that are going to be optimized in problem  problem~\eqref{screen-sinkhorn}, \emph{i.e}, the points we can not guaranteed
 that  $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ }. 
 %More precisely, we change the domain of the objective function %$\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
-
 \begin{wrapfigure}{o}{0.44\textwidth}
-\vspace{-18pt}
+\vspace{-12pt}
 \centering
 \includegraphics[width=0.46\textwidth]{./figs/kappa_epsilon.pdf}
 \caption{Plots of $\varepsilon$ and $\kappa$ as a function of number budget of points for a screening test with $n_b=m_b$ and the parameters $\mu, \nu, \eta, C$ are set as in Figure~\eqref{fig:motivations}.  $(\varepsilon, \kappa)$ tends to $(0,1)$ as $(n_b,m_b)$ tends to $(n,m)$.}
 \label{fig:kappa_epsilon}
 \vspace{-15pt}
 \end{wrapfigure}
-
 Let us define $\xi \in \R^n$ and $\zeta \in \R^m$ to be the ordered decreasing vectors of $\mu \oslash r(K)$ and $\nu \oslash c(K)$ respectively, that is $\xi_1 \geq \xi_2 \geq \cdots \geq \xi_n$ and $\zeta_1 \geq \zeta_2 \geq \cdots \geq \zeta_m$.
 To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ and $\varepsilon$ satisfy ${\varepsilon^2}\kappa^{-1} = \xi_{n_b}$ and $\varepsilon^2\kappa = \zeta_{m_b}$. Hence 
 \begin{equation}
 \label{epsilon_kappa}
  \varepsilon = (\xi_{n_b}\zeta_{m_b})^{1/4} \text{ and } \kappa = \sqrt{\frac{\zeta_{m_b}}{\xi_{n_b}}}.
 \end{equation}
-Note that in one hand we have $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. On the other hand, when $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
+This guarantees that $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. In addition,  $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, when the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
 In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence the objective in problem \eqref{screen-sinkhorn} converges to the objective of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
 Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
