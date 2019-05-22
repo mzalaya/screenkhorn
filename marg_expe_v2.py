@@ -28,6 +28,16 @@ params = {'axes.labelsize': 24, # 12
 plt.rcParams.update(params)
 plt.close('all')
 
+# SEABORN
+import seaborn as sns
+
+color_pal_t = sns.color_palette("colorblind", 11).as_hex()
+color_pal = color_pal_t.copy()
+
+colors = ["black", "salmon pink", "neon pink", "cornflower","cobalt blue"
+          ,"blue green", "aquamarine", "bright yellow", "golden yellow", "reddish pink" , "reddish purple"]
+color_pal = sns.xkcd_palette(colors)
+
 # WARNINGS
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -101,18 +111,16 @@ def compare_marginals(a, b, M, reg, decvect = [50, 10, 5, 2, 1.1]):
         b_sc = P_sc.T @ np.ones(a.shape)
         
         # comparisons
-        rel_time_vect[j] = time_bfgs/time_sink
+        rel_time_vect[j] = time_sink/time_bfgs
         diff_a_vect[j]   = norm(a - a_sc, ord=1)
         diff_b_vect[j]   = norm(b - b_sc, ord=1)
         rel_cost_vect[j] = np.abs(np.sum(M*(P_sc - Pstar)))/np.sum(M*Pstar)
         
     return diff_a_vect, diff_b_vect, rel_time_vect, rel_cost_vect
 
-
-
 #%%
 pathres= './resultat/'
-nvect = [500, 1000, 2500]
+nvect = [1000]
 #decvect = [1.1, 1.25, 1.5, 2, 2.5, 5, 10, 20, 50, 100]
 decvect = [1.1, 1.25, 2, 5, 10, 20, 50, 100]
 regvect = [1e-1, 5e-1, 1, 10]
@@ -171,6 +179,8 @@ for n in nvect:
 #%% Plots
 pathfig = './figure/'
 z_crit = stats.norm.ppf(q = 0.975)
+markert = ['o','p','s','d','h','o','p','<','>','8','P']
+colort = color_pal
 for n in nvect:
     print('n samples :',n)
     # filename
@@ -184,10 +194,10 @@ for n in nvect:
     coeff = z_crit/np.sqrt(n_iter)    
     plt.close('all')
     
-    plt.figure(1, figsize=(9, 6))
-    plt.figure(2, figsize=(9, 6))
-    plt.figure(3, figsize=(9, 6))
-    plt.figure(4, figsize=(9, 6))
+    plt.figure(1, figsize=(14, 8))
+    plt.figure(2, figsize=(14, 8))
+    plt.figure(3, figsize=(14, 8))
+    plt.figure(4, figsize=(14, 8))
     
     for j, reg in enumerate(regvect):  
         # -------
@@ -196,10 +206,13 @@ for n in nvect:
         diff_a_std  = diff_a.std(axis=0)
         
         plt.figure(1)
-        plt.semilogx(decvect, diff_a_mean, marker='s', markersize=10, linewidth=4,
-                     label='$\eta = ${:}'.format(reg))
+        #plt.semilogx(decvect, diff_a_mean, marker='s', markersize=8, linewidth=3.5,
+         #            label='$\eta = ${:}'.format(reg))
+        plt.semilogx(decvect, diff_a_mean, lw = 2, marker = markert[j], 
+                     markersize=12, c=colort[j], label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, diff_a_mean+diff_a_std*coeff, 
-                         diff_a_mean-diff_a_std*coeff, alpha=.15)
+                         diff_a_mean-diff_a_std*coeff, 
+                         facecolor=colort[j], alpha=.15)
         plt.yscale('log')
         plt.xlabel(r'Decimation factor $n/n_b$')
         plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$')
@@ -213,10 +226,11 @@ for n in nvect:
         diff_b_std  = diff_b.std(axis=0)
         
         plt.figure(2)
-        plt.semilogx(decvect, diff_b_mean, marker='s', markersize=10, linewidth=4,
-                     label='$\eta = ${:}'.format(reg))
+        plt.semilogx(decvect, diff_b_mean, lw = 2, marker = markert[j], 
+                     markersize=12, c=colort[j], label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, diff_b_mean+diff_b_std*coeff, 
-                         diff_b_mean-diff_b_std*coeff, alpha=.15)
+                         diff_b_mean-diff_b_std*coeff, 
+                         facecolor=colort[j], alpha=.15)
         
         plt.yscale('log')
         plt.xlabel(r'Decimation factor $m_b/m$')
@@ -230,10 +244,11 @@ for n in nvect:
         rel_time_std  = rel_time.std(axis=0)
         
         plt.figure(3)
-        plt.semilogx(decvect, rel_time_mean, marker='s', markersize=10, linewidth=4,
-                     label='$\eta = ${:}'.format(reg))
+        plt.semilogx(decvect, rel_time_mean, lw = 2, marker = markert[j], 
+                     markersize=12, c=colort[j], label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, rel_time_mean+rel_time_std*coeff, 
-                         rel_time_mean-rel_time_std*coeff, alpha=.15)
+                         rel_time_mean-rel_time_std*coeff, 
+                         facecolor=colort[j], alpha=.15)
         #plt.yscale('log')
         plt.xlabel(r'Decimation factor $n/n_b$')
         plt.ylabel('Running Time Gain')
@@ -245,10 +260,11 @@ for n in nvect:
         rel_cost_std  = rel_cost.std(axis=0)
         
         plt.figure(4)
-        plt.semilogx(decvect, rel_cost_mean, marker='s', markersize=10, linewidth=4,
-                     label='$\eta = ${:}'.format(reg))
+        plt.semilogx(decvect, rel_cost_mean, lw = 2, marker = markert[j], 
+                     markersize=12, c=colort[j], label='$\eta = ${:}'.format(reg))
         plt.fill_between(decvect, rel_cost_mean+rel_cost_std*coeff, 
-                         rel_cost_mean-rel_cost_std*coeff, alpha=.15)
+                         rel_cost_mean-rel_cost_std*coeff, 
+                         facecolor=colort[j], alpha=.15)
         plt.yscale('log')
         plt.xlabel(r'Decimation factor $n/n_b$')
         plt.ylabel('Relative Divergence Variation')
@@ -257,14 +273,14 @@ for n in nvect:
         
     plt.figure(1)
     plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
-    plt.grid(True)
+    plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
     plt.figure(2)
     plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
-    plt.grid(True)
+    plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
     plt.figure(3), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
-    plt.grid(True)
+    plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
     plt.figure(4), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
-    plt.grid(True)
+    plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
 
     if normalize:
         filename_fig_mu = 'norm_M_Mu_marginals_{:}_n{:d}.pdf'.format(datatype, n)
@@ -278,10 +294,10 @@ for n in nvect:
         filename_fig_div = 'div_{:}_n{:d}.pdf'.format(datatype,n)
 
     plt.figure(1)
-    plt.savefig(pathfig+filename_fig_mu, bbox_inches='tight')
+    plt.savefig(pathfig+filename_fig_mu,   dpi=600, bbox_inches='tight')
     plt.figure(2)
-    plt.savefig(pathfig+filename_fig_nu, bbox_inches='tight')
+    plt.savefig(pathfig+filename_fig_nu,   dpi=600, bbox_inches='tight')
     plt.figure(3)
-    plt.savefig(pathfig+filename_fig_time, bbox_inches='tight')
+    plt.savefig(pathfig+filename_fig_time, dpi=600, bbox_inches='tight')
     plt.figure(4)
-    plt.savefig(pathfig+filename_fig_div, bbox_inches='tight')
+    plt.savefig(pathfig+filename_fig_div,  dpi=600, bbox_inches='tight')
