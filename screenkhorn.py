@@ -66,6 +66,8 @@ class Screenkhorn:
             self.K_IJ = self.K
             self.a_I = self.a
             self.b_J = self.b
+            self.K_IJc = []
+            self.K_IcJ = []
 
         else:
             

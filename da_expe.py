@@ -9,7 +9,7 @@ os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time
 import ot
 import ot.plot
-import  da_screenkhorn
+import  da_screenkhorn, da_sinkhorn
 from sklearn.datasets import make_blobs
 
 from sklearn.neighbors import KNeighborsClassifier
@@ -73,7 +73,7 @@ n_samples_target = n
 nb_iter = 10
 reg_cl = 10   # toy, 2 and 0
 K = 1 # K of KNN
-
+reg = 1
 pathres='./resultat/'
 p_vec = [1.5,2,5,10,20,50,100]
 n_pvec=  len(p_vec)
@@ -109,8 +109,8 @@ for i in range(nb_iter):
     #%% 
     # Sinkhorn Transport
     tic = time()
-    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
-    #ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=1,reg_cl=reg_cl)
+    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl)
+    #ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl)
     ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
     time_sink[i] = time() - tic
     transp_Xs = ot_sinkhorn.transform(Xs=Xs)
@@ -126,7 +126,7 @@ for i in range(nb_iter):
         print(p_n)
         # Screenkhorn Transport
         tic = time()
-        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=1,reg_cl=reg_cl,one_init=False)
+        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl,one_init=False)
         ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, p_n=p_n, p_m=p_n)
        
         time_screen[i,j] = time() - tic

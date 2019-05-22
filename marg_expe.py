@@ -104,12 +104,14 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
 pathres= './resultat/'
 
 nvect = [200,500, 1000, 2500, 3000]
+regvect = [1e-1, 5e-1, 1, 10]
 
-
+nvect = [1000]
+regvect=[1]
 
 pvect = [0.99, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 
          0.2, 0.1, 0.05, 0.01]
-regvect = [1e-1, 5e-1, 1, 10]
+
 datatype = 'toy' # change to mnist to run on Mnist dataset
 n_iter = 10 # we repeat n_iter times 
 
