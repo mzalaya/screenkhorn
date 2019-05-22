@@ -77,7 +77,7 @@ The approximate dual of Sinkhorn divergence is defined with respect to $\varepsi
 	difficult to interpret, we exhibit their relations with  \emph{fixed  budget of points} from the supports of $\mu$ and $\nu$}.
 In the sequel, we denote by $n_b \in\{1, \ldots, n\}$ and $m_b\in\{1, \ldots, m\}$ the number of points \rev{that are going to be optimized in problem~\eqref{screen-sinkhorn}, \emph{i.e}, the points we can not guaranteed
 that  $e^{u^{*}_i} = \varepsilon\kappa^{-1}$ and $e^{v^{*}_j} = \varepsilon\kappa$ }. 
-%More precisely, we change the domain of the objective function %$\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
+
 \begin{wrapfigure}{o}{0.44\textwidth}
 \vspace{-12pt}
 \centering
@@ -95,8 +95,13 @@ To keep only $n_b$-budget and $m_b$-budget of points, the parameters $\kappa$ an
 This guarantees that $|I_{\varepsilon, \kappa}| = n_b$ and $|J_{\varepsilon, \kappa}| = m_b$ by construction. In addition,  $(n_b,m_b)$ tends to the full number budget of points $(n,m)$, when the couple parameters $(\varepsilon, \kappa)$ converges to $(0,1)$. 
 In Figure~\ref{fig:kappa_epsilon}, we plot these convergences, and hence the objective in problem \eqref{screen-sinkhorn} converges to the objective of dual of Sinkhorn divergence~\eqref{sinkhorn-dual}.
 
-Using the previous analysis, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
-Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$, 
+%More precisely, we change the domain of the objective function %$\Psi_\kappa$ from $\R^n \times \R^m$ to $\R^{n_b} \times \R^{m_b}$.
+
+\rev{We are now in position to formulate the
+optimization problem related to the screened dual of Sinkhorn.} Indeed, using the above analyses, any solution $(u^*, v^*)$ of problem~\eqref{screen-sinkhorn} satisfies $e^{u^*_i} \geq \varepsilon\kappa^{-1}$ and $e^{v^*_j} \geq \varepsilon\kappa$ for all $(i,j) \in (I_{\varepsilon,\kappa}\times J_{\varepsilon,\kappa}),$ and $e^{u^*_i} = \varepsilon\kappa^{-1}$ and $e^{v^*_j} = \varepsilon\kappa$ for all $(i,j) \in (I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$.
+\rev{Hence, we can restrict the problem \eqref{screen-sinkhorn} to 
+variables in $I_{\varepsilon,\kappa}$ and $J_{\varepsilon,\kappa}$}. This boils down
+to restricting the constraints feasibility $\mathcal{C}^n_{\frac \varepsilon \kappa} \cap \mathcal{C}^m_{\varepsilon\kappa}$ to the screened domain defined by $\mathcal{U}_{\text{sc}} \cap \mathcal{V}_{\text{sc}}$, 
 \begin{equation*}
 \mathcal{U}_{\text{sc}} = \{u \in \R^{n_b}: e^{u_{I_{\varepsilon,\kappa}}} \succeq \frac \varepsilon\kappa\mathbf 1_{n_b}\} \text{ and } \mathcal{V}_{\text{sc}} =\{v\in\R^{m_b}: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}%, \text{ and } e^{u_{I^\complement_{\varepsilon,\kappa}}} = \frac\varepsilon\kappa\mathbf 1_{n - n_b}\},
 \end{equation*}
@@ -104,8 +109,9 @@ Basing on that facts we restrict the constraints feasibility $\mathcal{C}^n_{\fr
 % \begin{equation*}
 % 	\mathcal{V}_{\text{sc}} =\{v\in\R^m: e^{v_{J_{\varepsilon,\kappa}}} \succeq \varepsilon\kappa \mathbf{1}_{m_b}\}. %, \text{ and } e^{v_{J^\complement_{\varepsilon,\kappa}}} = \varepsilon\kappa \mathbf 1_{m- m_b}\}.
 % \end{equation*}
-where the vector comparison $\succeq$ has to be understood elementwise.
-Now, we are ready to define the \emph{screened dual of Sinkhorn divergence} as
+where the vector comparison $\succeq$ has to be understood elementwise. \rev{And,
+	  by replacing in Equation \eqref{screen-sinkhorn}, the variables belonging to $(I^\complement_{\varepsilon,\kappa}\times J^\complement_{\varepsilon,\kappa})$ by $\varepsilon\kappa^{-1}$ and
+$\varepsilon\kappa$}, we derive the \emph{screened dual of Sinkhorn divergence problem} as
 \begin{align}
 \label{screen-sinkhorn_second_def}
 \min_{u \in \mathcal{U}_{\text{sc}}, v \in \mathcal{V}_{\text{sc}}}\{\Psi_{\varepsilon, \kappa}(u,v)\}
@@ -118,11 +124,11 @@ where
 \end{align*}
 with $\Xi = \varepsilon^2 \sum_{i \in I^\complement_{\varepsilon,\kappa}, j \in J^\complement_{\varepsilon,\kappa}} K_{ij} -\kappa \log(\varepsilon\kappa^{-1})\sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu_i - \kappa^{-1} \log(\varepsilon\kappa)\sum_{j\in J^\complement_{\varepsilon,\kappa}} \nu_j$.
 
+ The above problem uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$. Hence, a gradient descent scheme will also need only those row/column of $K$. This is in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K$. In summary, \emph{Screenkhorn} consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
+The second one consists in solving Equation \eqref{screen-sinkhorn_second_def}
+using a constrained L-BFGS-B \cite{byrd1995L-BFGS-B} for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
 Pseudocode of our proposed algorithm is shown in Algorithm~\ref{screenkhorn}. %~\cite{nocedal1980,nocedal2006numerical}
-It is worth to note that \emph{Screenkhorn} algorithm uses only the restricted parts $K_{(I_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})},$ $K_{(I_{\varepsilon,\kappa}, J^\complement_{\varepsilon,\kappa})},$ and $K_{(I^\complement_{\varepsilon,\kappa}, J_{\varepsilon,\kappa})}$ of the Gibbs kernel $K$ for calculating the objective function $\Psi_{\varepsilon, \kappa}$ and its gradient, in contrast to Sinkhorn algorithm which performs alternating updates of all rows and columns of $K.$
-Furthermore, \emph{Screenkhorn} consists of two steps: the first one is an initialization providing the active sets $I_{\varepsilon,\kappa}$, $J_{\varepsilon,\kappa}$. 
-The second is a constrained L-BFGS-B for the stacked variable $\theta=(u_{I_{\varepsilon,\kappa}},v_{J_{\varepsilon,\kappa}}).$ 
-L-BFGS-B handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
+Note that L-BFGS-B handles box constraints on variables, and it becomes more efficient when these box bounds are carefully determined for problem~\eqref{screen-sinkhorn_second_def}. 
 The following proposition (proof in supplementary material) expresses these bounds that are pre-calculated in the initialization step of \emph{Screenkhorn}.
 \begin{proposition}
 \label{prop:bounds_of_usc_and_vsc}
@@ -140,7 +146,7 @@ and
 for all $i\in I_{\varepsilon,\kappa}$ and $j\in J_{\varepsilon,\kappa}$.
 \end{proposition}
 \LinesNotNumbered
-\begin{algorithm}[htbp]
+\begin{algorithm}[tbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
 \caption{\emph{Screenkhorn}$(C,\eta,\mu,\nu,n_b,m_b)$}
