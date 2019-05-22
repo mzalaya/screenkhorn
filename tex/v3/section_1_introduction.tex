@@ -11,12 +11,12 @@ For instance, the OT between two histograms with supports of equal size $n$ can 
 
 A remedy to the heavy computation burden of OT lies in a prevalent approach referred as regularized OT~\citep{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
 Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
-Furthermore,~\citet{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
+Furthermore, the dual of the entropic problem, referred to as {dual of Sinkhorn divergence}, was studied in~\cite{cuturinips13} and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
 Therefore, the OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\citep{sinkhorn1967,knight2008,kalantari2008}. 
 
 Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
 The main idea is to improve the matrix-vector operations that are the computational bottleneck of Sinkhorn’s algorithm. 
-\citet{altschulernips17} proposed a greedy version of Sinkhorn, called Greenkhorn algorithm, allowing to select columns and rows to be updated that most violate the constraints.                   
+A greedy version of Sinkhorn, called Greenkhorn algorithm and proposed in~\cite{altschulernips17}, allows to select columns and rows to be updated that most violate the constraints.                   
 Another approach based on low-rank approximation of the cost matrix using Nystrom method induces the Nys-Sink algorithm~\citep{altschuler2018Nystrom}. 
 Other classical optimization algorithms have been considered to approximate the OT, for instance accelerated gradient descent~\citep{xie2018proxpointOT,dvurechensky18aICML,lin2019}, quasi Newton methods~\citep{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\citep{genevay2016stochOT,khalilabid2018}. 
 
