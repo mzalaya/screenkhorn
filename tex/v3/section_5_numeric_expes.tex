@@ -7,7 +7,9 @@ In this section, we present some numerical analyses of our
 \emph{Screenkhorn} algorithm and show how it behaves when
 integrated into some complex machine learning pipelines.
 
-\paragraph{Experimental setup.} We have implemented our \emph{Screenkhorn} algorithm in Python and used the L-BFGS-B of
+\subsection{Setup}
+
+We have implemented our \emph{Screenkhorn} algorithm in Python and used the L-BFGS-B of
 Scipy. Regarding the machine-learning based comparison, we have based our code
 on the ones of Python Optimal Transport toolbox (POT)~\citep{flamary2017pot} and just replaced the Sinkhorn function call with a \emph{Screenkhorn} one. We have considered the POT's default Sinkhorn stopping criterion parameters and for \emph{Screenkhorn}, the L-BFGS-B algorithm is stopped when the 
 largest component of the projected gradient is smaller than $10^{-6}$, when the number of iterations of number of objective function evaluations reach $10^{5}$. For all applications, we have set $\eta=1$ unless otherwise specified.
