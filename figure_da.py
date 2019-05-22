@@ -16,7 +16,7 @@ color_pal = color_pal_t.copy()
 
 
 colors = ["black", "salmon pink", "neon pink", "cornflower","cobalt blue"
-          ,"blue green", "aquamarine", "bright yellow", "golden yellow", "reddish pink" , "reddish purple"]
+          ,"blue green", "aquamarine", "dark yellow", "golden yellow", "reddish pink" , "reddish purple"]
 
 color_pal = sns.xkcd_palette(colors)
 
@@ -24,7 +24,7 @@ plt.close("all")
 
 pathres = './resultat/da/'
 
-data = 'toy'
+data = 'mnist'
 if data == 'toy':
     n_vec = [200,500,1000,2000,3000,5000]
     nb_p_vec = 7
@@ -35,7 +35,7 @@ else:
     n_vec = [200,500,1000,2000,3000,4000]
     nb_p_vec = 7
     p = 20
-    regcl = 1
+    regcl = 10
 
 method_vec = ['wda', 'swda']
 legend_vec_accur = ['Sinkhorn','dec=1.5','dec=2','dec=5','dec=10','dec=20','dec=50','dec=100','No Adapt']

@@ -28,7 +28,7 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 		\includegraphics[width=0.35\textwidth]{./figs/norm_M_time_toy_n1000}\hspace{2cm}
 		\includegraphics[width=0.35\textwidth]{./figs/norm_M_div_toy_n1000}
 	\end{center}
-	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn for normalized cost matrix. Top panel: marginal violations in relation with the budget of points. Bottom panel: (left) ratio of computation times    $\frac{T_{\text{Sinkhorn}}}{T_{\text{\emph{Screenkhorn}}}}$ and, (right) relative divergence variation. The results are averaged over $30$ trials.} 
+	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn for normalized cost matrix \emph{i.e} $\|C\|_\infty$. Top panel: marginal violations in relation with the budget of points. Bottom panel: (left) ratio of computation times    $\frac{T_{\text{Sinkhorn}}}{T_{\text{\emph{Screenkhorn}}}}$ and, (right) relative divergence variation. The results are averaged over $30$ trials.} 
 		\label{fig:margin_expe}
 \end{figure*}
 %
@@ -67,13 +67,14 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 
 	\includegraphics[width=0.43\textwidth]{./figs/da_gain_mnist_regcl1.pdf}\hspace{1cm}
 	\includegraphics[width=0.43\textwidth]{./figs/da_gain_mnist_regcl10.pdf}
-	\caption{OT Domain adaptation : running time gain for a toy dataset and for MNIST as a function of the number of examples and the data decimation factor in \emph{Screenkhorn}.}
+	\caption{OT Domain adaptation : running time gain  for MNIST as a function of the number of examples and the data decimation factor \emph{Screenkhorn}. Hyperparameter values (left) $1$. (right) $10$.}
 	\label{fig:otda}
 \end{figure*}
 
 For the OT based domain adaptation problem, we have considered the
 OTDA with $\ell_{0.5,1}$ group-lasso regularizer that helps in exploiting available labels in the source domain. The problem is solved using an majorization-minimization approach 
-for handling the non-convexity of the problem. Hence, at each iteration, a Sinkhorn/\emph{Screenkhorn} has to be computed. As a domain-adaptation problem, we have
+for handling the non-convexity of the problem. Hence, at each iteration, a Sinkhorn/\emph{Screenkhorn} has to be computed and the number of iteration is
+sensitive to the regularizer strength.  As a domain-adaptation problem, we have
 used a MNIST to USPS problem in which features have been extracted from the
 feature extractor of an domain adversarial neural networks \citep{ganin2016domain} before full convergence of the networks (so as to leave room for OT adaptation). 
 Figure \ref{fig:otda} reports the gain in running time for $2$ different values

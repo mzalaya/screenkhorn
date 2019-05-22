@@ -16,7 +16,7 @@ color_pal = color_pal_t.copy()
 
 
 colors = ["black", "salmon pink", "neon pink", "cornflower","cobalt blue"
-          ,"blue green", "aquamarine", "bright yellow", "golden yellow", "reddish pink" , "reddish purple"]
+          ,"blue green", "aquamarine", "dark yellow", "golden yellow", "reddish pink" , "reddish purple"]
 
 color_pal = sns.xkcd_palette(colors)
 
@@ -24,7 +24,7 @@ plt.close("all")
 
 pathres = './resultat/wda/'
 
-data = 'mnist'
+data = 'toy'
 if data == 'toy':
     n_vec = [200,500,1000,2000,3500,5000]
     nb_p_vec = 7
