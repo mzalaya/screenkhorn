@@ -15,17 +15,17 @@ np.random.seed(3946)
 
 # MATPLOTLIB
 import matplotlib.pyplot as plt
-from matplotlib import rc
-rc('font', **{'family': 'sans-serif', 'sans-serif': ['Computer Modern Roman']})
-params = {'axes.labelsize': 24, # 12
-          'font.size': 24, # 12
-          'legend.fontsize': 22, # 12
-          'xtick.labelsize': 22, # 10
-          'ytick.labelsize': 22, # 10
-          #'text.usetex': True,
-          #'figure.figsize': (8, 6)
-          }
-plt.rcParams.update(params)
+#from matplotlib import rc
+#rc('font', **{'family': 'sans-serif', 'sans-serif': ['Computer Modern Roman']})
+#params = {'axes.labelsize': 34, # 12
+#          'font.size': 24, # 12
+#          'legend.fontsize': 22, # 12
+#          'xtick.labelsize': 32, # 10
+#          'ytick.labelsize': 32, # 10
+#          #'text.usetex': True,
+#          #'figure.figsize': (8, 6)
+#          }
+#plt.rcParams.update(params)
 plt.close('all')
 
 # SEABORN
@@ -214,10 +214,11 @@ for n in nvect:
                          diff_a_mean-diff_a_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$')
-        plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$')
-        plt.xticks(decvect, decvect, rotation='vertical')
-        plt.title('$n=m=${:d}'.format(n))
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
+        plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$', fontsize = 16)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
+        plt.yticks(fontsize=14)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
         
         
         # -------
@@ -233,9 +234,11 @@ for n in nvect:
                          facecolor=colort[j], alpha=.15)
         
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $m_b/m$')
-        plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$')
-        plt.title('$n=m=${:d}'.format(n))
+        plt.xlabel(r'Decimation factor $m_b/m$', fontsize = 16)
+        plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$', fontsize = 16)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
+        plt.yticks(fontsize=14)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
         
         
         # -------
@@ -250,9 +253,11 @@ for n in nvect:
                          rel_time_mean-rel_time_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         #plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$')
-        plt.ylabel('Running Time Gain')
-        plt.title('$n=m=${:d}'.format(n))
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
+        plt.ylabel('Running Time Gain', fontsize = 16)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
+        plt.yticks(fontsize=14)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
         
         # -------
         rel_cost     = M_cost[:,j,:]
@@ -266,20 +271,22 @@ for n in nvect:
                          rel_cost_mean-rel_cost_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$')
-        plt.ylabel('Relative Divergence Variation')
-        plt.title('$n=m=${:d}'.format(n))
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
+        plt.ylabel('Relative Divergence Variation', fontsize = 16)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
+        plt.yticks(fontsize=14)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
         
         
     plt.figure(1)
-    plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
+    plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
     plt.figure(2)
-    plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
+    plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
-    plt.figure(3), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
+    plt.figure(3), plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
-    plt.figure(4), plt.legend(), plt.xticks(decvect, decvect, rotation='vertical')
+    plt.figure(4), plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
 
     if normalize:
