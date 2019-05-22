@@ -11,7 +11,7 @@ For instance, the OT between two histograms with supports of equal size $n$ can 
 
 A remedy to the heavy computation burden of OT lies in a prevalent approach referred as regularized OT~\citep{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
 Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
-Furthermore,~\citet{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
+Furthermore, ~\citet{cuturinips13} proposed the so-called {dual of Sinkhorn divergence} as the dual of the entropic problem and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
 Therefore, the OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\citep{sinkhorn1967,knight2008,kalantari2008}. 
 
 Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
