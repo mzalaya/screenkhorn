@@ -23,10 +23,10 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 
 \begin{figure*}[t]
 	\begin{center}
-		\includegraphics[width=4.55cm]{./figs/norm_M_Mu_marginals_toy_n1000} ~\hfill~
-		\includegraphics[width=4.55cm]{./figs/norm_M_Nu_marginals_toy_n1000} ~\hfill \\
-		\includegraphics[width=4.55cm]{./figs/norm_M_time_toy_n1000} ~\hfill~
-		\includegraphics[width=4.55cm]{./figs/norm_M_div_toy_n1000}
+		\includegraphics[width=0.33\textwidth]{./figs/norm_M_Mu_marginals_toy_n1000} ~\hfill~
+		\includegraphics[width=0.33\textwidth]{./figs/norm_M_Nu_marginals_toy_n1000} ~\hfill \\
+		\includegraphics[width=0.33\textwidth]{./figs/norm_M_time_toy_n1000} ~\hfill~
+		\includegraphics[width=0.33\textwidth]{./figs/norm_M_div_toy_n1000}
 	\end{center}
 	\caption{Empirical evaluation of \emph{Screenkhorn} vs Sinkhorn for normalized cost matrix. Top panel: marginal violations in relation with the budget of points. Bottom panel: (left) ratio of computation times    $\frac{T_{\text{\emph{Screenkhorn}}}}{T_{\text{Sinkhorn}}}$ and, (right) relative divergence variation. The results are averaged over 10 trials.} 
 		\label{fig:margin_expe}
@@ -34,43 +34,12 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 %
 \emph{Screenkhorn} provides good approximation of the marginals $\mu$ and $\nu$ for ``high'' values of the regularization parameter $\eta$ ($\eta > 1$). The approximation quality diminishes for small $\eta$. As expected $\norm{{\mu} -{\mu}^{\text{sc}}}_1$ and $\norm{{\nu} -{\nu}^{\text{sc}}}_1$ converge towards zero when increasing the budget of points. Remarkably marginal violations are almost negligible whatever the budget for high $\eta$.  According to computation gain, \emph{Screenkhorn} is, up to 2 times, faster than Sinkhorn at low budget $n_b/n$ while the reverse holds when $n_b/n$ gets close to 1.  Computational benefit of \emph{Screenkhorn} also depends on $\eta$ with appropriate values $\eta \leq 1$. Finally except for $\eta=0.1$ \emph{Screenkhorn} achieves a close divergence $\inr{C, P}$ compared to Sinkhorn showing that our static screening test does not harm Sinkhorn divergence.  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsection{Integrating \emph{Screenkhorn} into machine learning pipelines}
 
 In this subsection, we analyse the impact of using \emph{Screenkhorn}
 instead of Sinkhorn in a complex machine learning pipeline. Our two applications
 are a dimensionality reduction technique, denoted as Wasserstein Discriminant Analysis (WDA), based on Wasserstein distance approximated
 through Sinkhorn divergence \citep{flamary2018WDA} and a domain-adaptation using optimal transport mapping \citep{courty2017optimal}, named OTDA. 
-
 
 WDA aims at finding a linear projection which minimize the ratio of distance between intra-class samples and distance inter-class samples, where the distance is understood
 in a Sinkhorn divergence sense. We have used a toy problem involving Gaussian classes with $2$ discriminative features and $8$ noisy features and the MNIST dataset. For the
