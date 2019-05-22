@@ -48,7 +48,7 @@ former problem, we aim at find the best two-dimensional linear subspace in a WDA
 $728$ dimensions.  Quality of the retrieved subspace are evaluated using classification task based on a $1$-nearest neighbour approach.
 
 Figure \ref{fig:wda} presents the average gain (over $30$ trials) in computational time we get as the number of examples evolve and for different decimation factors of the \emph{Screenkorn} problem.
-Analysis of the quality of the subspace have been deported to the supplementary material (see Figure 1), but we can remark a small loss of performance of \emph{Screenkhorn} for the toy problem, while
+Analysis of the quality of the subspace have been deported to the supplementary material (see Figure~\ref{fig:wda_gain}), but we can remark a small loss of performance of \emph{Screenkhorn} for the toy problem, while
 for MNIST, accuracies are equivalent regardless of the decimation factor.  We can note
 that for the minimal gains are respectively $2$ and $4.5$ for the toy and MNIST problem
 whereas the maximal gain for $4000$ samples is slightly larger than an order of magnitude. 
@@ -71,7 +71,7 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 	\label{fig:otda}
 \end{figure*}
 
-For the optimal transport based domain adaptation problem, we have considered the
+For the OT based domain adaptation problem, we have considered the
 OTDA with $\ell_{0.5,1}$ group-lasso regularizer that helps in exploiting available labels in the source domain. The problem is solved using an majorization-minimization approach 
 for handling the non-convexity of the problem. Hence, at each iteration, a Sinkhorn/\emph{Screenkhorn} has to be computed. As a domain-adaptation problem, we have
 used a MNIST to USPS problem in which features have been extracted from the
