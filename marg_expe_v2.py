@@ -214,11 +214,11 @@ for n in nvect:
                          diff_a_mean-diff_a_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
-        plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$', fontsize = 16)
-        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
-        plt.yticks(fontsize=14)
-        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 30)
+        plt.ylabel(r'$\|\|\, \mu - \mu^{sc} \, \|\|_1$', fontsize = 30)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 26)
+        plt.yticks(fontsize=26)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 30)
         
         
         # -------
@@ -234,11 +234,11 @@ for n in nvect:
                          facecolor=colort[j], alpha=.15)
         
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $m_b/m$', fontsize = 16)
-        plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$', fontsize = 16)
-        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
-        plt.yticks(fontsize=14)
-        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
+        plt.xlabel(r'Decimation factor $m_b/m$', fontsize = 30)
+        plt.ylabel(r'$\||\, \nu - \nu^{sc} \, \|\|_1$', fontsize = 30)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 26)
+        plt.yticks(fontsize=26)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 30)
         
         
         # -------
@@ -253,11 +253,11 @@ for n in nvect:
                          rel_time_mean-rel_time_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         #plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
-        plt.ylabel('Running Time Gain', fontsize = 16)
-        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
-        plt.yticks(fontsize=14)
-        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 30)
+        plt.ylabel('Running Time Gain', fontsize = 30)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 26)
+        plt.yticks(fontsize=26)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 30)
         
         # -------
         rel_cost     = M_cost[:,j,:]
@@ -271,22 +271,22 @@ for n in nvect:
                          rel_cost_mean-rel_cost_std*coeff, 
                          facecolor=colort[j], alpha=.15)
         plt.yscale('log')
-        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 16)
-        plt.ylabel('Relative Divergence Variation', fontsize = 16)
-        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 14)
-        plt.yticks(fontsize=14)
-        plt.title('$n=m=${:d}'.format(n), fontsize = 16)
+        plt.xlabel(r'Decimation factor $n/n_b$', fontsize = 30)
+        plt.ylabel('Relative Divergence Variation', fontsize = 30)
+        plt.xticks(decvect, decvect, rotation='vertical', fontsize = 26)
+        plt.yticks(fontsize=26)
+        plt.title('$n=m=${:d}'.format(n), fontsize = 30)
         
         
     plt.figure(1)
-    plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
+    plt.legend(fontsize=26), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
     plt.figure(2)
-    plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
+    plt.legend(fontsize=26), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
-    plt.figure(3), plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
+    plt.figure(3), plt.legend(fontsize=26), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
-    plt.figure(4), plt.legend(fontsize=16), #plt.xticks(decvect, decvect, rotation='vertical')
+    plt.figure(4), plt.legend(fontsize=26), #plt.xticks(decvect, decvect, rotation='vertical')
     plt.grid(color='k', linestyle=':', linewidth=1,alpha=0.5)
 
     if normalize:
