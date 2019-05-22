@@ -1,6 +1,5 @@
-%!TEX root = main.tex
 
-\subsection{Proof of Lemma~\ref{lemma_actives_sets}}
+\section{Proof of Lemma~\ref{lemma_actives_sets}}
 
 Since the objective function $\Psi_{\kappa}$ is convex with respect to $(u,v)$, the set of optima of problem~\eqref{screen-sinkhorn} is non empty.
 Introducing two dual variables $\lambda \in \R^n_{+}$ and $\beta \in \R^m_{+}$ for each constraint, the Lagrangian of problem~\eqref{screen-sinkhorn} reads as 
@@ -21,7 +20,7 @@ which leads to
 For all $i=1, \ldots, n$ we have that $e^{u^{*}_i} \geq \frac\varepsilon\kappa$. Further, the condition on the dual variable $\lambda^{*}_i > 0$  ensures that $e^{u^{*}_i} = \frac\varepsilon\kappa$ and hence $i \in I^\complement_{\varepsilon,\kappa}$. We have that $\lambda^{*}_i > 0$ is equivalent to $e^{u^{*}_i}r_i(K) e^{v^{*}_j} >  \kappa{\mu_i}$ which  is satisfied when $\varepsilon^2r_i(K) >  \kappa{\mu_i}.$  
 In a symmetric way we can prove the same statement for $e^{v^{*}_j}$.
 
-\subsection{Proof of Proposition~\ref{prop:bounds_of_usc_and_vsc}}
+\section{Proof of Proposition~\ref{prop:bounds_of_usc_and_vsc}}
 
 We prove only the first statement~\eqref{bound_on_u} and similarly we can prove the second one~\eqref{bound_on_v}.
 For all $i\in I_{\varepsilon,\kappa}$, we have $e^{u^{\text{sc}}_i} > \frac \varepsilon\kappa$ or $e^{u^{\text{sc}}_i} = \frac \varepsilon\kappa$. In one hand, if $e^{u^{\text{sc}}_i} > \frac \varepsilon\kappa$ then according to the optimality conditions $\lambda^{\text{sc}}_i = 0,$ which implies $e^{u^{\text{sc}}_i} \sum_{j=1}^m K_{ij} e^{v^{\text{sc}}_j} = \kappa\mu_i$.
@@ -53,7 +52,7 @@ Therefore,
 \min_{i \in I_{\varepsilon,\kappa}} e^{u^{\text{sc}}_i}  \geq \frac \varepsilon\kappa \vee \frac{\kappa\min_{I_{\varepsilon,\kappa}}\mu_i}{\varepsilon\kappa (m-m_b) + \varepsilon\kappa \vee \frac{\max_{j\in J_{\varepsilon,\kappa}} \nu_j}{n\varepsilon K_{\min}} m_b}.
 \end{align*}
 
-\subsection{Proof of Proposition~\ref{proposition_error_in_marginals}}
+\section{Proof of Proposition~\ref{proposition_error_in_marginals}}
 
 We define the distance function $\varrho: \R_+ \times \R_+ \mapsto [0, \infty]$ by $\varrho(a,b) = b - a + a \log(\frac ab).$
 While $\varrho$ is not a metric, it is easy to see that $\varrho$ is not nonnegative and satisfies $\varrho(a,b) =0$ iff $a=b$.
@@ -152,7 +151,7 @@ To get the closed forms~\eqref{marginal-error-mu} and~\eqref{marginal-error-nu},
 $\varepsilon = \bigO((mnK_{\min}^2)^{-1/4})$, $\kappa= \bigO(\sqrt{m/(nc_{\mu\nu}K_{\min})}),$ $\kappa^{-1} = \bigO(\sqrt{n/(mK_{\min}c_{\mu\nu}})$, $(\kappa/\varepsilon)^2 = \bigO( m^{3/2} / \sqrt{nK_{\min}}(c_{\mu\nu})^{3/2})$, and $(\varepsilon\kappa)^{-2} = \bigO(n^{3/2}/\sqrt{mK_{\min}}c^{3/2}_{\mu\nu}).$
 \end{remark}
 
-\subsection{Proof of Proposition~\ref{prop:objective-error}}
+\section{Proof of Proposition~\ref{prop:objective-error}}
 
 We first define $\widetilde{K}$ a rearrgement of $K$ with respect to the active sets $I_{\varepsilon,\kappa}$ and $J_{\varepsilon,\kappa}$as follows:
 \begin{equation*}
@@ -366,7 +365,7 @@ Using Remark~\ref{rem:orders_of_epsilonappa}, we get the desired closed form in~
 Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 \end{proof}
 
-\subsection{Additional experimental results}
+\section{Additional experimental results}
 
 \begin{figure*}[htbp]
 	\centering
