@@ -260,9 +260,8 @@ Then
 &\leq \norm{{u}^{\text{sc}} - {u}^\star}_\infty \norm{\mu^{\text{sc}} - \mu}_1 + \norm{{v}^{\text{sc}} - {v}^\star}_\infty\norm{\nu^{\text{sc}} - \nu}_1 \nonumber\\
 &\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\label{priori_bounds_induction}
 \end{align}
-
-\paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
-
+Next, we bound the two terms $\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty.$
+% \paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
 If $r \in I^\complement_{\varepsilon, \kappa}$, then we have 
 \begin{align*}
 |({u}^{\text{sc}})_{r} - {u}^\star_r| 
@@ -338,7 +337,7 @@ We arrive at
 & = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmK_{\min}^{2}c_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1) + \omega_{\kappa}\Big).
 \end{align*}
 Note that $\omega_{\kappa}$ tends to zeros as $(n_b,m_b)$ tends to $(n,m)$ (i.e., $\kappa \rightarrow 1)$. To more characterize $\omega_\kappa$, the following 
-lemma expresses a lower and upper bounds with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. 
+lemma expresses an upper bound with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. 
 \begin{lemma}
 \label{lemma_bounds_on_marginals}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
