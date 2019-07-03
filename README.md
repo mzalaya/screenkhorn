@@ -20,6 +20,7 @@ git clone https://github.com/mzalaya/screenkhorn
 cd screenkhorn/
 ```
 
+
 Small Demo
 ================
 Given a ground metric `M`, the discrete measures `a` and `b` and the entropy parameter `reg` that define the Wasserstein
