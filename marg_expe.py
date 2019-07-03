@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May 16 10:12:46 2019
+#!/usr/bin/env python
+# coding: utf-8
 
-@author: GGilles
-"""
+__author__ =  'Gilles Gasso'
 
 # NUMPY
 import numpy as np
@@ -98,8 +96,6 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
 
     return diff_a_vect, diff_b_vect, rel_time_vect,rel_cost_vect
 
-
-
 #%%
 pathres= './resultat/'
 
@@ -154,8 +150,6 @@ for n in nvect:
     np.savez(pathres + filename, 
              M_diff_a = M_diff_a,  M_diff_b = M_diff_b,
              M_time = M_time, M_cost = M_cost)
-
-    
 
 #%% Plots
 pathfig = './figure/'

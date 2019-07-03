@@ -1,10 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May 16 10:12:46 2019
+#!/usr/bin/env python
+# coding: utf-8
 
-@author: GGilles
-"""
+__author__ =  'Gilles Gasso'
 
 # NUMPY
 import numpy as np

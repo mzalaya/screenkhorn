@@ -1,5 +1,5 @@
 
-# `screenkhorn`: Screening Sinkhorn Algorithm for Regularized optimal Transport
+# `screenkhorn`: Screening Sinkhorn Algorithm for discrete optimal Transport
 
 Implementation of SCREENKHORN algorithm from paper [Screening Sinkhorn Algorithm for Regularized Optimal Transport](https://arxiv.org/abs/1906.08540) in Python.
 
@@ -22,41 +22,40 @@ cd screenkhorn/
 ```
 The folder contains the following files:
 ```
-- screenkhorn.py:
+- screenkhorn.py: Screenkhorn class
 
-# Toy example
 - marge_expe.py
 - marge_expe_v2.py
 
-# Wasserstein discriminant analysis
-- wda_screenkhorn.py:
-- wda_expe:py
+- wda_screenkhorn.py: Dimension reduction with Screened optimal transport
+- wda_expe.py: experiments 
 
-# Domain adaptation
-- da_screenkhorn.py
+- da_screenkhorn.py: Dimension adaptation with Screened optimal transport
 - da_exp.py:
 
 ```
 
 Small Demo
-================
+==========
 Given a ground metric `C`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
 distance. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
 
+```math
+
+```
+##How to call the class
 ```python
 >>> from screenkhorn import Screenkhorn 
 >>> screenkhorn = Screenkhorn(a, b, C, reg, n_budget, m_budget, verbose=False)
->>> screen_lbfgsb = screenkhorn.lbfgsb()
->>> P_sc = screen_lbfgsb[2]
+>>> Psc = screenkhorn.lbfgsb()
 >>> # Screened marginals
->>> a_sc = P_sc @ np.ones(b.shape)
->>> b_sc = P_sc.T @ np.ones(a.shape)
+>>> a_sc = Psc @ np.ones(b.shape)
+>>> b_sc = Psc.T @ np.ones(a.shape)
 ```    
 
 Citation
 ========
-If you use this code in your research and find it useful, please cite it using the following bibtex reference:
-
+If you use `screenkhorn` in a scientific publication, we would appreciate citations. You can use the following bibtex entry:
 ```
 @misc{alaya2019etal,
 Author = {Alaya, Mokhtar Z. and  Bérar, Maxime and  Gasso, Gilles and  Rakotomamonjy, Alain},

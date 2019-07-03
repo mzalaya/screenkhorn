@@ -1,42 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
-# In[1]:
+__author__ = 'Alain Rakotomamonjy'
 
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time
-import ot
-import ot.plot
-import  da_screenkhorn, da_sinkhorn
-from sklearn.datasets import make_blobs
 
-from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import argparse
+
+from sklearn.datasets import make_blobs
+from sklearn.neighbors import KNeighborsClassifier
+# POT
+import ot
+import ot.plot
+
+# SCREENKHORN
+import  da_screenkhorn, da_sinkhorn
 
 def toy(n_samples_source,n_samples_target,nz=0.8,translate = 0.2, random_state=None):
     Xs , ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
     Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
-    Xt = Xt + translate
-    
-#    n_features = 50
-#    s_noise = nz
-#    centers = np.array([(1, 0), (-1, 0), (0.4, 0.8)])
-#    Xs, ys = make_blobs(n_samples=n_samples_source, n_features= n_features, cluster_std= s_noise,
-#                  centers=centers, shuffle=False)
-#    ys[ys==2] = 3
-#    ys[ys==1] = 2
-#    ys[ys==0] = 1
-#    
-#    centers = centers + translate
-#    Xt, yt = make_blobs(n_samples=n_samples_target, n_features= n_features, cluster_std= s_noise,
-#                  centers=centers, shuffle=False)
-#    yt[yt==2] = 3
-#    yt[yt==1] = 2
-#    yt[yt==0] = 1
-    
+    Xt = Xt + translate 
     return Xs, ys, Xt, yt
 
 def subsample(x,y,n, nb_class=10):
@@ -110,7 +96,6 @@ for i in range(nb_iter):
     # Sinkhorn Transport
     tic = time()
     ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl)
-    #ot_sinkhorn = da_sinkhorn.SinkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl)
     ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
     time_sink[i] = time() - tic
     transp_Xs = ot_sinkhorn.transform(Xs=Xs)
