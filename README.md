@@ -1,6 +1,7 @@
 
-# `screenkhorn`: Screening Sinkhorn Algorithm
-Implementation of SCREENKHORN algorithm from paper [Screening Sinkhorn Algorithm for Regularized Optimal Transport] (https://arxiv.org/abs/1906.08540) in Python.
+# `SCREENKHORN`: Screening Sinkhorn Algorithm for Regularized optimal Transport
+
+Implementation of SCREENKHORN algorithm from paper [Screening Sinkhorn Algorithm for Regularized Optimal Transport](https://arxiv.org/abs/1906.08540) in Python.
 
 Package dependencies
 ====================
@@ -19,12 +20,28 @@ From a console or terminal clone the repository:
 git clone https://github.com/mzalaya/screenkhorn
 cd screenkhorn/
 ```
+The folder contains the following files:
+```
+- screenkhorn.py:
 
+# Toy example
+- marge_expe.py
+- marge_expe_v2.py
+
+# Wasserstein discriminant analysis
+- wda_screenkhorn.py:
+- wda_expe:py
+
+# Domain adaptation
+- da_screenkhorn.py
+- da_exp.py:
+
+```
 
 Small Demo
 ================
-Given a ground metric `M`, the discrete measures `a` and `b` and the entropy parameter `reg` that define the Wasserstein
-metric. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
+Given a ground metric `M`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
+distance. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
 
 ```python
 >>> from screenkhorn import Screenkhorn 
