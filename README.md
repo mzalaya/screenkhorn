@@ -10,7 +10,7 @@ It requires the following Python packages:
 - scipy
 - matplotlib
 - autograd
-- [POT] (https://github.com/rflamary/POT)
+- [POT](https://github.com/rflamary/POT)
 
 Included modules
 ================
@@ -23,7 +23,7 @@ cd screenkhorn/
 Small Demo
 ================
 Given a ground metric `M`, the discrete measures `a` and `b` and the entropy parameter `reg` that define the Wasserstein
-metric. The parameters `n_budget` and `m_budget` that corresponds to the number of points to be considered. Then the Screenkhorn object can be created.
+metric. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
 
 ```python
 >>> from screenkhorn import Screenkhorn 
@@ -40,10 +40,10 @@ Citation
 If you use this code, please cite:
 
 ```
-	@misc{alaya2019etal,
-	Author = {Alaya, Mokhtar Z. and  Bérar, Maxime and  Gasso, Gilles and  Rakotomamonjy, Alain},
-	Title = {Screening Sinkhorn Algorithm for Regularized Optimal Transport},
-	Year = {2019},
-	Eprint = {arXiv:1906.08540},
-	}
+@misc{alaya2019etal,
+Author = {Alaya, Mokhtar Z. and  Bérar, Maxime and  Gasso, Gilles and  Rakotomamonjy, Alain},
+Title = {Screening Sinkhorn Algorithm for Regularized Optimal Transport},
+Year = {2019},
+Eprint = {arXiv:1906.08540},
+}
 ```
