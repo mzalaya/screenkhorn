@@ -14,26 +14,31 @@ It requires the following Python packages:
 
 Included modules
 ================
+From a console or terminal clone the repository:
+
+	git clone https://github.com/mzalaya/screenkhorn
+	cd screenkhorn/
+
 	screenkhorn.py: include Screenkhorn class that computes the Wasserstein distance.
 	wda_expe.py:
 	da_exp.py: 
 
 
-Demos & Examples
+Small Demos
 ================
 Given a ground metric `M`, the discrete measures `a` and `b` and the entropy parameter `reg` that define the Wasserstein
 metric. The parameters `n_budget` and `m_budget` that corresponds to the number of points to be considered. Then the Screenkhorn object can be created.
 
-.. code:: python
+```python
 
     >>> from screenkhorn import Screenkhorn 
     >>> screenkhorn = Screenkhorn(a, b, M, reg, n_budget, m_budget, verbose=False)
     >>> screen_lbfgsb = screenkhorn.lbfgsb()
-    >>> P_sc = lbfgsb[2]
+    >>> P_sc = screen_lbfgsb[2]
     >>> # Screened marginals
     >>> a_sc = P_sc @ np.ones(b.shape)
     >>> b_sc = P_sc.T @ np.ones(a.shape)
-    
+```    
 
 Citation
 ========
