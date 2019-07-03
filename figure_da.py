@@ -1,10 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  7 10:11:50 2019
+#!/usr/bin/env python
+# coding: utf-8
 
-@author: alain
-"""
+__author__ = 'Alain Rakotomamonjy'
 
 
 import matplotlib.pyplot as plt
@@ -61,9 +58,7 @@ for i_k, n in enumerate(n_vec):
     # reading files and performance
     res = np.load(pathres + filename + '.npz')
     
-    
-    
-    
+
     aux = res['bc_sink']
     nb_computed = np.where(aux)[0].shape[0]
     print(nb_computed)
@@ -115,9 +110,6 @@ for i_k, n in enumerate(n_vec):
     Sgain[i_k,1:] = std_perf
 
 
-
-
-
 #%% figure for accuracy
     
 plt.figure(0)
@@ -136,9 +128,6 @@ if t==1:
 else:
     plt.ylim((0.4,1))
 
-
-
-
 plt.xlabel('Number of samples', fontsize = 16)
 plt.ylabel('Accuracy', fontsize = 16)
 plt.xticks(fontsize=12)
@@ -152,7 +141,6 @@ plt.savefig('figure/' + filename,dpi=600)
 
 # %% figure for gain
 
-
 plt.figure(1)
 
 for i in range(1,nb_p_vec+1):
@@ -161,7 +149,6 @@ for i in range(1,nb_p_vec+1):
     #error=Stime[:,i]
     #plt.fill_between(n_vec, Mtime[:,i]-error, Mtime[:,i]+error, color=colort[i],alpha = 0.1)
     ax.append(ax1)
-
 
 
 plt.xlabel('Number of samples', fontsize = 16)
@@ -175,9 +162,7 @@ filename = 'da_gain_{:}_regcl{:d}.pdf'.format(data,regcl)
 plt.savefig('figure/' + filename,dpi=600)
 
 
-
 # %% figure for timing
-
 
 plt.figure(2)
 
@@ -187,7 +172,6 @@ for i in range(0,nb_p_vec+1):
     #error=Stime[:,i]
     #plt.fill_between(n_vec, Mtime[:,i]-error, Mtime[:,i]+error, color=colort[i],alpha = 0.1)
     ax.append(ax1)
-
 
 
 plt.xlabel('Number of samples', fontsize = 16)

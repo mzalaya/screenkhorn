@@ -1,10 +1,7 @@
-                #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  7 10:11:50 2019
+#!/usr/bin/env python
+# coding: utf-8
 
-@author: alain
-"""
+__author__ = 'Alain Rakotomamonjy'
 
 
 import matplotlib.pyplot as plt
@@ -87,10 +84,6 @@ for i_k, n in enumerate(n_vec):
     # keeping gain for all p 
     Mtime[i_k,1:] = mean_perf
     Stime[i_k,1:] = std_perf
-
-
-
-
 
 #%% figure for accuracy
     
