@@ -40,12 +40,12 @@ The folder contains the following files:
 
 Small Demo
 ================
-Given a ground metric `M`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
+Given a ground metric `C`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
 distance. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
 
 ```python
 >>> from screenkhorn import Screenkhorn 
->>> screenkhorn = Screenkhorn(a, b, M, reg, n_budget, m_budget, verbose=False)
+>>> screenkhorn = Screenkhorn(a, b, C, reg, n_budget, m_budget, verbose=False)
 >>> screen_lbfgsb = screenkhorn.lbfgsb()
 >>> P_sc = screen_lbfgsb[2]
 >>> # Screened marginals
@@ -55,7 +55,7 @@ distance. The parameters `n_budget` and `m_budget` correspond to the number of p
 
 Citation
 ========
-If you use this code, please cite:
+If you use this code in your research and find it useful, please cite it using the following bibtex reference:
 
 ```
 @misc{alaya2019etal,
