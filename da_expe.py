@@ -20,8 +20,8 @@ import ot.plot
 import  da_screenkhorn, da_sinkhorn
 
 def toy(n_samples_source,n_samples_target,nz=0.8,translate = 0.2, random_state=None):
-    Xs , ys = ot.datasets.make_data_classif('3gauss', n_samples_source,nz=nz,random_state=random_state)
-    Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target,nz=nz, random_state=random_state)
+    Xs , ys = ot.datasets.make_data_classif('3gauss', n_samples_source, nz=nz, random_state=random_state)
+    Xt, yt = ot.datasets.make_data_classif('3gauss2', n_samples_target, nz=nz, random_state=random_state)
     Xt = Xt + translate 
     return Xs, ys, Xt, yt
 
@@ -39,10 +39,8 @@ def subsample(x,y,n, nb_class=10):
     return x_r, y_r
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 1000, type=int,
-                        help='number of samples ')
-parser.add_argument('-d', action='store', dest='d', default = 2, type=int,
-                        help='dataset type ')
+parser.add_argument('-n', action='store', dest='n', default=1000, type=int, help='number of samples ')
+parser.add_argument('-d', action='store', dest='d', default=2, type=int, help='dataset type ')
 arguments = parser.parse_args()
 n = arguments.n # number of samples per class
 
@@ -111,8 +109,8 @@ for i in range(nb_iter):
         print(p_n)
         # Screenkhorn Transport
         tic = time()
-        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl,one_init=False)
-        ot_screenkhorn.fit(Xs=Xs,ys=ys, Xt=Xt, p_n=p_n, p_m=p_n)
+        ot_screenkhorn = da_screenkhorn.ScreenkhornLpl1Transport(reg_e=reg, reg_cl=reg_cl, one_init=False)
+        ot_screenkhorn.fit(Xs=Xs, ys=ys, Xt=Xt, dec_ns=p_n, dec_nt=p_n)
        
         time_screen[i,j] = time() - tic
         # transport source samples onto target samples
@@ -126,13 +124,13 @@ for i in range(nb_iter):
 #%%
     print(time_sink[i])
     print(time_screen[i])
-    np.savez(pathres + filename, bc_none = bc_none,
-             bc_sink= bc_sink,  bc_screen= bc_screen,
-             time_sink = time_sink,  time_screen = time_screen)
+    np.savez(pathres + filename, bc_none=bc_none, bc_sink=bc_sink,  bc_screen=bc_screen,
+             time_sink=time_sink, time_screen=time_screen)
     
 #%%
 mean_screen_time = time_screen.mean(axis=0)
 for i,p in enumerate(p_vec):
     print('gain dec {:1.2f}: {:2.2f}'.format(p,time_sink.mean()/mean_screen_time[i]))
         
-print('perf none : {:2.2f} perf sink : {:2.2f}, perf screen {:2.2f}'.format(bc_none.mean()*100,bc_sink.mean()*100,bc_screen.mean()*100))
+print('perf none : {:2.2f} perf sink : {:2.2f}, perf screen {:2.2f}' \
+      .format(bc_none.mean()*100, bc_sink.mean()*100, bc_screen.mean()*100))

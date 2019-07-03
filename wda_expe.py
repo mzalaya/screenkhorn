@@ -5,21 +5,25 @@ __author__ = 'Alain Rakotomamonjy'
 
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
+
 import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
 from numpy.linalg import qr
+
 sns.set_context("poster")
 sns.set_style("ticks")
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
+
 from time import process_time as time
 import argparse
-import wda_screenkhorn as wda_screen
+
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import make_blobs
-from scipy.io import loadmat
 from sklearn.preprocessing import StandardScaler
+from scipy.io import loadmat
+
+import wda_screenkhorn as wda_screen
 
 #%% parameters
 
@@ -83,10 +87,8 @@ def balanced_mnist(n=100 , train = True):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-n', action='store', dest='n', default = 1000, type=int,
-                        help='number of samples ')
-parser.add_argument('-d', action='store', dest='d', default = 1, type=int,
-                        help='dataset type ')
+parser.add_argument('-n', action='store', dest='n', default=1000, type=int, help='number of samples ')
+parser.add_argument('-d', action='store', dest='d', default=1, type=int, help='dataset type ')
 arguments = parser.parse_args()
 n = arguments.n # number of samples per class
 
@@ -103,7 +105,6 @@ nb_iter = 30
 K = 5 # K in KNN
 p_vec = [1.5,2,5,10,20,50,100]
 pathres='./resultat/'
-
 
 
 n_pvec=  len(p_vec)
@@ -142,8 +143,8 @@ for i in range(nb_iter):
 #    print('knn : ',np.mean(y_pred==yt))
     #%%
     tic = time()
-    Pwda_sink, projwda_sink = wda_screen.wda_sinkhorn(xs, ys, p, reg, k, maxiter=maxiter,P0=P_init)
-    time_wda[i] = time() -tic
+    Pwda_sink, projwda_sink = wda_screen.wda_sinkhorn(xs, ys, p, reg, k, maxiter=maxiter, P0=P_init)
+    time_wda[i] = time() - tic
     xtpw = projwda_sink(xt)                                                     
     xspw = projwda_sink(xs)  
     clf_wda = KNeighborsClassifier(K)
@@ -153,10 +154,10 @@ for i in range(nb_iter):
     bc_wda[i]= np.mean(y_pred==yt)
     
     
-    for j,p_n in enumerate(p_vec):
+    for j, p_n in enumerate(p_vec):
         tic = time()
         Pwda_screen, projwda_screen = wda_screen.wda_screenkhorn(xs, ys, p, reg, k, solver=None, maxiter=maxiter,
-                                                                p_n=p_n, p_m=p_n,P0=P_init)
+                                                                 dec_ns=p_n, dec_nt=p_n, P0=P_init)
         time_swda[i,j] = time() -tic
     
         xspw_screen = projwda_screen(xs)
@@ -167,9 +168,4 @@ for i in range(nb_iter):
         print('s-wda knn : ',np.mean(y_pred==yt))
         bc_swda[i,j]= np.mean(y_pred==yt)
 
-    np.savez(pathres + filename, 
-             bc_wda = bc_wda,  bc_swda = bc_swda,
-             time_wda = time_wda,  time_swda = time_swda)
-    
-
-
+    np.savez(pathres + filename, bc_wda = bc_wda,  bc_swda = bc_swda, time_wda = time_wda, time_swda = time_swda)

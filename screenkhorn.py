@@ -194,19 +194,23 @@ class Screenkhorn:
             
             # box constraints in LBFGS
             self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (nt - self.ns_budget) \
-                                                    + self.ns_budget*(self.b_J_max / (self.epsilon * ns * K_min))), self.epsilon / self.fact_scale), \
+                                                    + self.ns_budget*(self.b_J_max / (self.epsilon * ns * K_min))), \
+                                  self.epsilon / self.fact_scale), \
                               self.a_I_max / (self.epsilon * nt * K_min))] *self.ns_budget
 
             self.bounds_v = [(max(self.b_J_min / (self.epsilon * (ns - self.ns_budget) \
-                                                    + self.ns_budget*(self.a_I_max / (self.epsilon * nt * K_min))), self.epsilon * self.fact_scale), \
+                                                    + self.ns_budget*(self.a_I_max / (self.epsilon * nt * K_min))), \
+                                  self.epsilon * self.fact_scale), \
                               self.b_J_max / (self.epsilon * ns * K_min))] * self.ns_budget
          
         if self.verbose:
                 print(time() - tic_initial)
 
         
-        self.vec_eps_IJc = self.epsilon * self.fact_scale * (self.K_IJc * np.ones(nt-self.ns_budget).reshape((1, -1))).sum(axis=1)
-        self.vec_eps_IcJ = (self.epsilon / self.fact_scale) * (np.ones(ns-self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
+        self.vec_eps_IJc = self.epsilon * self.fact_scale \
+                           * (self.K_IJc * np.ones(nt-self.ns_budget).reshape((1, -1))).sum(axis=1)
+        self.vec_eps_IcJ = (self.epsilon / self.fact_scale) \
+                           * (np.ones(ns-self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
         # restricted Sinkhron
         if self.ns_budget != ns or self.ns_budget != nt:
@@ -323,16 +327,20 @@ class Screenkhorn:
         # box constraints in LBFGS solver (see Proposition 1 in the paper)
         self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (nt - self.nt_budget) \
                                                     + self.nt_budget * (
-                                                                self.b_J_max / (self.epsilon * ns * K_min))), self.epsilon / self.fact_scale), \
+                                                                self.b_J_max / (self.epsilon * ns * K_min))), \
+                              self.epsilon / self.fact_scale), \
                               self.a_I_max / (self.epsilon * nt * K_min))] * self.ns_budget
 
         self.bounds_v = [(max(self.b_J_min / (self.epsilon * (ns - self.ns_budget) \
                                                     + self.ns_budget * (
-                                                                self.a_I_max / (self.epsilon * nt * K_min))), self.epsilon * self.fact_scale), \
+                                                                self.a_I_max / (self.epsilon * nt * K_min))), \
+                              self.epsilon * self.fact_scale), \
                               self.b_J_max / (self.epsilon * ns * K_min))] * self.nt_budget
 
-        self.vec_eps_IJc = self.epsilon * self.fact_scale * (self.K_IJc * np.ones(nt-self.nt_budget).reshape((1, -1))).sum(axis=1)
-        self.vec_eps_IcJ = (self.epsilon / self.fact_scale) * (np.ones(ns-self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
+        self.vec_eps_IJc = self.epsilon * self.fact_scale \
+                           * (self.K_IJc * np.ones(nt-self.nt_budget).reshape((1, -1))).sum(axis=1)
+        self.vec_eps_IcJ = (self.epsilon / self.fact_scale) \
+                           * (np.ones(ns-self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
         # pre-calculed constans for restricted Sinkhron
         if self.ns_budget != ns or self.ns_budget != nt:

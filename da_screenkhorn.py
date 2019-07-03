@@ -9,8 +9,6 @@ The script is adapted from ot/da.py in the POT toolbox.
 """
 
 import numpy as np
-import scipy.linalg as linalg
-from time import process_time as time
 
 # POT
 from ot.da import BaseTransport

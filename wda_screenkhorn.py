@@ -8,15 +8,14 @@ Dimension reduction with Screened optimal transport.
 The script is adapted from ot/dr.py in the POT toolbox.
 
 """
-from time import process_time as time
-
-from scipy import linalg
 import autograd.numpy as np
+
 from pymanopt.manifolds import Stiefel
 from pymanopt import Problem
 from pymanopt.solvers import SteepestDescent, TrustRegions
 
-import ot 
+import ot
+
 from screenkhorn import Screenkhorn
 
 def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1, P0=None, **kwargs):
@@ -42,11 +41,11 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
                 M = ot.dr.dist(xi, xj)
                 M = M / M.max()
                 # screenkhorn
-                p_n = kwargs.get('p_n', 2) # keep only 50% of points
-                p_m = kwargs.get('p_m', 2) # keep only 50% of points
-                n_budget = int(np.ceil(M.shape[0] / p_n))
-                m_budget = int(np.ceil(M.shape[1] / p_m))
-                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, n_budget, m_budget, verbose=False)
+                dec_ns = kwargs.get('dec_ns', 2) # keep only 50% of points
+                dec_nt = kwargs.get('dec_nt', 2) # keep only 50% of points
+                ns_budget = int(np.ceil(M.shape[0] / dec_ns))
+                nt_budget = int(np.ceil(M.shape[1] / dec_nt))
+                screenkhornWDA = Screenkhorn(wc[i], wc[j + i], M, reg, ns_budget, nt_budget, verbose=False)
                 G = screenkhornWDA.lbfgsb()
                 if j == 0:
                     loss_w += np.sum(G * M)
