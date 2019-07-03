@@ -24,21 +24,21 @@ The folder contains the following files:
 ```
 - screenkhorn.py: Screenkhorn class
 
-- marge_expe.py
+- marge_expe.py: Toy example
 - marge_expe_v2.py
 
 - wda_screenkhorn.py: Dimension reduction with Screened optimal transport
-- wda_expe.py: experiments 
+- wda_expe.py: experiments
 
-- da_screenkhorn.py: Dimension adaptation with Screened optimal transport
-- da_exp.py:
+- da_screenkhorn.py: Domain adaptation with Screened optimal transport
+- da_exp.py: experiments
 
 ```
 
 Small Demo
 ==========
 Given a ground metric `C`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
-distance. The parameters `n_budget` and `m_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
+distance. The parameters `ns_budget` and `nt_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
 
 ```math
 
@@ -46,7 +46,7 @@ distance. The parameters `n_budget` and `m_budget` correspond to the number of p
 ##How to call the class
 ```python
 >>> from screenkhorn import Screenkhorn 
->>> screenkhorn = Screenkhorn(a, b, C, reg, n_budget, m_budget, verbose=False)
+>>> screenkhorn = Screenkhorn(a, b, C, reg, ns_budget, nt_budget, verbose=False)
 >>> Psc = screenkhorn.lbfgsb()
 >>> # Screened marginals
 >>> a_sc = Psc @ np.ones(b.shape)
