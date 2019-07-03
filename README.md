@@ -38,12 +38,8 @@ The folder contains the following files:
 Small Demo
 ==========
 Given a ground metric `C`, the discrete measures `a` and `b`, and the entropy parameter `reg` that define the Sinkhorn divergence
-distance. The parameters `ns_budget` and `nt_budget` correspond to the number of points to be considered. Then the Screenkhorn object can be created.
+distance. The parameters `ns_budget` and `nt_budget` correspond to the number budget of points to be keeped in the source and the target domains, respectively. Then the Screenkhorn object is created.
 
-```math
-
-```
-##How to call the class
 ```python
 >>> from screenkhorn import Screenkhorn 
 >>> screenkhorn = Screenkhorn(a, b, C, reg, ns_budget, nt_budget, verbose=False)
