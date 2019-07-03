@@ -26,13 +26,13 @@ Given a ground metric `M`, the discrete measures `a` and `b` and the entropy par
 metric. The parameters `n_budget` and `m_budget` that corresponds to the number of points to be considered. Then the Screenkhorn object can be created.
 
 ```python
-    >>> from screenkhorn import Screenkhorn 
-    >>> screenkhorn = Screenkhorn(a, b, M, reg, n_budget, m_budget, verbose=False)
-    >>> screen_lbfgsb = screenkhorn.lbfgsb()
-    >>> P_sc = screen_lbfgsb[2]
-    >>> # Screened marginals
-    >>> a_sc = P_sc @ np.ones(b.shape)
-    >>> b_sc = P_sc.T @ np.ones(a.shape)
+>>> from screenkhorn import Screenkhorn 
+>>> screenkhorn = Screenkhorn(a, b, M, reg, n_budget, m_budget, verbose=False)
+>>> screen_lbfgsb = screenkhorn.lbfgsb()
+>>> P_sc = screen_lbfgsb[2]
+>>> # Screened marginals
+>>> a_sc = P_sc @ np.ones(b.shape)
+>>> b_sc = P_sc.T @ np.ones(a.shape)
 ```    
 
 Citation
