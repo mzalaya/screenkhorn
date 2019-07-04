@@ -19,7 +19,7 @@ color_pal = sns.xkcd_palette(colors)
 
 plt.close("all")
 
-pathres = './resultat/da/'
+pathres = './result/da/'
 
 data = 'mnist'
 if data == 'toy':

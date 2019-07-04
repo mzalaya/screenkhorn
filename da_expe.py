@@ -10,14 +10,13 @@ from time import process_time as time
 import numpy as np
 import argparse
 
-from sklearn.datasets import make_blobs
 from sklearn.neighbors import KNeighborsClassifier
+
 # POT
 import ot
-import ot.plot
 
 # SCREENKHORN
-import  da_screenkhorn, da_sinkhorn
+import  da_screenkhorn
 
 def toy(n_samples_source,n_samples_target,nz=0.8,translate = 0.2, random_state=None):
     Xs , ys = ot.datasets.make_data_classif('3gauss', n_samples_source, nz=nz, random_state=random_state)
@@ -58,8 +57,8 @@ nb_iter = 10
 reg_cl = 10   # toy, 2 and 0
 K = 1 # K of KNN
 reg = 1
-pathres='./resultat/'
-p_vec = [1.5,2,5,10,20,50,100]
+pathres='./result/'
+p_vec = [1.5, 2, 5, 10, 20, 50, 100]
 n_pvec=  len(p_vec)
 filename = 'da_{:}_n{:d}_regcl{:2.2f}.npz'.format(data,n,reg_cl*10)
 
@@ -93,7 +92,7 @@ for i in range(nb_iter):
     #%% 
     # Sinkhorn Transport
     tic = time()
-    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=reg,reg_cl=reg_cl)
+    ot_sinkhorn = ot.da.SinkhornLpl1Transport(reg_e=reg, reg_cl=reg_cl)
     ot_sinkhorn.fit(Xs=Xs,ys= ys, Xt=Xt)
     time_sink[i] = time() - tic
     transp_Xs = ot_sinkhorn.transform(Xs=Xs)
@@ -130,7 +129,7 @@ for i in range(nb_iter):
 #%%
 mean_screen_time = time_screen.mean(axis=0)
 for i,p in enumerate(p_vec):
-    print('gain dec {:1.2f}: {:2.2f}'.format(p,time_sink.mean()/mean_screen_time[i]))
+    print('gain dec {:1.2f}: {:2.2f}'.format(p, time_sink.mean() / mean_screen_time[i]))
         
 print('perf none : {:2.2f} perf sink : {:2.2f}, perf screen {:2.2f}' \
       .format(bc_none.mean()*100, bc_sink.mean()*100, bc_screen.mean()*100))

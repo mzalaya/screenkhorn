@@ -19,7 +19,7 @@ color_pal = sns.xkcd_palette(colors)
 
 plt.close("all")
 
-pathres = './resultat/wda/'
+pathres = './result/wda/'
 
 data = 'toy'
 if data == 'toy':

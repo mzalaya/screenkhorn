@@ -29,15 +29,15 @@ class Screenkhorn:
     ns_budget: `int`
         Number budget of points to be keeped in the source domain
 
-    nb_dudget: `int`
+    nt_budget: `int`
         Number budget of points to be keeped in the target domain
 
     uniform: `bool`, default=True
         If `True`, a_i = 1 /ns and b_j = 1 / nt
 
     restricted: `bool`, default=True
-         If `True`, a warm-start initialization using a Sinkhorn-like 
-         using at most 5 iterations for the LBFGSB solver 
+         If `True`, a warm-start initialization for the  LBFGSB solver
+         using a Sinkhorn-like with at most 5 iterations
 
     verbose: `bool`, default=True
         If `True`, dispaly informations along iterations
@@ -49,28 +49,29 @@ class Screenkhorn:
 
     """
 
-    def __init__(self, a, b, C, reg, ns_budget, nt_budget, verbose = True, 
-                 uniform = True, restricted=True,one_init=False):
+    def __init__(self, a, b, C, reg, ns_budget, nt_budget, verbose=True,
+                 uniform=True, restricted=True, one_init=False):
 
         tic_initial = time()
 
         self.a = np.asarray(a, dtype=np.float64)
         self.b = np.asarray(b, dtype=np.float64)
+
+        # if autograd package is used, we then have to change
+        # some arrays from "ArrayBox" type to "np.array".
+        if isinstance(C, np.ndarray) == False:
+            C = C._value
+
         self.C = np.asarray(C, dtype=np.float64)
         self.reg = reg
         ns = C.shape[0]
         nt = C.shape[1]
         self.ns_budget = ns_budget
-        self.ns_budget = nt_budget
+        self.nt_budget = nt_budget
         self.verbose = verbose
         self.uniform = uniform
         self.restricted = restricted
         self.one_init = one_init
-
-        # if autograd package is used, we then have to change 
-        # some arrays from "ArrayBox" type to "np.array".
-        if isinstance(self.C,np.ndarray) == False:
-            self.C = self.C._value
 
         # calculate the Gibbs kernel
         self.K = np.empty_like(self.C)
@@ -222,8 +223,8 @@ class Screenkhorn:
             v0 = np.full(self.nt_budget, (1. / self.nt_budget) + self.epsilon * self.fact_scale)
         else:
             print('one initialization')
-            u0 = np.full(self.ns_budget,1.)
-            v0 = np.full(self.nt_budget,1.)
+            u0 = np.full(self.ns_budget, 1.)
+            v0 = np.full(self.nt_budget, 1.)
         
         if self.restricted:
             self.u0, self.v0 = self._restricted_sinkhorn(u0, v0, max_iter=5)
@@ -237,10 +238,10 @@ class Screenkhorn:
 
         self.toc_initial = time() - tic_initial
 
-    def _update(self):
-        # self.C = np.asarray(C, dtype=np.float64)
-        nt = self.C.shape[0]
-        ns = self.C.shape[1]
+    def update(self, C):
+        self.C = np.asarray(C, dtype=np.float64)
+        nt = C.shape[0]
+        ns = C.shape[1]
         self.K = np.exp(-self.C / self.reg)
 
         # sum of rows and columns of K

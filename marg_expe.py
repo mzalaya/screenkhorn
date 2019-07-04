@@ -96,7 +96,7 @@ def compare_marginals(a, b, M, reg, pvect = [0.9, 0.7, 0.5, 0.3, 0.1]):
     return diff_a_vect, diff_b_vect, rel_time_vect,rel_cost_vect
 
 #%%
-pathres= './resultat/'
+pathres= './result/'
 
 nvect = [200,500, 1000, 2500, 3000]
 regvect = [1e-1, 5e-1, 1, 10]

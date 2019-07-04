@@ -23,7 +23,8 @@ from sklearn.datasets import make_blobs
 from sklearn.preprocessing import StandardScaler
 from scipy.io import loadmat
 
-import wda_screenkhorn as wda_screen
+from ot.dr import wda as wda_sinkhorn
+from wda_screenkhorn import wda_screenkhorn as wda_screen
 
 #%% parameters
 
@@ -104,7 +105,7 @@ maxiter = 1000 # max iter in WDA
 nb_iter = 30
 K = 5 # K in KNN
 p_vec = [1.5,2,5,10,20,50,100]
-pathres='./resultat/'
+pathres='./result/'
 
 
 n_pvec=  len(p_vec)
@@ -143,7 +144,7 @@ for i in range(nb_iter):
 #    print('knn : ',np.mean(y_pred==yt))
     #%%
     tic = time()
-    Pwda_sink, projwda_sink = wda_screen.wda_sinkhorn(xs, ys, p, reg, k, maxiter=maxiter, P0=P_init)
+    Pwda_sink, projwda_sink = wda_sinkhorn(xs, ys, p, reg, k, maxiter=maxiter, P0=P_init)
     time_wda[i] = time() - tic
     xtpw = projwda_sink(xt)                                                     
     xspw = projwda_sink(xs)  
@@ -156,7 +157,7 @@ for i in range(nb_iter):
     
     for j, p_n in enumerate(p_vec):
         tic = time()
-        Pwda_screen, projwda_screen = wda_screen.wda_screenkhorn(xs, ys, p, reg, k, solver=None, maxiter=maxiter,
+        Pwda_screen, projwda_screen = wda_screen(xs, ys, p, reg, k, solver=None, maxiter=maxiter,
                                                                  dec_ns=p_n, dec_nt=p_n, P0=P_init)
         time_swda[i,j] = time() -tic
     

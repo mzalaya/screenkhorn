@@ -166,4 +166,5 @@ class ScreenkhornLpl1Transport(BaseTransport):
         else:
             self.coupling_ = returned_
             self.log_ = dict()
+
         return self
