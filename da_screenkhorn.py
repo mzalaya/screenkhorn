@@ -11,7 +11,9 @@ The script is adapted from ot/da.py in the POT toolbox.
 import numpy as np
 
 # POT
+import ot
 from ot.da import BaseTransport
+from ot.utils import check_params
 
 # SCREENKHORN
 from screenkhorn import Screenkhorn
@@ -39,7 +41,7 @@ def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
     ns_budget = int(np.ceil(M.shape[0] / p_n))
     nt_budget = int(np.ceil(M.shape[1] / p_m))
     
-    screenkhorn = Screenkhorn(a, b, M, reg, ns_budget=n_budget, nt_budget=nt_budget, verbose=False, one_init=one_init)
+    screenkhorn = Screenkhorn(a, b, M, reg, ns_budget=ns_budget, nt_budget=nt_budget, verbose=False, one_init=one_init)
     transp = screenkhorn.lbfgsb()
     
     W = np.ones(M.shape)
@@ -69,8 +71,8 @@ class ScreenkhornTransport(BaseTransport):
 
     def __init__(self, reg_e=1., max_iter=1000,
                  tol=10e-9, verbose=False, log=False,
-                 metric="sqeuclidean", norm=None,one_init=False,
-                 distribution_estimation=distribution_estimation_uniform,
+                 metric="sqeuclidean", norm=None, one_init=False,
+                 distribution_estimation=ot.da.distribution_estimation_uniform,
                  out_of_sample_map='ferradans', limit_max=np.infty):
 
         self.reg_e = reg_e
@@ -83,7 +85,7 @@ class ScreenkhornTransport(BaseTransport):
         self.limit_max = limit_max
         self.distribution_estimation = distribution_estimation
         self.out_of_sample_map = out_of_sample_map
-        self.one_init=one_init
+        self.one_init = one_init
 
     def fit(self, Xs=None, ys=None, Xt=None, yt=None, **kwargs):
         """Build a coupling matrix from source and target sets of samples
@@ -102,8 +104,8 @@ class ScreenkhornTransport(BaseTransport):
         nt_budget = int(np.ceil(self.cost_.shape[1] / dec_nt))
 
         screenkhorn = Screenkhorn(a=self.mu_s, b=self.mu_t, C=self.cost_, reg=self.reg_e,
-                                  ns_budget=ns_budget, nt_budget=nt_budget, one_init=self.one_init_init,
-                                  verbose = False)
+                                  ns_budget=ns_budget, nt_budget=nt_budget, one_init=self.one_init,
+                                  verbose=False)
         returned_ = screenkhorn.lbfgsb()
 
         if self.log:
@@ -124,7 +126,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
                  max_iter=10, max_inner_iter=200, log=False,
                  tol=10e-9, verbose=False, one_init= False,
                  metric="sqeuclidean", norm=None,
-                 distribution_estimation=distribution_estimation_uniform,
+                 distribution_estimation=ot.da.distribution_estimation_uniform,
                  out_of_sample_map='ferradans', limit_max=np.infty):
 
         self.reg_e = reg_e
@@ -153,7 +155,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
             dec_ns = kwargs.get('dec_ns', 2)# keep only 50% of points
             dec_nt = kwargs.get('dec_nt', 2)# keep only 50% of points
             returned_ = screenkhorn_lpl1_mm(
-                a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_, one_init= self.one_init,
+                a=self.mu_s, labels_a=ys, b=self.mu_t, M=self.cost_, one_init=self.one_init,
                 reg=self.reg_e, eta=self.reg_cl, numItermax=self.max_iter,
                 numInnerItermax=self.max_inner_iter, stopInnerThr=self.tol,
                 verbose=self.verbose, log=self.log, dec_ns=dec_ns, dec_nt=dec_nt)

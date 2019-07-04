@@ -165,7 +165,7 @@ plt.savefig('figure/' + filename,dpi=600)
 plt.figure(2)
 
 for i in range(0,nb_p_vec+1):
-    ax1, = plt.semilogy(n_vec, Mtime[:,i],label=str(i), lw = 2, marker = markert[i], markersize=12, c=colort[i])
+    ax1, = plt.semilogy(n_vec, Mtime[:,i],label=str(i), lw=2, marker = markert[i], markersize=12, c=colort[i])
     #error=Stime[:,i]
     #plt.fill_between(n_vec, Mtime[:,i]-error, Mtime[:,i]+error, color=colort[i],alpha = 0.1)
     ax.append(ax1)

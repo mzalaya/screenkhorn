@@ -67,6 +67,7 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
     Popt = solver.solve(problem, x=P0)
+
     def proj(X):
         return (X - mx.reshape((1, -1))).dot(Popt[0])
 

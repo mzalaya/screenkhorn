@@ -69,8 +69,8 @@ class Screenkhorn:
 
         # if autograd package is used, we then have to change 
         # some arrays from "ArrayBox" type to "np.array".
-        if isinstance(C,np.ndarray) == False:
-            C = C._value
+        if isinstance(self.C,np.ndarray) == False:
+            self.C = self.C._value
 
         # calculate the Gibbs kernel
         self.K = np.empty_like(self.C)
@@ -237,10 +237,10 @@ class Screenkhorn:
 
         self.toc_initial = time() - tic_initial
 
-    def update(self, C):     
-        self.C = np.asarray(C, dtype=np.float64)
-        n = C.shape[0]
-        m = C.shape[1]
+    def _update(self):
+        # self.C = np.asarray(C, dtype=np.float64)
+        nt = self.C.shape[0]
+        ns = self.C.shape[1]
         self.K = np.exp(-self.C / self.reg)
 
         # sum of rows and columns of K
@@ -248,14 +248,14 @@ class Screenkhorn:
         K_sum_rows = self.K.sum(axis=0)
                       
         if self.uniform:
-            if ns / self.ns_budget < 4 :
+            if ns / self.ns_budget < 4:
                 aK_sort = np.sort(K_sum_cols)
                 epsilon_u_square = self.a[0] / aK_sort[self.ns_budget - 1]
             else :
                 aK_sort = bottleneck.partition(K_sum_cols, self.ns_budget-1)[self.ns_budget-1]
                 epsilon_u_square =self.a[0] / aK_sort
                 
-            if nt / self.nt_budget < 4   :  
+            if nt / self.nt_budget < 4:
                 bK_sort = np.sort(K_sum_rows)
                 epsilon_v_square = self.b[0] / bK_sort[self.nt_budget - 1]
             else:
