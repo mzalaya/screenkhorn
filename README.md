@@ -24,7 +24,7 @@ The folder contains the following files:
 ```
 - screenkhorn.py: Screenkhorn class
 
-- marge_expe.py: Time comparison of Sinkhorn and Screenkhorn on a toy example
+- marge_expe.py: Time comparison of Sinkhorn and Screenkhorn algorithms on a toy example
 - marge_expe_v2.py
 
 - wda_screenkhorn.py: Dimension reduction with screened optimal transport
