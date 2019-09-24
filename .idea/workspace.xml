@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="44d348ce-8dbb-4973-8906-50d4b92121d7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenkhorn.py" beforeDir="false" afterPath="$PROJECT_DIR$/screenkhorn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +29,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="45">
-                <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+              <first_editor relative-caret-position="41">
+                <caret line="3" column="183" selection-start-line="3" selection-start-column="183" selection-end-line="3" selection-end-column="183" />
               </first_editor>
               <second_editor />
             </state>
@@ -198,8 +197,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="45">
-            <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+          <first_editor relative-caret-position="41">
+            <caret line="3" column="183" selection-start-line="3" selection-start-column="183" selection-end-line="3" selection-end-column="183" />
           </first_editor>
           <second_editor />
         </state>
