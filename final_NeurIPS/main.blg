@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d (TeX Live 2019)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: biblio.bib
+Repeated entry---line 73 of file biblio.bib
+ : @article{courty2017optimal
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 478 of file biblio.bib
+ : @inproceedings{pmlr-v32-solomon14
+ :                                  ,
+I'm skipping whatever remains of this entry
+Warning--can't use both volume and number fields in pmlr-v32-solomon14
+You've used 40 entries,
+            2118 wiz_defined-function locations,
+            775 strings with 11889 characters,
+and the built_in function-call counts, 16779 in all, are:
+= -- 1644
+> -- 896
+< -- 19
++ -- 344
+- -- 298
+* -- 1299
+:= -- 2711
+add.period$ -- 128
+call.type$ -- 40
+change.case$ -- 251
+chr.to.int$ -- 0
+cite$ -- 41
+duplicate$ -- 591
+empty$ -- 1226
+format.name$ -- 298
+if$ -- 3544
+int.to.chr$ -- 0
+int.to.str$ -- 40
+missing$ -- 37
+newline$ -- 199
+num.names$ -- 100
+pop$ -- 246
+preamble$ -- 1
+purify$ -- 212
+quote$ -- 0
+skip$ -- 454
+stack$ -- 0
+substring$ -- 1147
+swap$ -- 178
+text.length$ -- 19
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 158
+warning$ -- 1
+while$ -- 158
+width$ -- 42
+write$ -- 457
+(There were 2 error messages)
