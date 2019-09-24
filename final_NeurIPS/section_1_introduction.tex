@@ -1,0 +1,67 @@
+%!TEX root = main.tex
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+
+Computing optimal transport (OT) distances between pairs of probability measures or histograms, such as the earth mover's distance~\citep{werman1985,Rubner2000} and Monge-Kantorovich or Wasserstein distance~\citep{villani09optimal}, are currently generating an increasing attraction in different machine learning tasks~\citep{pmlr-v32-solomon14,kusnerb2015,pmlr-v70-arjovsky17a,ho2017}, statistics~\citep{frogner2015nips,panaretos2016,ebert2017ConstructionON,bigot2017,flamary2018WDA}, and computer vision~\citep{bonnel2011,Rubner2000,solomon2015}, among other applications~\citep{klouri17,peyre2019COTnowpublisher}.
+In many of these problems, OT exploits the geometric features of the objects at hand in the underlying spaces to be leveraged in comparing probability measures.
+This effectively leads to improved performance of methods that are oblivious to the geometry, for example the chi-squared distances or the Kullback-Leibler divergence.
+Unfortunately, this advantage comes at the price of an enormous computational cost of solving the OT problem, that can be prohibitive in large scale applications.
+For instance, the OT between two histograms with supports of equal size $n$ can be formulated as a linear programming problem that requires generally super $\bigO(n^{2.5})$~\citep{leeSidford2013PathFI} arithmetic operations, which is problematic when $n$ becomes larger.
+
+A remedy to the heavy computation burden of OT lies in a prevalent approach referred to as regularized OT~\citep{cuturinips13} and operates by adding an entropic regularization penalty to the original problem.  
+Such a regularization guarantees a unique solution, since the objective function is strongly convex, and a greater computational stability.
+%Furthermore, the dual of the entropic problem, referred to as {dual of Sinkhorn divergence}, was studied in~\cite{cuturinips13} and noticed that finding the dual solution was equivalent to finding two diagonal matrices that made a full matrix bistochastic.
+More importantly, this regularized OT can be solved efficiently with celebrated matrix scaling algorithms, such as Sinkhorn's fixed point iteration method~\citep{sinkhorn1967,knight2008,kalantari2008}. 
+
+%Sinkhorn scaling for computing OT distances is a well studied problem in many recent works. 
+%The main idea is to improve the matrix-vector operations that are the computational bottleneck of Sinkhorn’s algorithm. 
+Several works have considered further improvements in the resolution of this regularized OT problem.
+A greedy version of Sinkhorn algorithm, called Greenkhorn~\cite{altschulernips17}, allows to select and update columns and rows that most violate the polytope constraints.                   
+Another approach based on low-rank approximation of the cost matrix using the Nystr\"om method induces the Nys-Sink algorithm~\citep{altschuler2018Nystrom}. 
+Other classical optimization algorithms have been considered for approximating the OT, for instance accelerated gradient descent~\citep{xie2018proxpointOT,dvurechensky18aICML,lin2019}, quasi-Newton methods~\citep{blondel2018ICML,cuturi2016SIAM} and stochastic gradient descent~\citep{genevay2016stochOT,khalilabid2018}. 
+
+{In this paper, we propose a novel technique for accelerating the Sinkhorn algorithm when computing regularized OT distance between discrete measures. Our idea
+is strongly related to a screening strategy when solving a \emph{Lasso}
+problem in sparse supervised learning \citep{Ghaoui2010SafeFE}. Based on the fact
+that a  transport plan resulting from an OT problem is sparse or presents a large
+number of neglectable values \citep{blondel2018ICML}, our objective is to identify the  dual variables of an approximate Sinkhorn problem, that are smaller than a predefined threshold, and thus that can be safely removed before optimization while not altering too much the solution of the problem.  
+Within this global context, our contributions are the following:
+\begin{itemize}
+	  \setlength\itemsep{-0.1cm}
+	
+	\item From a methodological point of view, we propose a new formulation of the dual of the Sinkhorn divergence problem by imposing variables to be larger than a threshold.
+	This formulation allows us to introduce sufficient conditions, computable beforehand, for a variable to  strictly satisfy its constraint, leading then to
+	a ``screened'' version of the dual of Sinkhorn divergence. 
+	\item We provide some theoretical analysis of the solution of the ``screened''  Sinkhorn divergence, showing that its objective value and the marginal constraint satisfaction are properly controlled 	as the number of screened variables decreases.
+	\item From an algorithmic standpoint, we use a constrained L-BFGS-B algorithm \citep{nocedal1980,byrd1995L-BFGS-B} but provide a careful analysis of the lower and upper bounds of the dual	variables, resulting in a well-posed and efficient algorithm denoted as \textsc{Screenkhorn}.
+	\item Our empirical analysis depicts how the approach behaves in a simple Sinkhorn divergence computation context. When considered in  complex machine learning
+	pipelines, we show that \textsc{Screenkhorn} can lead to strong gain in efficiency
+	while not compromising on accuracy.
+\end{itemize}}
+%	
+%
+%These constraints are defined through a convex set which depends on two parameters acting like threshold and scaling factor.
+%We prove that dual solution of this reformulation guarantees the existence of two active indices sets for the potential variables.
+%Furthermore, the active sets are both directly linked to a priori fixed number budget of points from the supports of the given discrete measures.
+%We then restrict the constraints feasibility by taking into account the properties providing by the active sets to get a ``screened'' version of the dual of Sinkhorn divergence. 
+%Screenkhorn algorithm developed in this paper consists of two steps; the first one is an initialization step devoted to determine the active sets while the second is a constrained box-constrained L-BFGS-B solver, a limited-memory quasi-Newton algorithm~\cite{nocedal1980,byrd1995L-BFGS-B} that relies on an estimation of the inverse of the Hessian based on gradients differences. 
+%L-BFGS-B algorithm was adapted to the OT setting via the dual of Sinkhorn divergence in ~\cite{cuturi2016SIAM,blondel2018ICML}.}
+
+The remainder of the paper is organized as follow. In Section~\ref{sec:regularized_discrete_ot} we briefly review the basic setup of regularized discrete OT. 
+Section~\ref{sec:screened_dual_of_sinkhorn_divergence} contains our main contribution, that is, the \textsc{Screenkhorn} algorithm. 
+Section~\ref{sec:analysis_of_marginal_violations} is devoted to theoretical guarantees for marginal violations of \textsc{Screenkhorn}. 
+In Section~\ref{sec:numerical_experiments} we present numerical results for the proposed algorithm, compared with the state-of-art Sinkhorn algorithm as implemented in~\cite{flamary2017pot}. 
+The proofs of theoretical results are postponed to the supplementary material.
+
+\emph{Notation.} For any positive matrix $T \in \R^{n\times m}$, we define its entropy as $H(T) = -\sum_{i,j} T_{ij} \log(T_{ij}).$
+Let $r(T) = T\mathbf 1_m \in \R^n$ and $c(T) = T^\top\mathbf 1_n \in \R^m$ denote the rows and columns sums of $T$ respectively. The coordinates $r_i(T)$ and $c_j(T)$ denote the $i$-th row sum and the $j$-th column sum of $T$, respectively.
+The scalar product between two matrices denotes the usual inner product, that is $\inr{T, W} = \text{tr}(T^\top W) = \sum_{i,j}T_{ij}W_{ij},$ where $T^\top$ is the transpose of $T$. 
+We write $\mathbf{1}$ (resp. $\mathbf{0}$) the vector having all coordinates equal to one (resp. zero).
+$\Delta(w)$ denotes the diag operator, such that if $w \in \R^n$, then $\Delta(w) = \text{diag}(w_1, \ldots, w_n)\in \R^{n\times n}$.
+For a set of indices $L=\{i_1, \ldots, i_k\} \subseteq \{1, \ldots, n\}$ satisfying $i_1 < \cdots <i_k,$ we denote the complementary set of $L$ by $L^\complement = \{1, \ldots, n\} \backslash L$. We also denote $|L|$ the cardinality of $L$.
+Given a vector $w \in \R^n$, we denote $w_L= (w_{i_1}, \ldots, w_{i_k})^\top \in \R^k$ and its complementary $w_{L^\complement} \in \R^{n- k}$.  The notation is similar for matrices; given another subset of indices $S = \{j_1, \ldots, j_l\} \subseteq \{1, \ldots, m\}$ with $j_1 < \cdots <j_l,$ and a matrix $T\in \R^{n\times m}$, we use $T_{(L,S)}$, to denote the submatrix of $T$, namely the rows and columns of $T_{(L,S)}$ are indexed by $L$ and $S$ respectively.
+When applied to matrices and vectors,  $\odot$ and $\oslash$ (Hadamard product and division) and exponential notations refer to elementwise operators.
+Given two real numbers $a$ and $b$, we write $a\vee b = \max(a,b)$ and $a\wedge b = \min(a,b).$
+
+% section introduction (end)

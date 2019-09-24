@@ -1,0 +1,194 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2019
+
+% ready for submission
+% \usepackage{neurips_2019}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%\usepackage[preprint]{neurips_2019}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{neurips_2019}
+
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{neurips_2019}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+%--------------------------------------------------------------------------------------------------------------------------------% 
+
+\RequirePackage{mathrsfs, amsthm, amsmath, amsfonts, amssymb, mathtools}%
+\usepackage[titletoc,title]{appendix}%
+\usepackage{dsfont}%
+\usepackage{caption} % 
+\usepackage{subcaption}
+\usepackage{float}%
+\usepackage{graphicx, color}% 
+\usepackage{bm}%bold equations
+
+%% formatting appendices
+\usepackage{etoolbox}
+\usepackage{natbib}
+\patchcmd{\appendices}{\quad}{. }{}{}
+
+%% tables
+\usepackage{pgfplots}%
+\usepackage{booktabs,multirow,array,multicol}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+
+%% algorithms
+\usepackage[ruled,linesnumbered,vlined,scleft]{algorithm2e} 
+\usepackage{adjustbox}
+
+\newsavebox{\tempbox}
+
+\makeatletter
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+\makeatother
+
+\let\oldalgorithm\algorithm
+\let\oldendalgorithm\endalgorithm
+
+\newcommand\SetAlgoFig{
+  \let\algorithm\figure
+  \let\endalgorithm\endfigure
+}
+
+\newcommand\SetAlgoNoFig{
+  \let\algorithm\oldalgorithm
+  \let\endalgorithm\oldendalgorithm
+}
+%% 
+
+
+\usepackage{enumitem}
+
+\setlist[itemize]{leftmargin=4.5mm}
+
+\usepackage{accents}
+\usepackage{datenumber}
+\usepackage{wrapfig}
+
+\newcommand{\rev}[1]{{\color{blue} #1}}
+\newcommand{\ar}[1]{{\color{red} #1}}
+\newcommand{\rf}[1]{{\color{green} #1}}
+
+%% sections
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{fact}{Fact}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}%[section]
+\newtheorem*{notation}{Notation}%[section]
+\newtheorem{discus}{Discussion}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{example}{Example}%[section]
+\newtheorem{exs}{Examples}%[section]
+\newtheorem{ca}{Cas}
+\newtheorem{remarks}{Remarks}%[section]
+\newtheorem{assumption}{Assumption}{\bf}{\rm}%
+
+% math macros
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\inr}[1]{\langle #1 \rangle}
+\newcommand{\ind}[1]{{\mathds{1}}_{{#1}}}%
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\E}{\mathds{E}}
+\newcommand{\bcdot}{\raisebox{-0.80ex}{\scalebox{1.8}{$\cdot$}}}
+\newcommand{\varsig}{\raisebox{-0.15ex}{\scalebox{1.30}{$\varsigma$}}}
+\newcommand*{\dt}[1]{\accentset{\mbox{\large\bfseries .}}{#1}}
+
+%% math operators
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
+% small pmatrix
+% \usepackage{amsmath}
+% \newenvironment{psmallmatrix}
+%   {\left(\begin{smallmatrix}}
+%   {\end{smallmatrix}\right)}
+%--------------------------------------------------------------------------------------------------------------------------------%
+
+\title{Screening Sinkhorn Algorithm for Regularized Optimal Transport}
+
+\begin{document}
+
+\author{%
+Mokhtar Z. Alaya \\
+LITIS EA4108\\
+University of Rouen Normandy\\
+\texttt{mokhtarzahdi.alaya@gmail.com} 
+\And
+Maxime Bérar\\
+LITIS EA4108\\
+University of Rouen Normandy\\
+\texttt{maxime.berar@univ-rouen.fr} \\
+\And
+Gilles Gasso \\
+LITIS EA4108\\
+INSA, University of Rouen Normandy\\
+\texttt{gilles.gasso@insa-rouen.fr} 
+\And
+Alain Rakotomamonjy\\
+LITIS EA4108 \\
+University of Rouen Normandy\\
+and Criteo AI Lab, Criteo Paris \\
+\texttt{alain.rakoto@insa-rouen.fr} \\
+}
+
+\maketitle
+
+\begin{abstract}
+We introduce in this paper a novel strategy for efficiently approximating the Sinkhorn distance between two discrete measures. After identifying neglectable components
+of the dual solution of the regularized Sinkhorn problem, we propose to screen those components by directly setting them at that value before entering the Sinkhorn problem. This allows us to solve a smaller Sinkhorn problem while ensuring approximation with provable guarantees.
+More formally, the approach is based on a new formulation of \emph{dual of Sinkhorn divergence problem} and on the KKT optimality conditions of this problem, which enable identification of dual components to be screened.
+This new analysis leads to the \textsc{Screenkhorn} algorithm.
+We illustrate the efficiency of \textsc{Screenkhorn} on complex tasks such as dimensionality reduction and domain adaptation involving regularized optimal transport.
+\end{abstract}
+
+\input{section_1_introduction}
+\input{section_2_setup_OT}
+\input{section_3_algorithm}
+\input{section_4_marginal_viols}
+\input{section_5_numeric_expes}
+
+\section{Conclusion}
+The paper introduces a novel efficient approximation of the Sinkhorn divergence
+based on a screening strategy. Screening some of the Sinkhorn dual variables
+has been made possible by defining a novel constrained dual problem and by 
+carefully analyzing its optimality conditions. From the latter, we derived some
+sufficient conditions depending on the ground cost matrix, that some dual variables are smaller than a given threshold. Hence, we need just to solve a restricted
+dual Sinkhorn problem using an off-the-shelf L-BFGS-B algorithm. We also provide
+some theoretical guarantees of the quality of the approximation with respect to
+the number of variables that have been screened. Numerical experiments show 
+the behaviour of our \textsc{Screenkhorn} algorithm and computational time gain it can
+achieve when integrated in some complex machine learning pipelines.
+
+\subsubsection*{Acknowledgments}
+
+This work was supported by grants from the Normandie Projet GRR-DAISI, European funding FEDER DAISI and OATMIL ANR-17-CE23-0012 Project of the French National Research Agency (ANR).
+
+\small
+\bibliography{biblio}
+\bibliographystyle{plain}
+%well as with those for harvard, apalike, chicago, astron, authordate, and of course natbib.
+
+\newpage
+\section{Supplementary material}
+\input{appendix}
+
+\end{document}

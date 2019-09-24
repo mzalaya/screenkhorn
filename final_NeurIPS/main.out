@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Regularized discrete OT}{}% 2
+\BOOKMARK [1][-]{section.3}{Screened dual of Sinkhorn divergence}{}% 3
+\BOOKMARK [1][-]{section.4}{Theoretical analysis and guarantees}{}% 4
+\BOOKMARK [1][-]{section.5}{Numerical experiments}{}% 5
+\BOOKMARK [2][-]{subsection.5.1}{Setup}{section.5}% 6
+\BOOKMARK [2][-]{subsection.5.2}{Analysing on toy problem}{section.5}% 7
+\BOOKMARK [2][-]{subsection.5.3}{Integrating Screenkhorn into machine learning pipelines}{section.5}% 8
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 9
+\BOOKMARK [1][-]{section.7}{Supplementary material}{}% 10
+\BOOKMARK [2][-]{subsection.7.1}{Proof of Lemma 1}{section.7}% 11
+\BOOKMARK [2][-]{subsection.7.2}{Proof of Proposition 1}{section.7}% 12
+\BOOKMARK [2][-]{subsection.7.3}{Proof of Proposition 2}{section.7}% 13
+\BOOKMARK [2][-]{subsection.7.4}{Proof of Proposition 3}{section.7}% 14
+\BOOKMARK [2][-]{subsection.7.5}{Additional remarks}{section.7}% 15
+\BOOKMARK [2][-]{subsection.7.6}{Additional experimental results}{section.7}% 16
