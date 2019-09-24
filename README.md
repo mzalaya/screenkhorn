@@ -27,10 +27,10 @@ The folder contains the following files:
 - marge_expe.py: Time comparison of Sinkhorn and Screenkhorn on a toy example
 - marge_expe_v2.py
 
-- wda_screenkhorn.py: Dimension reduction with Screened optimal transport
+- wda_screenkhorn.py: Dimension reduction with screened optimal transport
 - wda_expe.py: experiments
 
-- da_screenkhorn.py: Domain adaptation with Screened optimal transport
+- da_screenkhorn.py: Domain adaptation with screened optimal transport
 - da_exp.py: experiments
 
 ```
