@@ -380,8 +380,13 @@ Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 
 \ar{
 
-\subsection{Additional remarks}
+\subsection{Additional experimental results}
 
+\paragraph{Experimental setup.}
+
+	All computations have been run on each single core of an Intel Xeon E5-2630 processor clocked at
+	2.4 GHz in a Linux machine with 144 Gb of memory.
+	The code that generates all figures given in the paper is available from \url{https://github.com/mzalaya/screenkhorn}.
 
 \paragraph{On the use of a constrained L-BFGS-B solver.}
 
@@ -394,14 +399,12 @@ We further  emphasize that, as for the \textsc{Sinkhorn} algorithm, the \textsc{
 
 We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschulernips17} but the implementation in POT library and our Python version of Matlab Alschuler's Greenkhorn code\footnote{\url{https://github.com/JasonAltschuler/OptimalTransportNIPS17}} were not competitive with \textsc{Sinkhorn}. Hence, for both versions, \textsc{Screenkhorn} is more competitive than \textsc{Greenkhorn}. The computation time gain reaches an order of $30$ when comparing our method with \textsc{Greenkhorn} while \textsc{Screenkhorn} is almost $2$ times faster than $\textsc{Sinkhorn}$. 
 
-
-\subsection{Additional experimental results}
-
-\paragraph{Experimental setup.}
-
-	All computations have been run on each single core of an Intel Xeon E5-2630 processor clocked at
-	2.4 GHz in a Linux machine with 144 Gb of memory.
-	The code that generates all figures given in the paper is available from \url{https://github.com/mzalaya/screenkhorn}.
+\begin{figure*}[htbp]
+	\centering
+	\includegraphics[width=6.cm]{./figs/timegain_Screenkhorn_Greenkhorn.pdf}
+	\caption{ Time gain \textsc{Screenkhorn} and \textsc{Greenkhorn}
+		\label{fig:screenkhorn_greenkhorn_gain}}
+\end{figure*}
 
 }
 
