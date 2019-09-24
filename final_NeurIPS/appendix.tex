@@ -386,27 +386,47 @@ Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 
 	All computations have been run on each single core of an Intel Xeon E5-2630 processor clocked at
 	2.4 GHz in a Linux machine with 144 Gb of memory.
-	The code that generates all figures given in the paper is available from \url{https://github.com/mzalaya/screenkhorn}.
+
 
 \paragraph{On the use of a constrained L-BFGS-B solver.}
 
 It is worth to note that standard Sinkhorn's alternating minimization cannot be applied for the constrained screened dual problem~\eqref{screen-sinkhorn_second_def}. This appears more clearly while writing its optimality conditions (see Equations~\eqref{i-th-marginal-nu} and~\eqref{i-th-marginal-mu} ).
 We resort to a L-BFGS-B algorithm to solve the constrained convex optimization problem on the screened variables~\eqref{screen-sinkhorn_second_def}, but any other efficient solver (e.g., proximal based method or Newton method) could be used. 
+In our implementation, we use a tricky method, called \emph{restricted Sinkhorn} (see Algorithm~\ref{restricted_sinkhorn}) as a warm-start initialized point for the L-BFGS-B.
 We further  emphasize that, as for the \textsc{Sinkhorn} algorithm, the \textsc{Screenkhorn} algorithm can be accelerated using a GPU implementation\footnote{\url{https://github.com/nepluno/lbfgsb-gpu}} of the L-BFGS-B algorithm~\cite{fei2014-GPU-L-BFGS-B}.
+
+\LinesNotNumbered
+\begin{algorithm}[tbp]
+\SetNlSty{textbf}{}{.}
+\DontPrintSemicolon
+\caption{\textsc{Restricted \textsc{Sinkhorn}}$(K,\mu, \nu, u, v)$}
+\label{restricted_sinkhorn}
+\nl \textbf{set: } $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}}), \bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
+% \nl $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}});$\\
+% \nl $\bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
+\nl \For{$t=1,2,3$}{
+	$f^{(t)}_v \gets K^\top_{I_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}} u + \bar{f}_v;$\\
+	$v^{(t)} \gets \frac{\nu_{J_{\varepsilon, \kappa}}}{\kappa f^{(t)}_v} ;$\\% / (\kappa K{IJ}_v);$\\
+	$f^{(t)}_u \gets K_{I_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}} v + \bar{f}_u;$\\
+	$u^{(t)} \gets \frac{\kappa \mu_{I_{\varepsilon, \kappa}}}{f^{(t)}_u};$\\
+	$u \gets u^{(t)}$, $v \gets v^{(t)}$;
+}
+\nl \Return{$(u^{(t)}, v^{(t)})$}
+\end{algorithm}
 
 
 \paragraph{Comparison with other solvers.}
 
 We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschulernips17} but the implementation in POT library and our Python version of Matlab Alschuler's Greenkhorn code\footnote{\url{https://github.com/JasonAltschuler/OptimalTransportNIPS17}} were not competitive with \textsc{Sinkhorn}. Hence, for both versions, \textsc{Screenkhorn} is more competitive than \textsc{Greenkhorn}. The computation time gain reaches an order of $30$ when comparing our method with \textsc{Greenkhorn} while \textsc{Screenkhorn} is almost $2$ times faster than $\textsc{Sinkhorn}$. 
+}
 
 \begin{figure*}[htbp]
 	\centering
 	\includegraphics[width=6.cm]{./figs/timegain_Screenkhorn_Greenkhorn.pdf}
-	\caption{ Time gain \textsc{Screenkhorn} and \textsc{Greenkhorn}
-		\label{fig:screenkhorn_greenkhorn_gain}}
+	\caption{\ar{$\frac{T_{\textsc{Greenkhorn}}}{T_{\text{\textsc{Screenkhorn}}}}$: Running time gain  for the toy problem (see Section~\ref{subsec:analysing_toy_problem}) as a function of the data decimation factor in \textsc{Screenkhorn}, for different settings of the regularization parameter $\eta$.
+		\label{fig:screenkhorn_greenkhorn_gain}}}
 \end{figure*}
 
-}
 
 \begin{figure*}[htbp]
 	\centering

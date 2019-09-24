@@ -15,6 +15,7 @@ on the ones of Python Optimal Transport toolbox (POT)~\citep{flamary2017pot} and
 largest component of the projected gradient is smaller than $10^{-6}$, when the number of iterations of number of objective function evaluations reach $10^{5}$. For all applications, we have set $\eta=1$ unless otherwise specified.
 
 \subsection{Analysing on toy problem}
+\label{subsec:analysing_toy_problem}
 
 We compare \textsc{Screenkhorn} to Sinkhorn as implemented in POT toolbox\footnote{\url{https://pot.readthedocs.io/en/stable/index.html}} on  a synthetic example. The dataset we use consists of source samples generated from a bi-dimensional gaussian mixture and target samples following the same distribution but with different gaussian means. We consider an unsupervised domain adaptation using optimal transport with entropic regularization.  Several settings are explored: different values of $\eta$, the regularization parameter, the allowed budget $\frac{n_b}{n} = \frac{m_b}{m} = $ ranging from $0.01$ to $0.99$, different values of $n$ and $m$.
 % and, whether the cost matrix $C$ is normalized or not.
@@ -75,7 +76,7 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 	% --- \includegraphics[width=0.43\textwidth]{./figs/da_gain_mnist_regcl10.pdf}
 	\includegraphics[width=0.35\textwidth]{./figs/da_gain_mnist_regcl1.pdf}\hspace{1cm}
 	\includegraphics[width=0.35\textwidth]{./figs/da_gain_mnist_regcl10.pdf}
-	\caption{OT Domain adaptation : running time gain  for MNIST as a function of the number of examples and the data decimation factor \textsc{Screenkhorn}. Hyperparameter values (left) $1$. (right) $10$.}
+	\caption{OT Domain adaptation : running time gain  for MNIST as a function of the number of examples and the data decimation factor in \textsc{Screenkhorn}. Hyperparameter values (left) $1$. (right) $10$.}
 	\label{fig:otda}
 \end{figure*}
 
