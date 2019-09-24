@@ -1,5 +1,5 @@
 
-# `screenkhorn`: Screening Sinkhorn Algorithm for discrete optimal Transport
+# `SCREENKHORN`: Screening Sinkhorn Algorithm for Regularized Optimal Transport
 
 Implementation of SCREENKHORN algorithm from paper [Screening Sinkhorn Algorithm for Regularized Optimal Transport](https://arxiv.org/abs/1906.08540) in Python.
 
@@ -24,7 +24,7 @@ The folder contains the following files:
 ```
 - screenkhorn.py: Screenkhorn class
 
-- marge_expe.py: Toy example
+- marge_expe.py: Time comparison of Sinkhorn and Screenkhorn on a toy example
 - marge_expe_v2.py
 
 - wda_screenkhorn.py: Dimension reduction with Screened optimal transport
@@ -57,6 +57,6 @@ If you use `screenkhorn` in a scientific publication, we would appreciate citati
 Author = {Alaya, Mokhtar Z. and  Bérar, Maxime and  Gasso, Gilles and  Rakotomamonjy, Alain},
 Title = {Screening Sinkhorn Algorithm for Regularized Optimal Transport},
 Year = {2019},
-Eprint = {arXiv:1906.08540},
+Eprint = {to appear in NeurIPS 2019},
 }
 ```
