@@ -14,15 +14,15 @@ Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal pair solution of problem~\eqr
 Then one has 
 \begin{align}
 \label{marginal-error-mu}
-{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Big(n_bc_\kappa + (n- n_b) \Big(\frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}K_{\min}}
- + \log\Big(\frac{\sqrt{nm}}{m_b(c_{\mu\nu}K_{\min})^{5/2}} 
+{\norm{{\mu} -{\mu}^{\text{sc}}}^2_1} = \bigO\Big(n_bc_\kappa + (n- n_b) \Big(\frac{\norm{C}_\infty}{\eta} + \frac{m_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{m-m_b}{\sqrt{nm}K_{\min}}
+ + \log\Big(\frac{\sqrt{nm}}{m_bc_{\mu\nu}^{5/2}} 
 \Big)\Big)\Big)
 \end{align}
 and 
 \begin{align}
 \label{marginal-error-nu}
-{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} = \bigO\Big(m_bc_{\frac1\kappa} + (m- m_b) \Big(\frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{n-n_b}{\sqrt{nm}K_{\min}}
- + \log\Big(\frac{\sqrt{nm}}{n_b (c_{\mu\nu}K_{\min})^{5/2}}
+{\norm{{\nu} -{\nu}^{\text{sc}}}^2_1} = \bigO\Big(m_bc_{\frac1\kappa} + (m- m_b) \Big(\frac{\norm{C}_\infty}{\eta} + \frac{n_b}{\sqrt{nmc_{\mu\nu}}K_{\min}^{3/2}} &+ \frac{n-n_b}{\sqrt{nm}K_{\min}}
+ + \log\Big(\frac{\sqrt{nm}}{n_b c_{\mu\nu}^{5/2}}
 \Big)\Big)\Big),
 \end{align}
 where $c_z = z - \log z - 1$ for $z>0$ and $c_{\mu\nu} = \underline{\mu}\wedge \underline{\nu}$ with $\underline{\mu} = \min_{i\in I_{\varepsilon,\kappa}}\mu_i$ and $\underline{\nu} = \min_{j\in J_{\varepsilon,\kappa}}\nu_j$.
