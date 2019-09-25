@@ -305,15 +305,15 @@ Therefore, we obtain the following bound:
 &\leq 2\Big(\norm{u^\star}_\infty + \norm{v^\star}_\infty +  \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}}\big)\Big).
 \end{align}
 Now, Lemma 3.2 in~\cite{lin2019} provides an upper bound for the $\ell_\infty$ of the optimal solution pair $(u^\star, v^\star)$ of problem~\eqref{sinkhorn-dual} as follows:
-$\norm{u^\star}_\infty \leq R$ and $\norm{v^\star}_\infty\leq R,$ where 
+$\norm{u^\star}_\infty \leq A$ and $\norm{v^\star}_\infty\leq A,$ where 
 \begin{align}
 \label{R_constant}
-R = \frac{\norm{C}_\infty}{\eta} + \log\big(\frac{n\vee m}{c^2_{\mu\nu}}\big).
+A = \frac{\norm{C}_\infty}{\eta} + \log\big(\frac{n\vee m}{c^2_{\mu\nu}}\big).
 \end{align}
 Plugging~\eqref{induction_uppers_bounds} and~\eqref{R_constant} in~\eqref{priori_bounds_induction}, we obtain
 \begin{align}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
-&\leq 2\big(R + \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) \big(\norm{\mu^{\text{sc}} - \mu}_1+ \norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber\\
+&\leq 2\big(A + \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) \big(\norm{\mu^{\text{sc}} - \mu}_1+ \norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber\\
 &\qquad + (1- \kappa)\big(\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 +\norm{\mu^{\text{sc}} - \mu}_1\big)\label{post_bounds_induction_2}\\
 &\qquad  + (\kappa^{-1} - 1)\big(\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1+\norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber.
 \end{align}
@@ -327,7 +327,7 @@ and hence by Remark~\ref{rem:orders_of_epsilonappa},
 \end{equation*}
 Acknowledging that $\log(1/ K_{\min}^2) = 2\norm{C}_\infty/\eta$, we have 
 \begin{align*}
-R + \norm{u^{\text{sc}}}_\infty  + \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) = \bigO\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmc_{\mu\nu}^{7/2}}\Big)\Big).
+A + \norm{u^{\text{sc}}}_\infty  + \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) = \bigO\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmc_{\mu\nu}^{7/2}}\Big)\Big).
 \end{align*}
 Letting $\Omega_{\kappa} := (1- \kappa)\big(\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 +\norm{\mu^{\text{sc}} - \mu}_1\big) + (\kappa^{-1} - 1)\big(\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1+\norm{\nu^{\text{sc}} - \nu}_1\big).$
 We have that 
@@ -338,7 +338,7 @@ We have that
 Hence, we arrive at 
 \begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
-& = \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmc_{\mu\nu}^{7/2}}\Big)\Big)(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1 + \omega_{\kappa}\Big).
+& = \bigO\big(R(\norm{\mu - {\mu}^{\text{sc}}}_1 + \norm{\nu - \nu^{\text{sc}}}_1 + \omega_{\kappa})\big).
 \end{align*}
 $\hfill\square$
 
