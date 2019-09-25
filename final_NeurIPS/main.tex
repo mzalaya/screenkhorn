@@ -51,28 +51,6 @@
 \usepackage[ruled,linesnumbered,vlined,scleft]{algorithm2e} 
 \usepackage{adjustbox}
 
-\newsavebox{\tempbox}
-
-\makeatletter
-\let\oldnl\nl% Store \nl in \oldnl
-\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
-\makeatother
-
-\let\oldalgorithm\algorithm
-\let\oldendalgorithm\endalgorithm
-
-\newcommand\SetAlgoFig{
-  \let\algorithm\figure
-  \let\endalgorithm\endfigure
-}
-
-\newcommand\SetAlgoNoFig{
-  \let\algorithm\oldalgorithm
-  \let\endalgorithm\oldendalgorithm
-}
-%% 
-
-
 \usepackage{enumitem}
 
 \setlist[itemize]{leftmargin=4.5mm}
@@ -116,12 +94,6 @@
 \DeclareMathOperator*{\argmin}{\arg\!\min}
 \DeclareMathOperator*{\argmax}{\arg\!\max}
 
-% small pmatrix
-% \usepackage{amsmath}
-% \newenvironment{psmallmatrix}
-%   {\left(\begin{smallmatrix}}
-%   {\end{smallmatrix}\right)}
-%--------------------------------------------------------------------------------------------------------------------------------%
 
 \title{Screening Sinkhorn Algorithm for Regularized Optimal Transport}
 
@@ -167,6 +139,7 @@ We illustrate the efficiency of \textsc{Screenkhorn} on complex tasks such as di
 \input{section_5_numeric_expes}
 
 \section{Conclusion}
+
 The paper introduces a novel efficient approximation of the Sinkhorn divergence
 based on a screening strategy. Screening some of the Sinkhorn dual variables
 has been made possible by defining a novel constrained dual problem and by 
@@ -185,7 +158,6 @@ This work was supported by grants from the Normandie Projet GRR-DAISI, European 
 \small
 \bibliography{biblio}
 \bibliographystyle{plain}
-%well as with those for harvard, apalike, chicago, astron, authordate, and of course natbib.
 
 \newpage
 \section{Supplementary material}

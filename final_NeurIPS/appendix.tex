@@ -265,7 +265,6 @@ Then
 &\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\nonumber
 \end{align}
 Next, we bound the two terms $\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty.$
-% \paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
 If $r \in I^\complement_{\varepsilon, \kappa}$, then we have 
 \begin{align*}
 |({u}^{\text{sc}})_{r} - {u}^\star_r| 
@@ -301,11 +300,10 @@ If $s \in J_{\varepsilon, \kappa}$ then
 Therefore, we obtain the following bound:
 \begin{align}
 \label{induction_uppers_bounds}
-\max\{\norm{u^\star - u^{\text{sc}}}_\infty, \norm{v^\star - v^{\text{sc}}}_\infty\} %&\leq \max\{\norm{u^\star - u^{\text{sc}}_0}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star - v^{\text{sc}}_0}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\}\nonumber\\
+\max\{\norm{u^\star - u^{\text{sc}}}_\infty, \norm{v^\star - v^{\text{sc}}}_\infty\} 
 &\leq \max\Big\{\norm{u^\star}_\infty + \norm{u^{\text{sc}}}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star}_\infty + \norm{v^{\text{sc}}}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\Big\}\nonumber\\
 &\leq 2\Big(\norm{u^\star}_\infty + \norm{v^\star}_\infty +  \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}}\big)\Big).
 \end{align}
-%where we used $u^{\text{sc}}_0 = \mathbf 0_n$ and $v^{\text{sc}}_0 = \mathbf 0_m.$ 
 Now, Lemma 3.2 in~\cite{lin2019} provides an upper bound for the $\ell_\infty$ of the optimal solution pair $(u^\star, v^\star)$ of problem~\eqref{sinkhorn-dual} as follows:
 $\norm{u^\star}_\infty \leq R$ and $\norm{v^\star}_\infty\leq R,$ where 
 \begin{align}
@@ -320,7 +318,7 @@ Plugging~\eqref{induction_uppers_bounds} and~\eqref{R_constant} in~\eqref{priori
 &\qquad  + (\kappa^{-1} - 1)\big(\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1+\norm{\nu^{\text{sc}} - \nu}_1\big)\nonumber.
 \end{align}
 By Proposition~\ref{prop:bounds_of_usc_and_vsc}, we have 
-\begin{align*} %\max_{i \in I_{\varepsilon,\kappa}} \mu_i %\max_{j \in J_{\varepsilon,\kappa}} \nu_j
+\begin{align*} 
 \norm{u^{\text{sc}}}_\infty \leq \log\big(\frac \varepsilon\kappa\vee \frac{1}{m\varepsilon K_{\min}}\big) \text{ and } \norm{v^{\text{sc}}}_\infty \leq \log\big(\varepsilon\kappa \vee \frac{1}{n\varepsilon K_{\min} }\big)
 \end{align*}
 and hence by Remark~\ref{rem:orders_of_epsilonappa}, 
@@ -332,16 +330,11 @@ Acknowledging that $\log(1/ K_{\min}^2) = 2\norm{C}_\infty/\eta$, we have
 R + \norm{u^{\text{sc}}}_\infty  + \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}})\big) = \bigO\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmc_{\mu\nu}^{7/2}}\Big)\Big).
 \end{align*}
 Letting $\Omega_{\kappa} := (1- \kappa)\big(\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 +\norm{\mu^{\text{sc}} - \mu}_1\big) + (\kappa^{-1} - 1)\big(\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1+\norm{\nu^{\text{sc}} - \nu}_1\big).$
-% Moreover, we have 
-% \begin{align*}
-% \omega_{\kappa} := (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1
-% \end{align*}
 We have that 
 \begin{align*}
 \Omega_{\kappa} &=\bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\big(\frac{1}{(nm)^{3/4} c_{\mu\nu}^{1/2}}\big)\Big)\Big((1- \kappa)(\norm{{\mu}^{\text{sc}}}_1 +\norm{\mu^{\text{sc}} - \mu}_1\big) + (\kappa^{-1} - 1)(\norm{{\nu}^{\text{sc}}}_1+\norm{\nu^{\text{sc}} - \nu}_1)\Big)\Big)\\
 &= \bigO\Big(\Big(\frac{\norm{C}_\infty}{\eta} + \log\Big(\frac{(n\vee m)^2}{nmc_{\mu\nu}^{7/2}}\Big)\Big)\big((1- \kappa)\norm{\mu^{\text{sc}}}_1 + (\kappa^{-1} - 1)\norm{\nu^{\text{sc}}}_1 + \kappa^{-1} - \kappa\big)\Big).
 \end{align*}
-% Setting $\omega_\kappa := (1- \kappa)\norm{\mu^{\text{sc}}}_1 + (\kappa^{-1} - 1)\norm{\nu^{\text{sc}}}_1 + \kappa^{-1} - \kappa,$ 
 Hence, we arrive at 
 \begin{align*}
 \Psi_{\varepsilon, \kappa}(u^{\text{sc}} ,v^{\text{sc}}) -\Psi(u^\star, v^\star) 
@@ -372,7 +365,6 @@ Using inequality~\eqref{bound_on_v}, we obtain
 \norm{\mu^{\text{sc}}}_1 &= \sum_{i \in I_{\varepsilon,\kappa}} \mu^{\text{sc}}_i +  \sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu^{\text{sc}}_i\\
 & \overset{\eqref{i-th-marginal-mu}}{=} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + \frac \varepsilon\kappa \sum_{i \in I^\complement}\Big( \sum_{j \in J_{\varepsilon,\kappa}} K_{ij} e^{v^{\text{sc}}_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{ij}\Big)\\
 & \overset{\eqref{bound_on_v}}{\leq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big).
-% &\leq n_b\kappa + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big)
 \end{align*}
 Using Remark~\ref{rem:orders_of_epsilonappa}, we get the desired closed form in~\eqref{l1-norm-mu-sc}.
 Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
@@ -396,14 +388,12 @@ In our implementation, we use a tricky method for almost $3$-calls, named \emph{
 We further  emphasize that, as for the \textsc{Sinkhorn} algorithm, the \textsc{Screenkhorn} algorithm can be accelerated using a GPU implementation\footnote{\url{https://github.com/nepluno/lbfgsb-gpu}} of the L-BFGS-B algorithm~\cite{fei2014-GPU-L-BFGS-B}.
 
 \LinesNotNumbered
-\begin{algorithm}[tbp]
+\begin{algorithm}[htbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
 \caption{\textsc{Restricted \textsc{Sinkhorn}}$(K,\mu, \nu, u, v)$}
 \label{restricted_sinkhorn}
 \nl \textbf{set: } $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}}), \bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
-% \nl $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}});$\\
-% \nl $\bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
 \nl \For{$t=1,2,3$}{
 	$f^{(t)}_v \gets K^\top_{I_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}} u + \bar{f}_v;$\\
 	$v^{(t)} \gets \frac{\nu_{J_{\varepsilon, \kappa}}}{\kappa f^{(t)}_v} ;$\\% / (\kappa K{IJ}_v);$\\
@@ -430,7 +420,6 @@ We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschul
 
 \begin{figure*}[htbp]
 	\centering
-	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/wda_accur_toy.pdf}~\hfill~
 	\includegraphics[width=6.cm]{./figs/wda_accur_mnist.pdf}~\hfill~\\
 	\caption{Accuracy of a $1$-nearest-neighbor after WDA for the (left) toy problem and, (right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
@@ -439,7 +428,6 @@ We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschul
 
 \begin{figure*}[htbp]
 	\centering
-	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~
 	\includegraphics[width=6.cm]{./figs/da_accur_toy_regcl100.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_time_toy_regcl100.pdf}

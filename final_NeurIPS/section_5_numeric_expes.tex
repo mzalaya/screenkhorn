@@ -24,11 +24,10 @@ Figure \ref{fig:margin_expe} summarizes the observed behaviors of both algorithm
 
 \begin{figure*}[t]
 	\begin{center}
-		% \includegraphics[width=0.33\textwidth]{./figs/norm_M_Mu_marginals_toy_n1000}\hspace{2cm}
-		\includegraphics[width=0.28\textwidth]{./figs/norm_M_Mu_marginals_toy_n1000}\hspace{2cm}
-		\includegraphics[width=0.28\textwidth]{./figs/norm_M_Nu_marginals_toy_n1000} \\
-		\includegraphics[width=0.28\textwidth]{./figs/norm_M_time_toy_n1000}\hspace{2cm}
-		\includegraphics[width=0.28\textwidth]{./figs/norm_M_div_toy_n1000}
+		\includegraphics[width=0.3\textwidth]{./figs/norm_M_Mu_marginals_toy_n1000}\hspace{2cm}
+		\includegraphics[width=0.3\textwidth]{./figs/norm_M_Nu_marginals_toy_n1000} \\
+		\includegraphics[width=0.3\textwidth]{./figs/norm_M_time_toy_n1000}\hspace{2cm}
+		\includegraphics[width=0.3\textwidth]{./figs/norm_M_div_toy_n1000}
 	\end{center}
 	\caption{Empirical evaluation of \textsc{Screenkhorn} vs \textsc{Sinkhorn} for normalized cost matrix \emph{i.e.} $\norm{C}_\infty=1$. Top panel: marginal violations in relation with the budget of points. Bottom panel: (left) ratio of computation times    $\frac{T_{\textsc{Sinkhorn}}}{T_{\text{\textsc{Screenkhorn}}}}$ and, (right) relative divergence variation. The results are averaged over $30$ trials.} 
 		\label{fig:margin_expe}
@@ -58,11 +57,6 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 
 \begin{figure*}[t]
 	\centering
-%	\includegraphics[width=4.cm]{./figs/wda_accur_toy.pdf}
-%	\includegraphics[width=4.cm]{../figs/wda_accur_mnist.pdf}
-	% --- \includegraphics[width=0.39\textwidth]{./figs/wda_gain_toy.pdf}\hspace{1.5cm}
-	% --- \includegraphics[width=0.39\textwidth]{./figs/wda_gain_mnist.pdf}
-
 	\includegraphics[width=0.31\textwidth]{./figs/wda_gain_toy.pdf}\hspace{1.5cm}
 	\includegraphics[width=0.31\textwidth]{./figs/wda_gain_mnist.pdf}
 
@@ -71,10 +65,7 @@ whereas the maximal gain for $4000$ samples is slightly larger than an order of 
 \end{figure*}
 \begin{figure*}[t]
 	\centering
-
-	% --- \includegraphics[width=0.43\textwidth]{./figs/da_gain_mnist_regcl1.pdf}\hspace{1cm}
-	% --- \includegraphics[width=0.43\textwidth]{./figs/da_gain_mnist_regcl10.pdf}
-	\includegraphics[width=0.35\textwidth]{./figs/da_gain_mnist_regcl1.pdf}\hspace{1cm}
+s	\includegraphics[width=0.35\textwidth]{./figs/da_gain_mnist_regcl1.pdf}\hspace{1cm}
 	\includegraphics[width=0.35\textwidth]{./figs/da_gain_mnist_regcl10.pdf}
 	\caption{OT Domain adaptation : running time gain  for MNIST as a function of the number of examples and the data decimation factor in \textsc{Screenkhorn}. Hyperparameter values (left) $1$. (right) $10$.}
 	\label{fig:otda}
