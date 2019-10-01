@@ -393,7 +393,7 @@ We further  emphasize that, as for the \textsc{Sinkhorn} algorithm, the \textsc{
 \DontPrintSemicolon
 \caption{\textsc{Restricted \textsc{Sinkhorn}}$(K,\mu, \nu, u, v)$}
 \label{restricted_sinkhorn}
-\nl \textbf{set: } $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}}), \bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
+\nl \textbf{set:} $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}}), \bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
 \nl \For{$t=1,2,3$}{
 	$f^{(t)}_v \gets K^\top_{I_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}} u + \bar{f}_v;$\\
 	$v^{(t)} \gets \frac{\nu_{J_{\varepsilon, \kappa}}}{\kappa f^{(t)}_v} ;$\\% / (\kappa K{IJ}_v);$\\
