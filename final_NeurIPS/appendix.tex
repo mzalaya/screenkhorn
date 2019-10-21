@@ -265,6 +265,7 @@ Then
 &\qquad + (1- \kappa)\norm{{u}^{\text{sc}}}_\infty\norm{{\mu}^{\text{sc}}}_1 + (1- \kappa^{-1})\norm{{v}^{\text{sc}}}_\infty\norm{{\nu}^{\text{sc}}}_1.\nonumber
 \end{align}
 Next, we bound the two terms $\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty.$
+% \paragraph{Bounds of}$\norm{{u}^{\textrm{sc}} - {u}^\star}_\infty $ and $\norm{{v}^{\text{sc}} - {v}^\star}_\infty $.
 If $r \in I^\complement_{\varepsilon, \kappa}$, then we have 
 \begin{align*}
 |({u}^{\text{sc}})_{r} - {u}^\star_r| 
@@ -297,13 +298,14 @@ If $s \in J_{\varepsilon, \kappa}$ then
  \leq \bigg|\log\bigg(\frac{\kappa\sum_{i=1}^m K_{ri}e^{v^\star_j}}{\sum_{i=1}^m K_{ri}e^{(u^{\text{sc}})_i}}\bigg)\bigg|
 \overset{(\star)}{\leq} \norm{u^{\text{sc}} - u^\star}_\infty.
 \end{align*}
-Therefore, we obtain the following bound:
+Therefore, we obtain the followoing bound:
 \begin{align}
 \label{induction_uppers_bounds}
-\max\{\norm{u^\star - u^{\text{sc}}}_\infty, \norm{v^\star - v^{\text{sc}}}_\infty\} 
+\max\{\norm{u^\star - u^{\text{sc}}}_\infty, \norm{v^\star - v^{\text{sc}}}_\infty\} %&\leq \max\{\norm{u^\star - u^{\text{sc}}_0}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star - v^{\text{sc}}_0}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\}\nonumber\\
 &\leq \max\Big\{\norm{u^\star}_\infty + \norm{u^{\text{sc}}}_\infty +  \log(\frac{n\varepsilon^2}{c_{\mu\nu}}), \norm{v^\star}_\infty + \norm{v^{\text{sc}}}_\infty + \log(\frac{m\varepsilon^2}{c_{\mu\nu}})\Big\}\nonumber\\
 &\leq 2\Big(\norm{u^\star}_\infty + \norm{v^\star}_\infty +  \norm{u^{\text{sc}}}_\infty +  \norm{v^{\text{sc}}}_\infty + \log\big(\frac{(n\vee m)\varepsilon^2}{c_{\mu\nu}}\big)\Big).
 \end{align}
+%where we used $u^{\text{sc}}_0 = \mathbf 0_n$ and $v^{\text{sc}}_0 = \mathbf 0_m.$ 
 Now, Lemma 3.2 in~\cite{lin2019} provides an upper bound for the $\ell_\infty$ of the optimal solution pair $(u^\star, v^\star)$ of problem~\eqref{sinkhorn-dual} as follows:
 $\norm{u^\star}_\infty \leq A$ and $\norm{v^\star}_\infty\leq A,$ where 
 \begin{align}
@@ -344,6 +346,7 @@ $\hfill\square$
 
 Note that $\omega_{\kappa}$ tends to zero as $(n_b,m_b)$ tends to $(n,m)$ (i.e., $\kappa \rightarrow 1)$. To more characterize $\omega_\kappa$, the following 
 lemma expresses an upper bound with respect to $\ell_1$-norm of $\mu^{\text{sc}}$and $\nu^{\text{sc}}$. 
+
 \begin{lemma}
 \label{lemma_bounds_on_marginals}
 Let $(u^{\text{sc}}, v^{\text{sc}})$ be an optimal solution of problem~\eqref{screen-sinkhorn_second_def}.
@@ -365,6 +368,7 @@ Using inequality~\eqref{bound_on_v}, we obtain
 \norm{\mu^{\text{sc}}}_1 &= \sum_{i \in I_{\varepsilon,\kappa}} \mu^{\text{sc}}_i +  \sum_{i \in I^\complement_{\varepsilon,\kappa}}\mu^{\text{sc}}_i\\
 & \overset{\eqref{i-th-marginal-mu}}{=} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + \frac \varepsilon\kappa \sum_{i \in I^\complement}\Big( \sum_{j \in J_{\varepsilon,\kappa}} K_{ij} e^{v^{\text{sc}}_j} + \varepsilon\kappa \sum_{j\in J^\complement_{\varepsilon,\kappa}}K_{ij}\Big)\\
 & \overset{\eqref{bound_on_v}}{\leq} \kappa \norm{\mu_{I_{\varepsilon,\kappa}}^{\text{sc}}}_1 + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big).
+% &\leq n_b\kappa + (n-n_b) \Big(\frac{m_b\max_{j \in J_{\varepsilon,\kappa}} \nu_j}{n\kappa K_{\min}} + (m-m_b)\varepsilon^2 \Big)
 \end{align*}
 Using Remark~\ref{rem:orders_of_epsilonappa}, we get the desired closed form in~\eqref{l1-norm-mu-sc}.
 Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
@@ -384,16 +388,21 @@ Similarly, we can prove the same statement for $\norm{\nu^{\text{sc}}}_1$.
 
 It is worth to note that standard Sinkhorn's alternating minimization cannot be applied for the constrained screened dual problem~\eqref{screen-sinkhorn_second_def}. This appears more clearly while writing its optimality conditions (see Equations~\eqref{i-th-marginal-nu} and~\eqref{i-th-marginal-mu} ).
 We resort to a L-BFGS-B algorithm to solve the constrained convex optimization problem on the screened variables~\eqref{screen-sinkhorn_second_def}, but any other efficient solver (e.g., proximal based method or Newton method) could be used. 
-In our implementation, we use a tricky method for almost $3$-calls, named \emph{restricted Sinkhorn} (see Algorithm~\ref{restricted_sinkhorn}) as a warm-start initialized point for the L-BFGS-B.
-We further  emphasize that, as for the \textsc{Sinkhorn} algorithm, the \textsc{Screenkhorn} algorithm can be accelerated using a GPU implementation\footnote{\url{https://github.com/nepluno/lbfgsb-gpu}} of the L-BFGS-B algorithm~\cite{fei2014-GPU-L-BFGS-B}.
+In our implementation, we choose a clever starting point of the L-BFGS-B algorithm based on a method, called \emph{restricted Sinkhorn} (see Algorithm~\ref{restricted_sinkhorn}), which is a Sinkhorn algorithm applied on
+the active dual variables. While simple and efficient the solution of this 
+\emph{restricted Sinkhorn} algorithm does not satisfy the lower bound constraints of Problem \eqref{screen-sinkhorn_second_def}.
+
+We further  not that, as for the \textsc{Sinkhorn} algorithm, our \textsc{Screenkhorn} algorithm can be accelerated using a GPU implementation\footnote{\url{https://github.com/nepluno/lbfgsb-gpu}} of the L-BFGS-B algorithm~\cite{fei2014-GPU-L-BFGS-B}.
 
 \LinesNotNumbered
-\begin{algorithm}[htbp]
+\begin{algorithm}[tbp]
 \SetNlSty{textbf}{}{.}
 \DontPrintSemicolon
 \caption{\textsc{Restricted \textsc{Sinkhorn}}$(K,\mu, \nu, u, v)$}
 \label{restricted_sinkhorn}
 \nl \textbf{set:} $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}}), \bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
+% \nl $\bar{f}_u = \varepsilon\kappa\, c(K_{I_{\varepsilon, \kappa}, J^\complement_{\varepsilon, \kappa}});$\\
+% \nl $\bar{f}_v  = \varepsilon\kappa^{-1} \,r(K_{I^\complement_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}});$\\
 \nl \For{$t=1,2,3$}{
 	$f^{(t)}_v \gets K^\top_{I_{\varepsilon, \kappa}, J_{\varepsilon, \kappa}} u + \bar{f}_v;$\\
 	$v^{(t)} \gets \frac{\nu_{J_{\varepsilon, \kappa}}}{\kappa f^{(t)}_v} ;$\\% / (\kappa K{IJ}_v);$\\
@@ -420,19 +429,44 @@ We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschul
 
 \begin{figure*}[htbp]
 	\centering
-	~\hfill~\includegraphics[width=6.cm]{./figs/wda_accur_toy.pdf}~\hfill~
-	\includegraphics[width=6.cm]{./figs/wda_accur_mnist.pdf}~\hfill~\\
-	\caption{Accuracy of a $1$-nearest-neighbor after WDA for the (left) toy problem and, (right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
+	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
+	~\hfill~\includegraphics[width=6.5cm]{./figs/wda_accur_toy.pdf}~\hfill~
+	\includegraphics[width=6.5cm]{./figs/wda_accur_mnist.pdf}~\hfill~\\
+	\caption{Accuracy of a $1$-nearest-neighbour after WDA for the (left) toy problem and, (right) MNIST). We note a slight loss of performance for the toy problem, whereas for MNIST, all approaches yield the same performance. 
 		\label{fig:wda_gain}}
+\end{figure*}
+
+
+\begin{figure*}[htbp]
+
+\begin{center}
+	
+	~\hfill~\includegraphics[width=6.6cm]{./figs/wda_accur_toy_eta01_K1.pdf}~\hfill~
+	\includegraphics[width=6.5cm]{./figs/wda_gain_toy_eta01_K1.pdf}~\hfill~\\
+	
+	~\hfill~\includegraphics[width=6.5cm]{./figs/wda_accur_toy_eta01_K5.pdf}~\hfill~
+	\includegraphics[width=6.5cm]{./figs/wda_gain_toy_eta01_K5.pdf}~\hfill~\\
+	
+	
+	
+	
+	\caption{(top-left) Accuracy and (bottom-right) computational time gain on the toy dataset for $\eta=0.1$ and $1$-nearest-neighbour. (bottom) accuracy and gain but for a $5$-nearest-neighbour. We can note that a  slight loss of performances occur for larger training set sizes especially for $1$-nearest-neighbour. Computational gains increase with the dataset size and
+		is on average of the order of magnitude. \ar{Checker 3500 K5(plus d'iter)} 
+		\label{fig:wda_gain_toy_eta01}}
+
+\end{center}
+
+
 \end{figure*}
 
 \begin{figure*}[htbp]
 	\centering
+	%~\hfill~	\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_toy_problem.pdf}~\hfill~
 	\includegraphics[width=6.cm]{./figs/da_accur_toy_regcl100.pdf}~\hfill~\\
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_time_toy_regcl100.pdf}
 	~\hfill~\includegraphics[width=6.cm]{./figs/da_gain_toy_regcl100.pdf}~\hfill~\\
-	\caption{OT Domain Adaptation on a 3-class Gaussian toy problem. (top-left) Examples of source and target samples. (top-right) Evolution of the accuracy of a 1-nearest-neighbor classifier with respect to the number of samples. (bottom-left) Running time of the \textsc{Sinkhorn} and \textsc{Screenkhorn} for different decimation
+	\caption{OT Domain Adaptation on a 3-class Gaussian toy problem. (top-left) Examples of source and target samples. (top-right) Evolution of the accuracy of a 1-nearest-neighbour classifier with respect to the number of samples. (bottom-left) Running time of the \textsc{Sinkhorn} and \textsc{Screenkhorn} for different decimation
 	factors. (bottom-right). Gain in computation time. This toy problem is a problem in which classes are overlapping and distance between samples are rather limited. According to our analysis, this may be a situation in which \textsc{Screenkhorn} may
 	result in smaller computational gain. We can remark that with respect to the accuracy
 	\textsc{Screenkhorn} with decimation factors up to $10$ are competitive with \textsc{Sinkhorn}, although a slight loss of performance. Regarding computational time, for this example, small decimation factors does not  result in gain. However for above  $5$-factor decimation, the gain goes from  $2$ to $10$ depending on
@@ -450,9 +484,21 @@ We have considered experiments with \textsc{Greenkhorn} algorithm~\cite{altschul
 	\caption{OT Domain adaptation MNIST to USPS : (top) Accuracy and (bottom) running time of \textsc{Sinkhorn} and \textsc{Screenkhorn} for hyperparameter of the $\ell_{p,1}$ regularizer (left) $\lambda = 1$ and (right) $\lambda=10$. Note that this
 	value impacts the ground cost of each Sinkhorn problem involved in the iterative algorithm. The accuracy panels
 	also report the performance of a $1$-NN when no-adaptation is performed.  
-	We remark that the strength of the class-based regularization has influence on the performance of \textsc{Screenkhorn} given a decimation factor. For small value on the left, \textsc{Screenkhorn} slightly performs better than \textsc{Sinkhorn}, while for large value, some
+	We remark that the strenght of the class-based regularization has influence on the performance of \textsc{Screenkhorn} given a decimation factor. For small value on the left, \textsc{Screenkhorn} slightly performs better than \textsc{Sinkhorn}, while for large value, some
 	decimation factors leads to loss of performances.
 	Regarding, running time, we can note that \textsc{Sinkhorn} is far less efficient than
 	\textsc{Screenkhorn}  with an order of magnitude for intermediate number of samples.
 	\label{fig:otda:mnist:extra}}
+\end{figure*}
+
+
+
+
+\begin{figure*}[htbp]
+	\centering
+
+	\includegraphics[width=6.5cm]{./figs/da_regpath_accur_mnist_reg1.pdf}
+	\includegraphics[width=6.5cm]{./figs/da_regpath_time_mnist_reg1.pdf}
+
+	\caption{OT Domain adaptation MNIST to USPS : (left) Accuracy and (right) running time of \textsc{Sinkhorn} and \textsc{Screenkhorn} for the best performing (on average of $10$ trials) hyperparameter $\ell_{p,1}$ chosen among the set $\{0.1, 1,5,10 \}$. We can note that in this situation, there is not loss of accuracy while our \textsc{Screenkhorn} is still about an order of magnitude more efficient than Sinkhorn.}
 \end{figure*}

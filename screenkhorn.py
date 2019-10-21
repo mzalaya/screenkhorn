@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-__author__ = 'Mokhtar Z. Alaya and Maxime Bérar'
+__author__ = 'Mokhtar Z. Alaya: mokhtarzahdi.alaya@gmail.com'\
+             'Maxime Bérar: maxime.bérar@univ.rouen.fr'
 
 import numpy as np
 import bottleneck
