@@ -58,8 +58,8 @@ def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1
 
     # declare solver and solve
     if solver is None:
-        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),mingradnorm=1e-8, 
-                        minstepsize=1e-16)
+        solver = SteepestDescent(maxiter=maxiter, logverbosity=verbose, maxtime=float('inf'),
+                                 mingradnorm=1e-8, minstepsize=1e-16)
     elif solver in ['tr', 'TrustRegions']:
         solver = TrustRegions(maxiter=maxiter, logverbosity=verbose)
 
