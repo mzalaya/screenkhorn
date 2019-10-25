@@ -1,5 +1,5 @@
 
-# `screenkhorn`: Screening Sinkhorn Algorithm for Regularized Optimal Transport
+#<font style="font-variant: small-caps">Screenkhorn</font>: Screening Sinkhorn Algorithm for Regularized Optimal Transport
 
 Python implementation of SCREENKHORN algorithm from paper [Screening Sinkhorn Algorithm for Regularized Optimal Transport](https://arxiv.org/abs/1906.08540) (to appear in NeurIPS 2019).
 
