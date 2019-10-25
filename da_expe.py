@@ -3,19 +3,14 @@
 
 __author__ = 'Alain Rakotomamonjy'
 
+
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time
-
 import numpy as np
 import argparse
-
 from sklearn.neighbors import KNeighborsClassifier
-
-# POT
 import ot
-
-# SCREENKHORN
 import  da_screenkhorn
 
 def toy(n_samples_source,n_samples_target,nz=0.8,translate = 0.2, random_state=None):

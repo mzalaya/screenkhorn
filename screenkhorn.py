@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-__author__ = 'Mokhtar Z. Alaya: mokhtarzahdi.alaya@gmail.com'\
-             'Maxime Bérar: maxime.bérar@univ.rouen.fr'
+__author__ = 'Mokhtar Z. Alaya'
 
 import numpy as np
 import bottleneck
@@ -11,7 +10,7 @@ from time import time
 
 class Screenkhorn:
     """
-    SCREENKHORN: solver of screening Sinkhorn algorithm for discrete regularized optimal transport (OT).
+    Screenkhorn: solver of screening Sinkhorn algorithm for discrete regularized optimal transport (OT).
 
     Parameters
     ----------

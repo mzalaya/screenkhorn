@@ -6,16 +6,13 @@ __author__ = 'Mokhtar Z. Alaya'
 """
 Dimension reduction with Screened optimal transport.
 The script is adapted from ot/dr.py in the POT toolbox.
-
 """
-import autograd.numpy as np
 
+import autograd.numpy as np
 from pymanopt.manifolds import Stiefel
 from pymanopt import Problem
 from pymanopt.solvers import SteepestDescent, TrustRegions
-
 import ot
-
 from screenkhorn import Screenkhorn
 
 def wda_screenkhorn(X, y, p=2, reg=1, k=10, solver=None, maxiter=1000, verbose=1, P0=None, **kwargs):

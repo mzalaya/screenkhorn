@@ -9,20 +9,16 @@ The script is adapted from ot/da.py in the POT toolbox.
 """
 
 import numpy as np
-
-# POT
 import ot
 from ot.da import BaseTransport
 from ot.utils import check_params
-
-# SCREENKHORN
 from screenkhorn import Screenkhorn
 
 def screenkhorn_lpl1_mm(a, labels_a, b, M, reg, eta=0.1, numItermax=10,
-                     numInnerItermax=200, stopInnerThr=1e-9, verbose=False,
-                     log=False, **kwargs):
+                        numInnerItermax=200, stopInnerThr=1e-9, verbose=False,
+                        log=False, **kwargs):
     """
-    Solve the entropic regularization optimal transport problem with nonconvex
+    Solve the screened entropic regularization optimal transport problem with nonconvex
     group lasso regularization
     """
     p = 0.5
@@ -115,7 +111,6 @@ class ScreenkhornTransport(BaseTransport):
             self.log_ = dict()
 
         return self
-
 
 class ScreenkhornLpl1Transport(BaseTransport):
 

@@ -3,14 +3,12 @@
 
 __author__ = 'Alain Rakotomamonjy'
 
-
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
 color_pal_t = sns.color_palette("colorblind", 11).as_hex()
 color_pal = color_pal_t.copy()
-
 
 colors = ["black", "salmon pink", "neon pink", "cornflower", "cobalt blue", "blue green",
           "aquamarine", "dark yellow", "golden yellow", "reddish pink", "reddish purple"]

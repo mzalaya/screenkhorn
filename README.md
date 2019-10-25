@@ -52,6 +52,15 @@ distance. The parameters `ns_budget` and `nt_budget` correspond to the number bu
 >>> b_sc = Psc.T @ np.ones(a.shape)
 ```    
 
+
+Authors
+========
+
+* Mokhtar Z. Alaya
+* Maxime Bérar
+* Gilles Gasso
+* Alain Rakotomamonjy
+
 Citation
 ========
 If you use `screenkhorn` in a scientific publication, we would appreciate citations. You can use the following bibtex entry:
