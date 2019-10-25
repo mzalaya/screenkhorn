@@ -3,7 +3,6 @@
 
 __author__ = 'Alain Rakotomamonjy'
 
-
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 from time import process_time as time

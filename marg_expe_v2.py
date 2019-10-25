@@ -3,14 +3,10 @@
 
 __author__ = 'Gilles Gasso'
 
-# NUMPY
 import numpy as np
 from numpy.linalg import norm as norm
 import scipy.stats as stats
-
 np.random.seed(3946)
-
-# MATPLOTLIB
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
@@ -26,29 +22,18 @@ params = {'axes.labelsize': 34,  # 12
 plt.rcParams.update(params)
 plt.close('all')
 
-# SEABORN
 import seaborn as sns
-
 color_pal_t = sns.color_palette("colorblind", 11).as_hex()
 color_pal = color_pal_t.copy()
-
 colors = ["black", "salmon pink", "neon pink", "cornflower", "cobalt blue"
     , "blue green", "aquamarine", "bright yellow", "golden yellow", "reddish pink", "reddish purple"]
 color_pal = sns.xkcd_palette(colors)
 
-# WARNINGS
 import warnings
-
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-# TIME
 from time import time
-
-# POT
 from ot.datasets import make_data_classif
 from ot import dist, sinkhorn
-
-# SCREENKHORN
 from screenkhorn import Screenkhorn
 
 

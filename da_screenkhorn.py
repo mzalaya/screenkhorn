@@ -119,7 +119,7 @@ class ScreenkhornLpl1Transport(BaseTransport):
 
     def __init__(self, reg_e=1., reg_cl=0.1,
                  max_iter=10, max_inner_iter=200, log=False,
-                 tol=10e-9, verbose=False, one_init= False,
+                 tol=10e-9, verbose=False, one_init=False,
                  metric="sqeuclidean", norm=None,
                  distribution_estimation=ot.da.distribution_estimation_uniform,
                  out_of_sample_map='ferradans', limit_max=np.infty):

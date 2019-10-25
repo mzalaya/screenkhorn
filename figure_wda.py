@@ -29,7 +29,6 @@ else:
     n_vec = [200,500,1000,2000,3000,4000]
     nb_p_vec = 7
     p = 20
-    
 
 method_vec = ['wda', 'swda']
 legend_vec_accur = ['Sinkhorn', 'dec=1.5', 'dec=2', 'dec=5', 'dec=10', 'dec=20', 'dec=50', 'dec=100']
@@ -46,8 +45,7 @@ Stime = np.zeros((len(n_vec), nb_p_vec+1))
 
 for i_k, n in enumerate(n_vec):                
     filename = 'wda_{:}_n{:d}_p{:d}'.format(data, n, p)
-    
-    
+
     # reading files and performance
     res = np.load(pathres + filename + '.npz')
     aux = res['bc_wda']

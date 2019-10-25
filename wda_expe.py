@@ -42,8 +42,7 @@ def circle_data(n,nz = 0.2,nbnoise = 8):
     xt = np.concatenate(
         (np.cos(t).reshape((-1, 1)), np.sin(t).reshape((-1, 1))), 1)
     xt = xt * yt.reshape(-1, 1) + nz * np.random.randn(n, 2)
-    
-    
+
     xs = np.hstack((xs, np.random.randn(n, nbnoise)))
     xt = np.hstack((xt, np.random.randn(n, nbnoise)))
 
@@ -98,7 +97,6 @@ if arguments.d == 1:
 else:
     data = 'mnist'
     
-
 reg = 1  # regularizer weight
 k = 10  # nb of sinkhorn iteration
 maxiter = 1000 # max iter in WDA

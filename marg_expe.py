@@ -3,30 +3,19 @@
 
 __author__ =  'Gilles Gasso'
 
-# NUMPY
 import numpy as np
 from numpy.linalg import norm as norm
 import scipy.stats as stats
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 np.random.seed(3946)
-
-# MATPLOTLIB
 import matplotlib.pyplot as plt
 plt.close('all')
-
-# WARNINGS
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-# TIME
 from time import process_time as time
-
-# POT
 from ot.datasets import make_data_classif
 from ot import dist, sinkhorn
-
-# SCREENKHORN
 from screenkhorn import Screenkhorn
 
 #%% Datasets
