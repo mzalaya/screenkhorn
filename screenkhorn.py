@@ -145,8 +145,8 @@ class Screenkhorn:
                 epsilon_u_square = aK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
                 self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
             
-            if len(self.J) != self.ns_budget:
-                print("test error", len(self.J), self.ns_budget)
+            if len(self.J) != self.nt_budget:
+                print("test error", len(self.J), self.nt_budget)
                 if self.uniform:
                     bK = b / K_sum_rows
                     bK_sort = np.sort(bK)[::-1]
