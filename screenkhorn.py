@@ -41,6 +41,15 @@ class Screenkhorn:
          If `True`, a warm-start initialization for the  LBFGSB solver
          using a Sinkhorn-like with at most 5 iterations
 
+    maxiter: `int`, default=10000
+      Maximum number of iterations in LBFGS solver
+
+    maxfun: `int`, default=10000
+      Maximum  number of function evaluations in LBFGS solver
+
+    pgtol: `float`, default=1e-09
+      Final objective function accuracy in LBFGS solver
+
     verbose: `bool`, default=True
         If `True`, dispaly informations along iterations
 
@@ -64,7 +73,7 @@ class Screenkhorn:
         print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
 
     def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, verbose=True,
-                 uniform=True, restricted=True, one_init=False):
+                 uniform=True, restricted=True, maxiter=10000, maxfun=10000, pgtol=1e-09, one_init=False):
 
         tic_initial = time()
 
@@ -85,6 +94,9 @@ class Screenkhorn:
         self.verbose = verbose
         self.uniform = uniform
         self.restricted = restricted
+        self.maxiter = maxiter
+        self.maxfun = maxfun
+        self.pgtol = pgtol
         self.one_init = one_init
 
         # by default, we keep only 50% of the sample data points
