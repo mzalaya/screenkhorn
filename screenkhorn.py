@@ -4,7 +4,6 @@
 __author__ = 'Mokhtar Z. Alaya' 
 
 import numpy as np
-import bottleneck
 from scipy.optimize import fmin_l_bfgs_b
 from time import time
 

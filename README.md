@@ -65,10 +65,14 @@ Citation
 ========
 If you use `screenkhorn` in a scientific publication, we would appreciate citations. You can use the following bibtex entry:
 ```
-@misc{alaya2019etal,
-Author = {Alaya, Mokhtar Z. and  Bérar, Maxime and  Gasso, Gilles and  Rakotomamonjy, Alain},
-Title = {Screening Sinkhorn Algorithm for Regularized Optimal Transport},
-Year = {2019},
-Eprint = {to appear in NeurIPS 2019},
+@incollection{NIPS2019_9386,
+title = {Screening Sinkhorn Algorithm for Regularized Optimal Transport},
+author = {Alaya, Mokhtar Z. and Berar, Maxime and Gasso, Gilles and Rakotomamonjy, Alain},
+booktitle = {Advances in Neural Information Processing Systems 32},
+editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
+pages = {12169--12179},
+year = {2019},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.nips.cc/paper/9386-screening-sinkhorn-algorithm-for-regularized-optimal-transport.pdf}
 }
 ```
