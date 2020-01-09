@@ -67,7 +67,6 @@ class Screenkhorn:
     # check if bottleneck module exists
     try:
         import bottleneck
-        print("tototototototo")
     except ImportError as e:
         print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
 
