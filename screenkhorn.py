@@ -10,7 +10,7 @@ from time import time
 
 class Screenkhorn:
     """
-    Screenkhorn: solver of screening Sinkhorn algorithm for discrete regularized optimal transport (OT).
+    Screenkhorn: solver of screening Sinkhorn algorithm for discrete regularized optimal transport (OT)
 
     Parameters
     ----------
@@ -26,11 +26,13 @@ class Screenkhorn:
     reg : `float`
         Level of the entropy regularisation
 
-    ns_budget: `int`
+    ns_budget: `int`, default=None
         Number budget of points to be keeped in the source domain
+        If it is None then 50% of the target sample points will be keeped
 
-    nt_budget: `int`
+    nt_budget: `int`, default=None
         Number budget of points to be keeped in the target domain
+        If it is None then 50% of the target sample points will be keeped
 
     uniform: `bool`, default=True
         If `True`, a_i = 1 /ns and b_j = 1 / nt
@@ -42,14 +44,26 @@ class Screenkhorn:
     verbose: `bool`, default=True
         If `True`, dispaly informations along iterations
 
+    Dependency
+    ----------
+    To gain more efficiency, screenkhorn needs to call the "Bottleneck" package (https://pypi.org/project/Bottleneck/) in the screening pre-processing step.
+    If Bottleneck isn't installed, the following error message appears:
+    "Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/"
+
     Returns
     -------
     Psc : numpy.ndarray`, shape=(ns, nt)
         Screened optimal transportation matrix for the given parameters 
 
     """
+    # check if bottleneck module exists
+    try:
+        import bottleneck
+        print("tototototototo")
+    except ImportError as e:
+        print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
 
-    def __init__(self, a, b, C, reg, ns_budget, nt_budget, verbose=True,
+    def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, verbose=True,
                  uniform=True, restricted=True, one_init=False):
 
         tic_initial = time()
@@ -73,6 +87,12 @@ class Screenkhorn:
         self.restricted = restricted
         self.one_init = one_init
 
+        # by default, we keep only 50% of the sample data points
+        if self.ns_budget is None:
+            self.ns_budget = int(np.floor(0.5 * ns))
+        if self.nt_budget is None:
+            self.nt_budget = int(np.floor(0.5 * nt))
+
         # calculate the Gibbs kernel
         self.K = np.empty_like(self.C)
         np.divide(self.C, - self.reg, out=self.K)
@@ -81,8 +101,8 @@ class Screenkhorn:
         # screening test (see Lemma 1 in the paper)
         if self.ns_budget == ns and self.nt_budget == nt:
             # I, J
-            self.I = list(range(ns))
-            self.J = list(range(nt))
+            self.I = np.ones(ns, dtype=bool)
+            self.J = np.ones(nt, dtype=bool)
             # epsilon
             self.epsilon = 0.0
             # scale factor
@@ -93,8 +113,6 @@ class Screenkhorn:
             # box constraints in LBFGS
             self.bounds_u = [(0.0, np.inf)] * ns
             self.bounds_v = [(0.0, np.inf)] * nt
-            # 
-            K_min = self.K.min()
             #
             self.K_IJ = self.K
             self.a_I = self.a
@@ -110,17 +128,17 @@ class Screenkhorn:
             K_sum_rows = self.K.sum(axis=0)
 
             if self.uniform:
-                if ns / self.ns_budget < 4 :
+                if ns / self.ns_budget < 4:
                     aK_sort = np.sort(K_sum_cols)
                     epsilon_u_square = a[0] / aK_sort[self.ns_budget - 1]
                     print(epsilon_u_square)
                 else :
                     aK_sort = bottleneck.partition(K_sum_cols, ns_budget-1)[ns_budget-1]
-                    epsilon_u_square =a[0] / aK_sort
+                    epsilon_u_square = a[0] / aK_sort
                     
-                if nt / self.ns_budget < 4   :  
+                if nt / self.ns_budget < 4:
                     bK_sort = np.sort(K_sum_rows)
-                    epsilon_v_square = b[0]/bK_sort[self.ns_budget - 1]
+                    epsilon_v_square = b[0]/bK_sort[self.nt_budget - 1]
                 else:
                     bK_sort = bottleneck.partition(K_sum_rows, nt_budget-1)[nt_budget-1]
                     epsilon_v_square =b[0] / bK_sort  
@@ -132,34 +150,32 @@ class Screenkhorn:
                 epsilon_u_square = aK_sort[self.ns_budget - 1]
             
                 bK_sort = np.sort(bK)[::-1]
-                epsilon_v_square = bK_sort[self.ns_budget - 1]
+                epsilon_v_square = bK_sort[self.nt_budget - 1]
             # I, J
-            self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
-            self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist()   
+            self.I = self.a >=  epsilon_u_square * K_sum_cols
+            self.J = self.b >=  epsilon_v_square * K_sum_rows
              
-            if len(self.I) != self.ns_budget:
-                print("test error", len(self.I), self.ns_budget)
+            if sum(self.I) != self.ns_budget:
+                print("test error", sum(self.I), self.ns_budget)
                 if self.uniform:
                     aK = a / K_sum_cols
                     aK_sort = np.sort(aK)[::-1]
                 epsilon_u_square = aK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
-                self.I = np.where(self.a >=  epsilon_u_square * K_sum_cols)[0].tolist()
+                self.I = self.a >=  epsilon_u_square * K_sum_cols
             
-            if len(self.J) != self.nt_budget:
+            if sum(self.J) != self.nt_budget:
                 print("test error", len(self.J), self.nt_budget)
                 if self.uniform:
                     bK = b / K_sum_rows
                     bK_sort = np.sort(bK)[::-1]
-                epsilon_v_square = bK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
-                self.J = np.where(self.b >=  epsilon_v_square* K_sum_rows)[0].tolist() 
+                epsilon_v_square = bK_sort[self.nt_budget - 1:self.nt_budget+1].mean()
+                self.J = self.b >= epsilon_v_square * K_sum_rows
                 
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
             
             if self.verbose:
                 print("Epsilon = %s\n" % self.epsilon)
-                print("Scaling factor = %s\n" % self.fact_scale)
-                
                 print(time() - tic_initial)
             
             if self.verbose:
@@ -168,8 +184,8 @@ class Screenkhorn:
 
             
             # Ic, Jc: complementary sets of I and J
-            self.Ic = list(set(list(range(ns))) - set(self.I))
-            self.Jc = list(set(list(range(nt))) - set(self.J))
+            self.Ic = ~self.I
+            self.Jc = ~self.J
            #
             self.K_IJ = self.K[np.ix_(self.I, self.J)]
             self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
@@ -193,25 +209,25 @@ class Screenkhorn:
                 self.b_J_max = self.b_J [0]
                 self.b_J_min = self.b_J[0]
             
-            # box constraints in LBFGS
-            self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (nt - self.ns_budget) \
-                                                    + self.ns_budget*(self.b_J_max / (self.epsilon * ns * K_min))), \
+            # box constraints in L-BFGS-B (see Proposition 1 in the paper)
+            self.bounds_u = [(max(self.a_I_min / (self.epsilon * (nt - self.nt_budget) \
+                                                    + self.nt_budget * (self.b_J_max / (self.epsilon *  self.fact_scale * ns * K_min))), \
                                   self.epsilon / self.fact_scale), \
-                              self.a_I_max / (self.epsilon * nt * K_min))] *self.ns_budget
+                              self.a_I_max / (self.epsilon * nt * K_min))] * self.ns_budget
 
             self.bounds_v = [(max(self.b_J_min / (self.epsilon * (ns - self.ns_budget) \
-                                                    + self.ns_budget*(self.a_I_max / (self.epsilon * nt * K_min))), \
+                                                    + self.ns_budget * (self.fact_scale * self.a_I_max / (self.epsilon * nt * K_min))), \
                                   self.epsilon * self.fact_scale), \
-                              self.b_J_max / (self.epsilon * ns * K_min))] * self.ns_budget
+                              self.b_J_max / (self.epsilon * ns * K_min))] * self.nt_budget
          
         if self.verbose:
-                print(time() - tic_initial)
+                print("Time of initialization %s:" %(time() - tic_initial))
 
         
         self.vec_eps_IJc = self.epsilon * self.fact_scale \
-                           * (self.K_IJc * np.ones(nt-self.ns_budget).reshape((1, -1))).sum(axis=1)
+                           * (self.K_IJc * np.ones(nt - self.nt_budget).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) \
-                           * (np.ones(ns-self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
+                           * (np.ones(ns - self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
         # restricted Sinkhron
         if self.ns_budget != ns or self.ns_budget != nt:
@@ -239,6 +255,9 @@ class Screenkhorn:
         self.toc_initial = time() - tic_initial
 
     def update(self, C):
+        """
+       we use this function to gain more efficiency in OTDA experiments
+        """
         self.C = np.asarray(C, dtype=np.float64)
         nt = C.shape[0]
         ns = C.shape[1]
@@ -254,14 +273,14 @@ class Screenkhorn:
                 epsilon_u_square = self.a[0] / aK_sort[self.ns_budget - 1]
             else :
                 aK_sort = bottleneck.partition(K_sum_cols, self.ns_budget-1)[self.ns_budget-1]
-                epsilon_u_square =self.a[0] / aK_sort
+                epsilon_u_square = self.a[0] / aK_sort
                 
             if nt / self.nt_budget < 4:
                 bK_sort = np.sort(K_sum_rows)
                 epsilon_v_square = self.b[0] / bK_sort[self.nt_budget - 1]
             else:
                 bK_sort = bottleneck.partition(K_sum_rows, self.nt_budget-1)[self.nt_budget-1]
-                epsilon_v_square =self.b[0] / bK_sort
+                epsilon_v_square = self.b[0] / bK_sort
                 
         else:
             aK = self.a / K_sum_cols
@@ -273,22 +292,22 @@ class Screenkhorn:
             epsilon_v_square = bK_sort[self.nt_budget - 1] 
         
         # I, J
-        self.I = np.where(self.a >= epsilon_u_square * K_sum_cols)[0].tolist()
-        self.J = np.where(self.b >= epsilon_v_square * K_sum_rows)[0].tolist()
+        self.I = self.a >= epsilon_u_square * K_sum_cols
+        self.J = self.b >= epsilon_v_square * K_sum_rows
                       
-        if len(self.I) != self.ns_budget:
+        if sum(self.I) != self.ns_budget:
             if self.uniform:
                 aK = self.a / K_sum_cols
             aK_sort = np.sort(aK)[::-1]
             epsilon_u_square = aK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
-            self.I = np.where(self.a >= epsilon_u_square * K_sum_cols)[0].tolist()
+            self.I = self.a >= epsilon_u_square * K_sum_cols
             
-        if len(self.J) != self.nt_budget:
+        if sum(self.J) != self.nt_budget:
             if self.uniform:
                 bK = self.b / K_sum_rows
             bK_sort = np.sort(bK)[::-1]
             epsilon_v_square = bK_sort[self.nt_budget - 1:self.nt_budget+1].mean()
-            self.J = np.where(self.b >= epsilon_v_square * K_sum_rows)[0].tolist()
+            self.J = self.b >= epsilon_v_square * K_sum_rows
 
         self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
         self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
@@ -298,11 +317,11 @@ class Screenkhorn:
             print("Scaling factor = %s\n" % self.fact_scale)
             
          # Ic, Jc
-        self.Ic = list(set(list(range(ns))) - set(self.I))
-        self.Jc = list(set(list(range(nt))) - set(self.J))
+        self.Ic = ~self.I
+        self.Jc = ~self.J
         if self.verbose:
             print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
-                  %(len(self.I), len(self.J), len(self.I) + len(self.J)))
+                  %(sum(self.I), sum(self.J), sum(self.I) + sum(self.J)))
         # K_min  
         self.K_IJ = self.K[np.ix_(self.I, self.J)]
         self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
@@ -324,18 +343,16 @@ class Screenkhorn:
                 self.a_I_max = self.a_I[0]
                 self.b_J_max = self.b_J [0]
                 self.b_J_min = self.b_J[0]
-       
+
         # box constraints in LBFGS solver (see Proposition 1 in the paper)
-        self.bounds_u = [(max(self.fact_scale * self.a_I_min / (self.epsilon * (nt - self.nt_budget) \
-                                                    + self.nt_budget * (
-                                                                self.b_J_max / (self.epsilon * ns * K_min))), \
-                              self.epsilon / self.fact_scale), \
+        self.bounds_u = [(max(self.a_I_min / (self.epsilon * (nt - self.nt_budget) \
+                                                    + self.nt_budget * (self.b_J_max / (self.epsilon *  self.fact_scale * ns * K_min))), \
+                                  self.epsilon / self.fact_scale), \
                               self.a_I_max / (self.epsilon * nt * K_min))] * self.ns_budget
 
         self.bounds_v = [(max(self.b_J_min / (self.epsilon * (ns - self.ns_budget) \
-                                                    + self.ns_budget * (
-                                                                self.a_I_max / (self.epsilon * nt * K_min))), \
-                              self.epsilon * self.fact_scale), \
+                                                    + self.ns_budget * (self.fact_scale * self.a_I_max / (self.epsilon * nt * K_min))), \
+                                  self.epsilon * self.fact_scale), \
                               self.b_J_max / (self.epsilon * ns * K_min))] * self.nt_budget
 
         self.vec_eps_IJc = self.epsilon * self.fact_scale \
@@ -363,7 +380,7 @@ class Screenkhorn:
             self.v0 = v0
 
     def _projection(self, u, epsilon):
-        u[np.where(u <= epsilon)] = epsilon
+        u[u <= epsilon] = epsilon
         return u
 
     def _objective(self, u_param, v_param):
@@ -423,9 +440,9 @@ class Screenkhorn:
         theta, _, d = fmin_l_bfgs_b(func=obj,
                                       x0=theta0,
                                       bounds=bounds,
-                                      maxfun=maxfun,
-                                      pgtol=pgtol,
-                                      maxiter=maxiter)
+                                      maxfun=self.maxfun,
+                                      pgtol=self.pgtol,
+                                      maxiter=self.maxiter)
 
         usc = theta[:self.ns_budget]
         vsc = theta[self.ns_budget:]
