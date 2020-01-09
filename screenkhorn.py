@@ -25,37 +25,37 @@ class Screenkhorn:
     reg : `float`
         Level of the entropy regularisation
 
-    ns_budget: `int`, default=None
+    ns_budget : `int`, default=None
         Number budget of points to be keeped in the source domain
         If it is None then 50% of the target sample points will be keeped
 
-    nt_budget: `int`, default=None
+    nt_budget : `int`, default=None
         Number budget of points to be keeped in the target domain
         If it is None then 50% of the target sample points will be keeped
 
-    uniform: `bool`, default=True
+    uniform : `bool`, default=True
         If `True`, a_i = 1 /ns and b_j = 1 / nt
 
-    restricted: `bool`, default=True
+    restricted : `bool`, default=True
          If `True`, a warm-start initialization for the  LBFGSB solver
          using a Sinkhorn-like with at most 5 iterations
 
-    maxiter: `int`, default=10000
+    maxiter : `int`, default=10000
       Maximum number of iterations in LBFGS solver
 
-    maxfun: `int`, default=10000
+    maxfun : `int`, default=10000
       Maximum  number of function evaluations in LBFGS solver
 
-    pgtol: `float`, default=1e-09
+    pgtol : `float`, default=1e-09
       Final objective function accuracy in LBFGS solver
 
-    verbose: `bool`, default=True
+    verbose : `bool`, default=True
         If `True`, dispaly informations along iterations
 
     Dependency
     ----------
-    To gain more efficiency, screenkhorn needs to call the "Bottleneck" package (https://pypi.org/project/Bottleneck/) in the screening pre-processing step.
-    If Bottleneck isn't installed, the following error message appears:
+    To gain more efficiency, screenkhorn needs to call the "Bottleneck" package (https://pypi.org/project/Bottleneck/)
+    in the screening pre-processing step. If Bottleneck isn't installed, the following error message appears:
     "Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/"
 
     Returns
@@ -70,8 +70,8 @@ class Screenkhorn:
     except ImportError as e:
         print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
 
-    def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, verbose=True,
-                 uniform=True, restricted=True, maxiter=10000, maxfun=10000, pgtol=1e-09, one_init=False):
+    def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, uniform=True, restricted=True, one_init=False,
+                 maxiter=10000, maxfun=10000, pgtol=1e-09, verbose=True):
 
         tic_initial = time()
 
@@ -103,7 +103,7 @@ class Screenkhorn:
         if self.nt_budget is None:
             self.nt_budget = int(np.floor(0.5 * nt))
 
-        # calculate the Gibbs kernel
+        # calculate the Gibbs kernel K
         self.K = np.empty_like(self.C)
         np.divide(self.C, - self.reg, out=self.K)
         np.exp(self.K, out=self.K)
@@ -115,7 +115,7 @@ class Screenkhorn:
             self.J = np.ones(nt, dtype=bool)
             # epsilon
             self.epsilon = 0.0
-            # scale factor
+            # kappa
             self.fact_scale = 1.0
             # restricted Sinkhron
             self.cst_u = 0.
@@ -131,8 +131,6 @@ class Screenkhorn:
             self.K_IcJ = []
 
         else:
-            if self.verbose:
-                print(time() - tic_initial)
             # sum of rows and columns of K
             K_sum_cols = self.K.sum(axis=1)
             K_sum_rows = self.K.sum(axis=0)
@@ -141,11 +139,10 @@ class Screenkhorn:
                 if ns / self.ns_budget < 4:
                     aK_sort = np.sort(K_sum_cols)
                     epsilon_u_square = a[0] / aK_sort[self.ns_budget - 1]
-                    print(epsilon_u_square)
-                else :
+                else:
                     aK_sort = bottleneck.partition(K_sum_cols, ns_budget-1)[ns_budget-1]
                     epsilon_u_square = a[0] / aK_sort
-                    
+
                 if nt / self.nt_budget < 4:
                     bK_sort = np.sort(K_sum_rows)
                     epsilon_v_square = b[0]/bK_sort[self.nt_budget - 1]
@@ -161,6 +158,7 @@ class Screenkhorn:
             
                 bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.nt_budget - 1]
+
             # I, J
             self.I = self.a >=  epsilon_u_square * K_sum_cols
             self.J = self.b >=  epsilon_v_square * K_sum_rows
@@ -185,25 +183,21 @@ class Screenkhorn:
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
 
             if self.verbose:
-                print('time of initialization %s:' % (time() - tic_initial))
-                print("epsilon = %s\n" % self.epsilon)
-                print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
-                      %(sum(self.I), sum(self.J), sum(self.I) + sum(self.J)))
+                print('|I_active| = %s \t |J_active| = %s ' % (sum(self.I), sum(self.J)))
+                print('epsilon = %s' % self.epsilon)
 
-            
             # Ic, Jc: complementary sets of I and J
             self.Ic = ~self.I
             self.Jc = ~self.J
-           #
+           # K
             self.K_IJ = self.K[np.ix_(self.I, self.J)]
             self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
             self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
-            # K_min
             K_min = self.K_IJ.min()
             if K_min == 0:
                 K_min = np.finfo(float).tiny  
 
-            # a_I,b_J,a_Ic,b_Jc
+            # a_I, b_J, a_Ic, b_Jc
             self.a_I = self.a[self.I]
             self.b_J = self.b[self.J]
             if not self.uniform:
@@ -227,11 +221,7 @@ class Screenkhorn:
                                                     + self.ns_budget * (self.fact_scale * self.a_I_max / (self.epsilon * nt * K_min))), \
                                   self.epsilon * self.fact_scale), \
                               self.b_J_max / (self.epsilon * ns * K_min))] * self.nt_budget
-         
-        if self.verbose:
-                print('time of initialization %s:' %(time() - tic_initial))
 
-        
         self.vec_eps_IJc = self.epsilon * self.fact_scale \
                            * (self.K_IJc * np.ones(nt - self.nt_budget).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) \
@@ -257,10 +247,9 @@ class Screenkhorn:
             self.u0 = u0
             self.v0 = v0
 
-        if self.verbose :
-            print(time() - tic_initial)
-
         self.toc_initial = time() - tic_initial
+        if self.verbose:
+                print('time of initialization: %s' %self.toc_initial)
 
     def update(self, C):
         """
@@ -323,18 +312,15 @@ class Screenkhorn:
          # Ic, Jc
         self.Ic = ~self.I
         self.Jc = ~self.J
-        if self.verbose:
-            print("epsilon = %s\n" % self.epsilon)
-            print('|I_active| = %s \t |J_active| = %s \t |I_active| + |J_active| = %s'\
-                  %(sum(self.I), sum(self.J), sum(self.I) + sum(self.J)))
-        # K_min  
+
+        # K
         self.K_IJ = self.K[np.ix_(self.I, self.J)]
         self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
         self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
-        
         K_min = self.K_IJ.min()
         if K_min == 0:
             K_min = np.finfo(float).tiny
+
         # a_I,b_J,a_Ic,b_Jc
         self.a_I = self.a[self.I]
         self.b_J = self.b[self.J]
@@ -380,7 +366,6 @@ class Screenkhorn:
         if self.restricted:
             self.u0, self.v0 = self._restricted_sinkhorn(u0, v0, max_iter=5)
         else:
-            print('no restricted')
             self.u0 = u0
             self.v0 = v0
 
