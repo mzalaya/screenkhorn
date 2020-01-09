@@ -109,6 +109,8 @@ class Screenkhorn:
         np.exp(self.K, out=self.K)
 
         # screening test (see Lemma 1 in the paper)
+
+        ## full number of budget points (ns, nt) = (ns_budget, nt_budget)
         if self.ns_budget == ns and self.nt_budget == nt:
             # I, J
             self.I = np.ones(ns, dtype=bool)
@@ -178,7 +180,8 @@ class Screenkhorn:
                     bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.nt_budget - 1:self.nt_budget+1].mean()
                 self.J = self.b >= epsilon_v_square * K_sum_rows
-                
+
+            # epsilon, kappa
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
 
@@ -189,6 +192,7 @@ class Screenkhorn:
             # Ic, Jc: complementary sets of I and J
             self.Ic = ~self.I
             self.Jc = ~self.J
+
            # K
             self.K_IJ = self.K[np.ix_(self.I, self.J)]
             self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
@@ -222,12 +226,13 @@ class Screenkhorn:
                                   self.epsilon * self.fact_scale), \
                               self.b_J_max / (self.epsilon * ns * K_min))] * self.nt_budget
 
+        # constants in the objective function of the screened Sinkhorn divergence
         self.vec_eps_IJc = self.epsilon * self.fact_scale \
                            * (self.K_IJc * np.ones(nt - self.nt_budget).reshape((1, -1))).sum(axis=1)
         self.vec_eps_IcJ = (self.epsilon / self.fact_scale) \
                            * (np.ones(ns - self.ns_budget).reshape((-1, 1)) * self.K_IcJ).sum(axis=0)
 
-        # restricted Sinkhron
+        # restricted-Sinkhron
         if self.ns_budget != ns or self.ns_budget != nt:
             self.cst_u = self.fact_scale * self.epsilon * self.K_IJc.sum(axis=1)
             self.cst_v = self.epsilon * self.K_IcJ.sum(axis=0) / self.fact_scale
