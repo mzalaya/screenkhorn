@@ -33,8 +33,8 @@ class Screenkhorn:
         Number budget of points to be keeped in the target domain
         If it is None then 50% of the target sample points will be keeped
 
-    uniform : `bool`, default=True
-        If `True`, a_i = 1 /ns and b_j = 1 / nt
+    uniform : `bool`, default=False
+        If `True`, the source and target distribution are supposed to be uniform, namely a_i = 1 / ns and b_j = 1 / nt
 
     restricted : `bool`, default=True
          If `True`, a warm-start initialization for the  LBFGSB solver
@@ -70,7 +70,7 @@ class Screenkhorn:
     except ImportError as e:
         print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
 
-    def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, uniform=True, restricted=True, one_init=False,
+    def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, uniform=False, restricted=True, one_init=False,
                  maxiter=10000, maxfun=10000, pgtol=1e-09, verbose=True):
 
         tic_initial = time()
