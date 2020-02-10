@@ -42,7 +42,7 @@ distance. The parameters `ns_budget` and `nt_budget` correspond to the number bu
 
 ```python
 >>> from screenkhorn import Screenkhorn 
->>> screenkhorn = Screenkhorn(a, b, C, reg, ns_budget, nt_budget, verbose=False)
+>>> screenkhorn = Screenkhorn(a, b, C, reg, ns_budget, nt_budget, verbose=False, log=False)
 
 >>> # screened transportation plan 
 >>> Psc = screenkhorn.lbfgsb()

@@ -6,6 +6,7 @@ __author__ = 'Mokhtar Z. Alaya'
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
 from time import time
+import warnings
 
 class Screenkhorn:
     """
@@ -61,17 +62,27 @@ class Screenkhorn:
     Returns
     -------
     Psc : numpy.ndarray`, shape=(ns, nt)
-        Screened optimal transportation matrix for the given parameters 
+        Screened optimal transportation matrix for the given parameters
+
+    log : `dict`, default=False
+      Log dictionary return only if log==True in parameters
+
+    References
+    -----------
+    .. [1] Alaya M. Z., Bérar M., Gasso G., Rakotomamonjy A. (2019). Screening Sinkhorn Algorithm for
+    Regularized Optimal Transport (NIPS) 33, 2019
 
     """
     # check if bottleneck module exists
     try:
         import bottleneck
-    except ImportError as e:
-        print("Bottleneck module doesn't exist. Install it from https://pypi.org/project/Bottleneck/")
+    except ImportError:
+        warnings.warn(
+            "Bottleneck module is not installed. Install it from https://pypi.org/project/Bottleneck/ for better performance.")
+        bottleneck = np
 
     def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, uniform=False, restricted=True, one_init=False,
-                 maxiter=10000, maxfun=10000, pgtol=1e-09, verbose=True):
+                 maxiter=10000, maxfun=10000, pgtol=1e-09, verbose=True, log=False):
 
         tic_initial = time()
 
@@ -96,6 +107,7 @@ class Screenkhorn:
         self.maxfun = maxfun
         self.pgtol = pgtol
         self.one_init = one_init
+        self.log = log
 
         # by default, we keep only 50% of the sample data points
         if self.ns_budget is None:
@@ -113,8 +125,8 @@ class Screenkhorn:
         ## full number of budget points (ns, nt) = (ns_budget, nt_budget)
         if self.ns_budget == ns and self.nt_budget == nt:
             # I, J
-            self.I = np.ones(ns, dtype=bool)
-            self.J = np.ones(nt, dtype=bool)
+            self.Isel = np.ones(ns, dtype=bool)
+            self.Jsel = np.ones(nt, dtype=bool)
             # epsilon
             self.epsilon = 0.0
             # kappa
@@ -150,7 +162,7 @@ class Screenkhorn:
                     epsilon_v_square = b[0]/bK_sort[self.nt_budget - 1]
                 else:
                     bK_sort = bottleneck.partition(K_sum_rows, nt_budget-1)[nt_budget-1]
-                    epsilon_v_square =b[0] / bK_sort  
+                    epsilon_v_square = b[0] / bK_sort
             else:
                 aK = a / K_sum_cols
                 bK = b / K_sum_rows
@@ -162,8 +174,8 @@ class Screenkhorn:
                 epsilon_v_square = bK_sort[self.nt_budget - 1]
 
             # I, J
-            self.I = self.a >=  epsilon_u_square * K_sum_cols
-            self.J = self.b >=  epsilon_v_square * K_sum_rows
+            self.Isel = self.a >= epsilon_u_square * K_sum_cols
+            self.Jsel = self.b >= epsilon_v_square * K_sum_rows
              
             if sum(self.I) != self.ns_budget:
                 print("test error", sum(self.I), self.ns_budget)
@@ -171,7 +183,8 @@ class Screenkhorn:
                     aK = a / K_sum_cols
                     aK_sort = np.sort(aK)[::-1]
                 epsilon_u_square = aK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
-                self.I = self.a >=  epsilon_u_square * K_sum_cols
+                self.Isel = self.a >= epsilon_u_square * K_sum_cols
+                self.ns_budget = sum(self.Isel)
             
             if sum(self.J) != self.nt_budget:
                 print("test error", sum(self.J), self.nt_budget)
@@ -179,31 +192,33 @@ class Screenkhorn:
                     bK = b / K_sum_rows
                     bK_sort = np.sort(bK)[::-1]
                 epsilon_v_square = bK_sort[self.nt_budget - 1:self.nt_budget+1].mean()
-                self.J = self.b >= epsilon_v_square * K_sum_rows
+                self.Jsel = self.b >= epsilon_v_square * K_sum_rows
+                self.nt_budget = sum(self.Jsel)
 
             # epsilon, kappa
             self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
             self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
 
             if self.verbose:
-                print('|I_active| = %s \t |J_active| = %s ' % (sum(self.I), sum(self.J)))
-                print('epsilon = %s' % self.epsilon)
+                print("epsilon = %s\n" % self.epsilon)
+                print("kappa = %s\n" % self.fact_scale)
+                print('Cardinality of selected points: |Isel| = %s \t |Jsel| = %s \n' % (sum(self.Isel), sum(self.Jsel)))
 
             # Ic, Jc: complementary sets of I and J
-            self.Ic = ~self.I
-            self.Jc = ~self.J
+            self.Ic = ~self.Isel
+            self.Jc = ~self.Jsel
 
            # K
-            self.K_IJ = self.K[np.ix_(self.I, self.J)]
-            self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
-            self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
+            self.K_IJ = self.K[np.ix_(self.Isel, self.Jsel)]
+            self.K_IcJ = self.K[np.ix_(self.Ic, self.Jsel)]
+            self.K_IJc = self.K[np.ix_(self.Isel, self.Jc)]
             K_min = self.K_IJ.min()
             if K_min == 0:
                 K_min = np.finfo(float).tiny  
 
             # a_I, b_J, a_Ic, b_Jc
-            self.a_I = self.a[self.I]
-            self.b_J = self.b[self.J]
+            self.a_I = self.a[self.Isel]
+            self.b_J = self.b[self.Jsel]
             if not self.uniform:
                 self.a_I_min = self.a_I.min()
                 self.a_I_max = self.a_I.max()
@@ -294,41 +309,43 @@ class Screenkhorn:
             epsilon_v_square = bK_sort[self.nt_budget - 1] 
         
         # I, J
-        self.I = self.a >= epsilon_u_square * K_sum_cols
-        self.J = self.b >= epsilon_v_square * K_sum_rows
+        self.Isel = self.a >= epsilon_u_square * K_sum_cols
+        self.Jsel = self.b >= epsilon_v_square * K_sum_rows
                       
-        if sum(self.I) != self.ns_budget:
+        if sum(self.Isel) != self.ns_budget:
             if self.uniform:
                 aK = self.a / K_sum_cols
             aK_sort = np.sort(aK)[::-1]
             epsilon_u_square = aK_sort[self.ns_budget - 1:self.ns_budget+1].mean()
-            self.I = self.a >= epsilon_u_square * K_sum_cols
+            self.Isel = self.a >= epsilon_u_square * K_sum_cols
+            self.ns_budget = sum(self.Isel)
             
         if sum(self.J) != self.nt_budget:
             if self.uniform:
                 bK = self.b / K_sum_rows
             bK_sort = np.sort(bK)[::-1]
             epsilon_v_square = bK_sort[self.nt_budget - 1:self.nt_budget+1].mean()
-            self.J = self.b >= epsilon_v_square * K_sum_rows
+            self.Jsel = self.b >= epsilon_v_square * K_sum_rows
+            self.nt_budget = sum(self.Jsel)
 
         self.epsilon = (epsilon_u_square * epsilon_v_square)**(1/4)
         self.fact_scale = (epsilon_v_square / epsilon_u_square)**(1/2)
 
          # Ic, Jc
-        self.Ic = ~self.I
-        self.Jc = ~self.J
+        self.Ic = ~self.Isel
+        self.Jc = ~self.Jsel
 
         # K
-        self.K_IJ = self.K[np.ix_(self.I, self.J)]
-        self.K_IcJ = self.K[np.ix_(self.Ic, self.J)]
-        self.K_IJc = self.K[np.ix_(self.I, self.Jc)]
+        self.K_IJ = self.K[np.ix_(self.Isel, self.Jsel)]
+        self.K_IcJ = self.K[np.ix_(self.Ic, self.Jsel)]
+        self.K_IJc = self.K[np.ix_(self.Isel, self.Jc)]
         K_min = self.K_IJ.min()
         if K_min == 0:
             K_min = np.finfo(float).tiny
 
         # a_I,b_J,a_Ic,b_Jc
-        self.a_I = self.a[self.I]
-        self.b_J = self.b[self.J]
+        self.a_I = self.a[self.Isel]
+        self.b_J = self.b[self.Jsel]
         if not self.uniform:
                 self.a_I_min = self.a_I.min()
                 self.a_I_max = self.a_I.max()
@@ -439,8 +456,20 @@ class Screenkhorn:
 
         usc_full = np.full(ns, self.epsilon / self.fact_scale)
         vsc_full = np.full(nt, self.epsilon * self.fact_scale)
-        usc_full[self.I] = usc
-        vsc_full[self.J] = vsc
+        usc_full[self.Isel] = usc
+        vsc_full[self.Jsel] = vsc
+
+        if self.log:
+            log = {}
+            log['u'] = usc_full
+            log['v'] = vsc_full
+            log['Isel'] = self.Isel
+            log['Jsel'] = self.Jsel
+
         Psc = usc_full.reshape((-1, 1)) * self.K * vsc_full.reshape((1, -1))
         Psc = Psc / Psc.sum()
-        return Psc
+
+        if self.log:
+            return Psc, log
+        else:
+            return Psc
