@@ -177,8 +177,8 @@ class Screenkhorn:
             self.Isel = self.a >= epsilon_u_square * K_sum_cols
             self.Jsel = self.b >= epsilon_v_square * K_sum_rows
              
-            if sum(self.I) != self.ns_budget:
-                print("test error", sum(self.I), self.ns_budget)
+            if sum(self.Isel) != self.ns_budget:
+                print("test error", sum(self.Isel), self.ns_budget)
                 if self.uniform:
                     aK = a / K_sum_cols
                     aK_sort = np.sort(aK)[::-1]
@@ -186,8 +186,8 @@ class Screenkhorn:
                 self.Isel = self.a >= epsilon_u_square * K_sum_cols
                 self.ns_budget = sum(self.Isel)
             
-            if sum(self.J) != self.nt_budget:
-                print("test error", sum(self.J), self.nt_budget)
+            if sum(self.Jsel) != self.nt_budget:
+                print("test error", sum(self.Jsel), self.nt_budget)
                 if self.uniform:
                     bK = b / K_sum_rows
                     bK_sort = np.sort(bK)[::-1]
@@ -354,7 +354,7 @@ class Screenkhorn:
         else:
                 self.a_I_min = self.a_I[0]
                 self.a_I_max = self.a_I[0]
-                self.b_J_max = self.b_J [0]
+                self.b_J_max = self.b_J[0]
                 self.b_J_min = self.b_J[0]
 
         # box constraints in LBFGS solver (see Proposition 1 in the paper)
@@ -441,7 +441,7 @@ class Screenkhorn:
         (ns, nt) = self.C.shape
 
         theta0 = np.hstack([self.u0, self.v0])
-        bounds = self.bounds_u + self.bounds_v # constraint bounds
+        bounds = self.bounds_u + self.bounds_v  # constraint bounds
         obj = lambda theta: self._bfgspost(theta)
 
         theta, _, d = fmin_l_bfgs_b(func=obj,
@@ -458,6 +458,7 @@ class Screenkhorn:
         vsc_full = np.full(nt, self.epsilon * self.fact_scale)
         usc_full[self.Isel] = usc
         vsc_full[self.Jsel] = vsc
+
 
         if self.log:
             log = {}
