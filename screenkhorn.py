@@ -73,17 +73,18 @@ class Screenkhorn:
     Regularized Optimal Transport (NIPS) 33, 2019
 
     """
-    # check if bottleneck module exists
-    try:
-        import bottleneck
-    except ImportError:
-        warnings.warn(
-            "Bottleneck module is not installed. Install it from https://pypi.org/project/Bottleneck/ for better performance.")
-        bottleneck = np
-
     def __init__(self, a, b, C, reg, ns_budget=None, nt_budget=None, uniform=False, restricted=True, one_init=False,
                  maxiter=10000, maxfun=10000, pgtol=1e-09, verbose=True, log=False):
 
+        # check if bottleneck module exists
+        try:
+            import bottleneck
+        except ImportError:
+            warnings.warn(
+                "Bottleneck module is not installed. Install it from https://pypi.org/project/Bottleneck/ for better performance.")
+            bottleneck = np
+
+        # time
         tic_initial = time()
 
         self.a = np.asarray(a, dtype=np.float64)
@@ -154,14 +155,14 @@ class Screenkhorn:
                     aK_sort = np.sort(K_sum_cols)
                     epsilon_u_square = a[0] / aK_sort[self.ns_budget - 1]
                 else:
-                    aK_sort = bottleneck.partition(K_sum_cols, ns_budget-1)[ns_budget-1]
+                    aK_sort = bottleneck.partition(K_sum_cols, self.ns_budget-1)[self.ns_budget-1]
                     epsilon_u_square = a[0] / aK_sort
 
                 if nt / self.nt_budget < 4:
                     bK_sort = np.sort(K_sum_rows)
                     epsilon_v_square = b[0]/bK_sort[self.nt_budget - 1]
                 else:
-                    bK_sort = bottleneck.partition(K_sum_rows, nt_budget-1)[nt_budget-1]
+                    bK_sort = bottleneck.partition(K_sum_rows, self.nt_budget-1)[self.nt_budget-1]
                     epsilon_v_square = b[0] / bK_sort
             else:
                 aK = a / K_sum_cols
